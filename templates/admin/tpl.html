@@ -1,0 +1,728 @@
+{#include header#}
+<body>
+
+<!--提示信息-->
+<table cellpadding="0" cellspacing="0" width="100%" class="boxtable">
+<tr><td class="box-top-left"></td><td class="box-top-cen"></td><td class="box-top-right"></td></tr>
+<tr><td class="box-main-left"></td><td>
+<!--内容部分-->
+ <h3>提示信息</h3>
+<div class="text">
+	<div class="s3" style="margin-left:1em;">
+{#if $job == 'view'#}
+<li>点击文件名称预览文件，点击文件夹进入相应目录。</li>
+<li>允许编辑操作的文件类型：html、htm、css、js。</li>
+<li>允许删除操作的文件类型：html、htm、gif、png、bmp、jpg、jpeg、css、js。</li>
+<li>删除操作不可恢复，请谨慎使用。</li>
+{#elseif $job == 'guide'#}
+<li>通过模板调用设置，可以调用出网站各类数据，请根据具体需求设置，详细帮助请见<a href="http://bbs.pbdigg.com" target="_blank">PBDigg论坛</a>。</li>
+{#elseif $job == 'list'#}
+<li>调用说明：在线编辑模板，在需要调用的位置插入“&#123;#调用标识#&#125;”，例如：&#123#tpl tpl_10b61e24#&#125。</li>
+<li>以"self_"开头的模板引用标识为自动分类绑定变量，仅适合分类模板和内容模板。</li>
+{#elseif $job == 'adddir'#}
+<li>目录名仅允许包含字母、数字、下划线、汉字。</li>
+{#elseif $job == 'addfile'#}
+<li>文件名仅允许包含字母、数字、下划线、汉字。</li>
+<li>允许添加的文件类型：html、htm、css、js。</li>
+{#elseif $job == 'special'#}
+<li>函数具体内容请见/include/usr.func.php。</li>
+{#elseif $job == 'deldir' || $job == 'del'#}
+<li>删除操作不可撤销，请谨慎操作！</li>
+{#/if#}
+	</div>
+</div>
+<!--内容部分结束-->
+</td><td class="box-main-right"></td></tr>
+<tr><td class="box-bottom-left"></td><td class="box-bottom-cen"></td><td class="box-bottom-right"></td></tr>
+</table>
+<!--提示信息-->
+
+<!--main-->
+<table cellpadding="0" cellspacing="0" width="100%">
+<tr><td class="box-top-left"></td><td class="box-top-cen"></td><td class="box-top-right"></td></tr>
+<tr><td class="box-main-left"></td><td>
+<h3>{#$_leftmenu[$action][item][$job]#}</h3>
+<div class="text">
+<form action="{#$basename#}" method="post" id="mainform">
+	<table cellpadding="0" cellspacing="0" width="100%">
+	{#if $job == 'view'#}
+	<tbody class="aligncenter">
+	<tr class="tcell_header">
+		<td width="30%">文件名称</td>
+		<td width="20%">文件大小</td>
+		<td width="20%">创建时间</td>
+		<td width="30%">操作</td>
+	</tr>
+	<tr class="tmult">
+		<td colspan="4" style="text-align:left"><img src="../images/file/updir.gif" />&nbsp;<a href="{#$basename#}&directory={#$updir#}">上级目录</a></td>
+	</tr>
+	{#foreach $dirs as $k => $v#}
+	<tr>
+		<td style="text-align:left" colspan="3"><img src="../images/file/{#$v[1]#}" />&nbsp;<a href="{#$basename#}{#$v[2]#}">{#$v[0]#}</a></td>
+		<td><a href="admincp.php?action=tpl&job=deldir{#$v[2]#}">[删除]</a>&nbsp;&nbsp;<a href="admincp.php?action=tpl&job=rename{#$v[2]#}">[更名]</a></td>
+	</tr>
+	{#/foreach#}
+	{#foreach $files as $k => $v#}
+	<tr>
+		<td style="text-align:left"><img src="../images/file/{#$v[1]#}" />&nbsp;<a href="../templates{#$directory#}/{#$v[0]#}" target="_blank">{#$v[0]#}</a></td>
+		<td>{#$v[2]#}</td>
+		<td>{#$v[3]#}</td>
+		<td><a href="admincp.php?action=tpl&job=del{#$v[4]#}">[删除]</a>&nbsp;&nbsp;<a href="admincp.php?action=tpl&job=edit{#$v[4]#}">[编辑]</a>&nbsp;&nbsp;<a href="admincp.php?action=tpl&job=rename{#$v[4]#}">[更名]</a></td>
+	</tr>
+	{#/foreach#}
+	<tr class="tmult">
+		<td colspan="4" style="text-align:left">当前路径：{#$directory#}</td>
+	</tr>
+	<tr>
+		<td class="tbutton" colspan="4"><input type="button" value="新建文件" class="btn" onclick="location.href='admincp.php?action=tpl&job=addfile&directory={#$directory#}'" />&nbsp;&nbsp;<input type="button" value="新建目录" class="btn" onclick="location.href='admincp.php?action=tpl&job=adddir&directory={#$directory#}'" /></td>
+	</tr>
+	</tbody>
+	{#elseif $job == 'edit'#}
+	<tr>
+		<td><span class="defaultbold">编辑模板</span></td>
+		<td>{#$directory#}/{#$filename#}</td>
+	</tr>
+	<tr>
+		<td colspan="2">
+			<textarea name="template" id="template" class="template">{#$template#}</textarea>
+		</td>
+	</tr>
+	<tr>
+		<td class="tbutton" colspan="2"><input type="hidden" name="directory" value="{#$directory#}" /><input type="hidden" name="filename" value="{#$filename#}" /><input type="submit" value="保存" class="btn" name="submit" /></td>
+	</tr>
+	{#elseif $job == 'addfile'#}
+	<tr>
+		<td><span class="defaultbold">文件名称</span><br />不允许用 “..” 形式的文件名称。</td>
+		<td>{#$directory#}/<input class="input" type="text" name="filename" size="30" /></td>
+	</tr>
+	<tr>
+		<td colspan="2">
+			<textarea name="template" id="template" class="template"></textarea>
+		</td>
+	</tr>
+	<tr>
+		<td class="tbutton" colspan="2"><input type="hidden" name="directory" value="{#$directory#}" /><input type="submit" value="提交" class="btn" name="submit" /></td>
+	</tr>
+	{#elseif $job == 'adddir'#}
+	<tr>
+		<td><span class="defaultbold">目录名称</span><br />不允许包含“..”字符。</td>
+		<td>{#$directory#}/<input class="input" type="text" name="dirname" size="30" /></td>
+	</tr>
+	<tr>
+		<td class="tbutton" colspan="2"><input type="hidden" name="directory" value="{#$directory#}" /><input type="submit" value="提交" class="btn" name="submit" /></td>
+	</tr>
+	{#elseif $job == 'del' || $job == 'deldir'#}
+	<tr>
+		<td><p class="desc"><span class="b">删除操作会彻底清除文件和目录且不可恢复！</span></p></td>
+	</tr>
+	<tr>
+		<td class="tbutton">
+			<input class="hidden" name="directory" type="hidden" value="{#$directory#}" />
+			<input class="hidden" name="filename" type="hidden" value="{#$filename#}" />
+			<input type="submit" value="确认删除" class="btn" name="submit" />
+		</td>
+	</tr>
+	{#elseif $job == 'rename'#}
+	<tr>
+		<td><span class="defaultbold">文件 / 目录 重命名</span><br /></td>
+		<td>{#$olddirectory#}/<input class="input" type="text" value="{#$oldfilename#}" name="newfilename" size="30" /></td>
+	</tr>
+	<tr>
+		<td class="tbutton" colspan="2"><input type="hidden" name="filename" value="{#$filename#}" /><input type="hidden" name="directory" value="{#$directory#}" /><input type="submit" value="提交" class="btn" name="submit" /></td>
+	</tr>
+	{#elseif $job == 'guide'#}
+		{#if !$type#}
+		<tr>
+			<td><span class="defaultbold">调用类型</span><br />1、主题<br />2、评论<br />3、会员<br />4、SQL：通过编写SQL语句产生调用内容，仅供熟悉编程的高级用户<br />5、静态：由文本代码组成静态内容，通过次模式可以添加网站广告代码或者统计代码</td>
+			<td><a href="admincp.php?action=tpl&job=guide&type=article"><img src="../templates/admin/images/article.gif" title="主题" /><a>&nbsp;<a href="admincp.php?action=tpl&job=guide&type=comment"><img src="../templates/admin/images/comment.gif" title="评论" /><a>&nbsp;<a href="admincp.php?action=tpl&job=guide&type=member"><img src="../templates/admin/images/member.gif" title="会员" /><a>&nbsp;<a href="admincp.php?action=tpl&job=guide&type=sql"><img src="../templates/admin/images/sql.gif" title="SQL" /><a>&nbsp;<a href="admincp.php?action=tpl&job=guide&type=html"><img src="../templates/admin/images/html.gif" title="静态" /><a>&nbsp;</td>
+		</tr>
+		{#elseif $type == 'article'#}
+		<tr>
+			<td><span class="defaultbold">模板调用名称</span><br />字母、数字、下划线、中文组成，不超过100个字符。</td>
+			<td><input class="input" type="text" name="tplname" id="tplname" value="{#$guide[tplname]#}" size="30" /></td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">调用缓存周期</span><br />程序会根据此处设定的缓存周期自动更新调用内容，建议值：600<br />0为实时更新（<span class="r">严重影响效率</span>），单位：秒。</td>
+			<td><input class="input" type="text" name="cachetime" id="cachetime" value="{#$guide[cachetime]#}" size="15" /></td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">分类自动绑定</span><br />选择“是”，程序将为每个分类分别创建调用内容，可以实现栏目和内容的自动匹配。</td>
+			<td><input class="radio" type="radio" value="1" name="self" {#$trantattribute[self_1]#} onclick="displaySwitch(this, 'no', 'cid')" />&nbsp;是<input class="radio" type="radio" value="0" name="self" {#$trantattribute[self_0]#} onclick="displaySwitch(this, 'yes', 'cid')" />&nbsp;否</td>
+		</tr>
+		<tr id="cid" style="display:{#$display_cid#}">
+			<td><span class="defaultbold">分类绑定</span><br />模板调用内容所属分类，针对主题、评论有效，留空表示不限制分类。</td>
+			<td>{#$tplcids#}</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">模型绑定</span><br />模板调用内容所属模型，留空表示不限制模型类别。</td>
+			<td>{#$tplmids#}</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">调用条件</span><br />选择调用内容的属性。比如最热主题，最新主题，图文主题等等。</td>
+			<td>
+				图文主题：<input type="radio" name="topicimg" value="1" {#$trantattribute[topicimg_1]#}/>是&nbsp;<input type="radio" name="topicimg" value="0" {#$trantattribute[topicimg_0]#}/>否&nbsp;<input type="radio" name="topicimg" value="3" {#$trantattribute[topicimg_3]#}/>不限<br />
+				置顶主题：<input type="radio" name="topped" value="1" {#$trantattribute[topped_1]#}/>是&nbsp;<input type="radio" name="topped" value="0" {#$trantattribute[topped_0]#}/>否&nbsp;<input type="radio" name="topped" value="3" {#$trantattribute[topped_3]#}/>不限<br />									
+				推荐主题：<input type="radio" name="commend" value="1" {#$trantattribute[commend_1]#}/>是&nbsp;<input type="radio" name="commend" value="0" {#$trantattribute[commend_0]#}/>否&nbsp;<input type="radio" name="commend" value="3" {#$trantattribute[commend_3]#}/>不限<br />		
+				推荐带图：<input type="radio" name="commendpic" value="1" {#$trantattribute[commendpic_1]#}/>是&nbsp;<input type="radio" name="commendpic" value="0" {#$trantattribute[commendpic_0]#}/>否&nbsp;<input type="radio" name="commendpic" value="3" {#$trantattribute[commendpic_3]#}/>不限<br />		
+				头条主题：<input type="radio" name="first" value="1" {#$trantattribute[first_1]#}/>是&nbsp;<input type="radio" name="first" value="0" {#$trantattribute[first_0]#}/>否&nbsp;<input type="radio" name="first" value="3" {#$trantattribute[first_3]#}/>不限<br />		
+				发表时间：{#$postdate_opt#}&nbsp;{#$postdate#}<br />
+			</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">排序条件</span><br />将调用的内容进行细分。</td>
+			<td>
+				<input type="radio" name="order" value="digg" {#$guide[order_digg]#} />“顶”次数&nbsp;
+				<input type="radio" name="order" value="diggdate" {#$guide[order_diggdate]#} />“顶”时间&nbsp;
+				<input type="radio" name="order" value="bury" {#$guide[order_bury]#} />“埋”次数&nbsp;
+				<input type="radio" name="order" value="burydate" {#$guide[order_burydate]#} />“埋”时间<br />
+				<input type="radio" name="order" value="views" {#$guide[order_views]#} />浏览次数&nbsp;
+				<input type="radio" name="order" value="postdate" {#$guide[order_postdate]#} />发布时间&nbsp;
+				<input type="radio" name="order" value="commentdate" {#$guide[order_commentdate]#} />评论时间&nbsp;
+				<input type="radio" name="order" value="comments" {#$guide[order_comments]#} />评论次数&nbsp;
+				<input type="radio" name="order" value="pbrank" {#$guide[order_pbrank]#} />PBRank&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">排序属性</span><br />如果想调用查看次数最多、digg次数最多、最新发布等内容的话就选择倒序。如果希望调用最没人气的主题就选择正序。</td>
+			<td>{#$orderby#}</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">调用数量</span><br />需要调用内容的数量。例如想调用最新文章10篇，就填10。</td>
+			<td><input class="input" type="text" name="trantnum" value="{#$guide[trantnum]#}" size="15" /></td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">显示参数</span><br /></td>
+			<td>
+				<p>标题长度（0为不限制）：<input class="input" type="text" id="titlelimit" name="titlelimit" value="{#$guide[titlelimit]#}" size="5" />&nbsp;&nbsp;摘要长度（0为不限制）：<input class="input" type="text" id="cotentlimit" name="cotentlimit" value="{#$guide[cotentlimit]#}" size="5" /></p>
+				<p>时间格式：{#$timeformat#}</p>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" style="word-break:normal"><span class="defaultbold">模板调用变量</span><br /><br />说明：<u>公共主题变量</u>对全部模型有效。如需要调用特定模型的变量，请在<u>模型绑定</u>选项中唯一选择对应模型，否则非对应模型的调用内容将无法正确显示。<br /><br />
+			<fieldset>
+				<legend><strong><span class="g">公共主题变量说明</span></strong></legend>
+				<table style="width:100%">
+				<tr>
+					<td>文章ID: <input class="input" type="text" value="&#123;!--t.tid--&#125;"></td>
+					<td>文章标题: <input class="input" type="text" value="&#123;!--t.subject--&#125;"></td>
+					<td>文章地址: <input class="input" type="text" value="&#123;!--t.turl--&#125;"></td>
+				</tr>
+				<tr>
+					<td>文章摘要: <input class="input" type="text" value="&#123;!--t.summary--&#125;"></td>
+					<td>封面图片: <input class="input" type="text" value="&#123;!--t.topicimg--&#125;"></td>
+					<td>发表时间: <input class="input" type="text" value="&#123;!--t.postdate--&#125;"></td>
+				</tr>
+				<tr>
+					<td>DIGG数: <input class="input" type="text" value="&#123;!--t.digg--&#125;"></td>
+					<td>BURY数: <input class="input" type="text" value="&#123;!--t.bury--&#125;"></td>
+					<td>评论数量: <input class="input" type="text" value="&#123;!--t.comments--&#125;"></td>
+				</tr>
+				<tr>
+					<td>作者: <input class="input" type="text" value="&#123;!--t.author--&#125;"></td>
+					<td>作者头像: <input class="input" type="text" value="&#123;!--t.avatar--&#125;"></td>
+					<td>作者空间: <input class="input" type="text" value="&#123;!--t.uurl--&#125;"></td>
+				</tr>
+				<tr>
+					<td>文章原标题: <input class="input" type="text" value="&#123;!--t.altsubject--&#125;"></td>
+					<td>推荐图片: <input class="input" type="text" value="&#123;!--t.commendpic--&#125;"></td>
+					<td>原文链接: <input class="input" type="text" value="&#123;!--t.contentlink--&#125;"></td>
+				</tr>
+				<tr>
+					<td>分类ID:: <input class="input" type="text" value="&#123;!--t.cid--&#125;"></td>
+					<td>分类地址: <input class="input" type="text" value="&#123;!--t.curl--&#125;"></td>
+					<td>分类名称: <input class="input" type="text" value="&#123;!--t.cname--&#125;"></td>
+				</tr>
+				</table>
+			</fieldset>
+			{#$expandFields#}
+			<td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">模板内容</span></td>
+			<td><textarea name="template" id="template" class="template">{#$guide[tplcontent]#}</textarea></td>
+		</tr>
+		<tr>
+			<td class="tbutton" colspan="2"><input type="hidden" name="tplid" value="{#$guide[tplid]#}" /><input type="hidden" name="tplmark" value="{#$guide[tplmark]#}" /><input type="hidden" name="do" value="{#$do#}" /><input type="hidden" name="type" value="{#$type#}" /><input type="submit" value="提交" class="btn" name="submit" /></td>
+		</tr>
+		{#elseif $type == 'comment'#}
+		<tr>
+			<td><span class="defaultbold">模板调用名称</span><br />字母、数字、下划线、中文组成，不超过100个字符。</td>
+			<td><input class="input" type="text" name="tplname" id="tplname" value="{#$guide[tplname]#}" size="30" /></td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">调用缓存周期</span><br />程序会根据此处设定的缓存周期自动更新调用内容，建议值：600<br />0为实时更新（<span class="r">严重影响效率</span>)，单位：秒。</td>
+			<td><input class="input" type="text" name="cachetime" id="cachetime" value="{#$guide[cachetime]#}" size="15" /></td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">分类自动绑定</span><br />选择“是”，程序将为每个分类分别创建调用内容，可以实现栏目和内容的自动匹配。</td>
+			<td><input class="radio" type="radio" value="1" name="self" {#$trantattribute[self_1]#} onclick="displaySwitch(this, 'no', 'cid')" />&nbsp;是<input class="radio" type="radio" value="0" name="self" {#$trantattribute[self_0]#} onclick="displaySwitch(this, 'yes', 'cid')" />&nbsp;否</td>
+		</tr>
+		<tr id="cid" style="display:{#$display_cid#}">
+			<td><span class="defaultbold">分类绑定</span><br />模板调用内容所属分类，针对主题、评论有效，留空表示不限制分类。</td>
+			<td>{#$tplcids#}</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">调用条件</span><br />选择调用内容的属性。比如最热主题，最新主题，图文主题等等。</td>
+			<td>
+				发表时间：{#$postdate_opt#}&nbsp;{#$postdate#}<br />
+			</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">排序条件</span><br />将调用的内容进行细分。</td>
+			<td>
+				<input type="radio" name="order" value="digg" {#$guide[order_digg]#} />“顶”次数&nbsp;
+				<input type="radio" name="order" value="diggdate" {#$guide[order_diggdate]#} />“顶”时间&nbsp;
+				<input type="radio" name="order" value="bury" {#$guide[order_bury]#} />“埋”次数&nbsp;
+				<input type="radio" name="order" value="burydate" {#$guide[order_burydate]#} />“埋”时间<br />
+				<input type="radio" name="order" value="postdate" {#$guide[order_postdate]#} />发布时间&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">排序属性</span><br />如果想调用查看次数最多、digg次数最多、最新发布等内容的话就选择倒序。如果希望调用最没人气的主题就选择正序。</td>
+			<td>{#$orderby#}</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">调用数量</span><br />需要调用内容的数量。例如想调用最新文章10篇，就填10。</td>
+			<td><input class="input" type="text" name="trantnum" value="{#$guide[trantnum]#}" size="15" /></td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">显示参数</span><br /></td>
+			<td>
+				<p>标题长度（0为不限制）：<input class="input" type="text" id="titlelimit" name="titlelimit" value="{#$guide[titlelimit]#}" size="5" />&nbsp;&nbsp;摘要长度（0为不限制）：<input class="input" type="text" id="cotentlimit" name="cotentlimit" value="{#$guide[cotentlimit]#}" size="5" /></p>
+				<p>时间格式：{#$timeformat#}</p>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" style="word-break:normal">
+			<fieldset>
+				<legend><strong><span class="g">评论变量说明</span></strong></legend>
+				<table style="width:100%">
+				<tr>
+					<td>评论ID: <input class="input" type="text" value="&#123;!--r.rid--&#125;"></td>
+					<td>文章ID: <input class="input" type="text" value="&#123;!--r.tid--&#125;"></td>
+					<td>文章标题: <input class="input" type="text" value="&#123;!--r.subject--&#125;"></td>
+				</tr>
+				<tr>
+					<td>文章原标题: <input class="input" type="text" value="&#123;!--r.altsubject--&#125;"></td>
+					<td>文章地址: <input class="input" type="text" value="&#123;!--r.turl--&#125;"></td>
+					<td>评论摘要: <input class="input" type="text" value="&#123;!--r.content--&#125;"></td>
+				</tr>
+				<tr>
+					<td>作者: <input class="input" type="text" value="&#123;!--r.author--&#125;"></td>
+					<td>作者头像: <input class="input" type="text" value="&#123;!--r.avatar--&#125;"></td>
+					<td>作者空间: <input class="input" type="text" value="&#123;!--r.uurl--&#125;"></td>
+				</tr>
+				<tr>
+					<td>DIGG数: <input class="input" type="text" value="&#123;!--r.digg--&#125;"></td>
+					<td>BURY数: <input class="input" type="text" value="&#123;!--r.bury--&#125;"></td>
+					<td>发表时间: <input class="input" type="text" value="&#123;!--r.postdate--&#125;"></td>
+				</tr>
+				<tr>
+					<td>分类ID:: <input class="input" type="text" value="&#123;!--r.cid--&#125;"></td>
+					<td>分类地址: <input class="input" type="text" value="&#123;!--r.curl--&#125;"></td>
+					<td>分类名称: <input class="input" type="text" value="&#123;!--r.cname--&#125;"></td>
+				</tr>
+				</table>
+			</fieldset>
+			<td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">模板内容</span></td>
+			<td><textarea name="template" id="template" class="template">{#$guide[tplcontent]#}</textarea></td>
+		</tr>
+		<tr>
+			<td class="tbutton" colspan="2"><input type="hidden" name="tplid" value="{#$guide[tplid]#}" /><input type="hidden" name="tplmark" value="{#$guide[tplmark]#}" /><input type="hidden" name="do" value="{#$do#}" /><input type="hidden" name="type" value="{#$type#}" /><input type="submit" value="提交" class="btn" name="submit" /></td>
+		</tr>
+		{#elseif $type == 'member'#}
+		<tr>
+			<td><span class="defaultbold">模板调用名称</span><br />字母、数字、下划线、中文组成，不超过100个字符。</td>
+			<td><input type="hidden" name="do" value="{#$do#}" /><input type="hidden" name="type" value="{#$type#}" /><input type="hidden" name="ispost" value="on" /><input class="input" type="text" name="tplname" id="tplname" value="{#$guide[tplname]#}" size="30" /></td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">调用缓存周期</span><br />程序会根据此处设定的缓存周期自动更新调用内容，建议值：600<br />0为实时更新（<span class="r">严重影响效率，单位：秒。</td>
+			<td><input class="input" type="text" name="cachetime" id="cachetime" value="{#$guide[cachetime]#}" size="15" /></td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">调用条件</span><br />选择调用内容的属性。比如最热主题，最新主题，图文主题等等。</td>
+			<td>
+				性别：<input type="radio" name="gender" value="0" {#$trantattribute[gender_0]#}/>男&nbsp;<input type="radio" name="gender" value="1" {#$trantattribute[gender_1]#}/>女&nbsp;<input type="radio" name="gender" value="3" {#$trantattribute[gender_3]#}/>不限<br />		
+				注册时间：{#$postdate_opt#}&nbsp;{#$postdate#}
+			</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">排序条件</span><br />将调用的内容进行细分。</td>
+			<td>
+				<input type="radio" name="order" value="currency" {#$guide[order_currency]#} />积分&nbsp;
+				<input type="radio" name="order" value="postnum" {#$guide[order_postnum]#} />发布主题数&nbsp;
+				<input type="radio" name="order" value="commentnum" {#$guide[order_commentnum]#} />发布评论数&nbsp;
+				<input type="radio" name="order" value="diggnum" {#$guide[order_diggnum]#} />“顶”贴数&nbsp;<br />
+				<input type="radio" name="order" value="burynum" {#$guide[order_burynum]#} />“埋”贴数&nbsp;
+				<input type="radio" name="order" value="uploadnum" {#$guide[order_uploadnum]#} />上传附件数&nbsp;
+				<input type="radio" name="order" value="friendnum" {#$guide[order_friendnum]#} />好友数&nbsp;
+				<input type="radio" name="order" value="collectionnum" {#$guide[order_collectionnum]#} />收藏主题数&nbsp;<br />
+				<input type="radio" name="order" value="visitnum" {#$guide[order_visitnum]#} />访问次数&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">排序属性</span><br />如果想调用查看积分最多、访问次数最多等内容的话就选择倒序。反之选择正序。</td>
+			<td>{#$orderby#}</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">调用数量</span><br />需要调用内容的数量。例如想调用最新10位会员，就填10。</td>
+			<td><input class="input" type="text" name="trantnum" value="{#$guide[trantnum]#}" size="15" /></td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">显示参数</span><br /></td>
+			<td>
+				<p>时间格式：{#$timeformat#}</p>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+			<fieldset>
+				<legend><strong><span class="g">会员变量说明</span></strong></legend>
+				<table style="width:100%">
+				<tr>
+					<td>会员ID: <input class="input" type="text" value="&#123;!--m.uid--&#125;"></td>
+					<td>会员名称: <input class="input" type="text" value="&#123;!--m.username--&#125;"></td>
+					<td>会员头像: <input class="input" type="text" value="&#123;!--m.avatar--&#125;"></td>
+				</tr>
+				<tr>
+					<td>主题数量: <input class="input" type="text" value="&#123;!--m.postnum--&#125;"></td>
+					<td>评论数量: <input class="input" type="text" value="&#123;!--m.commentnum--&#125;"></td>
+					<td>DIGG数量: <input class="input" type="text" value="&#123;!--m.diggnum--&#125;"></td>
+				</tr>
+				<tr>
+					<td>BURY数量: <input class="input" type="text" value="&#123;!--m.burynum--&#125;"></td>
+					<td>注册时间: <input class="input" type="text" value="&#123;!--m.regdate--&#125;"></td>
+					<td>上传附件: <input class="input" type="text" value="&#123;!--m.uploadnum--&#125;"></td>
+				</tr>
+				<tr>
+					<td>好友数: <input class="input" type="text" value="&#123;!--m.friendnum--&#125;"></td>
+					<td>收藏主题: <input class="input" type="text" value="&#123;!--m.collectionnum--&#125;"></td>
+					<td>访问次数: <input class="input" type="text" value="&#123;!--m.visitnum--&#125;"></td>
+				</tr>
+				<tr>
+					<td>性别: <input class="input" type="text" value="&#123;!--m.gender--&#125;"></td>
+					<td>QQ: <input class="input" type="text" value="&#123;!--mx.qq--&#125;"></td>
+					<td>MSN: <input class="input" type="text" value="&#123;!--mx.msn--&#125;"></td>
+				</tr>
+				<tr>
+					<td>个人主页: <input class="input" type="text" value="&#123;!--mx.site--&#125;"></td>
+					<td>来自: <input class="input" type="text" value="&#123;!--mx.location--&#125;"></td>
+					<td>生日: <input class="input" type="text" value="&#123;!--mx.birthday--&#125;"></td>
+				</tr>
+				<tr>
+					<td>个人签名: <input class="input" type="text" value="&#123;!--mx.signature--&#125;"></td>
+					<td>UCenter ID: <input class="input" type="text" value="&#123;!--m.ucuid--&#125;"></td>
+					<td>&nbsp;</td>
+				</tr>
+				</table>
+			</fieldset>
+			<td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">模板内容</span></td>
+			<td><textarea name="template" id="template" class="template">{#$guide[tplcontent]#}</textarea></td>
+		</tr>
+		<tr>
+			<td class="tbutton" colspan="2"><input type="hidden" name="tplid" value="{#$guide[tplid]#}" /><input type="hidden" name="do" value="{#$do#}" /><input type="hidden" name="type" value="{#$type#}" /><input type="submit" value="提交" class="btn" name="submit" /></td>
+		</tr>
+		{#elseif $type == 'html'#}
+		<tr>
+			<td><span class="defaultbold">模板调用名称</span><br />字母、数字、下划线、中文组成，不超过100个字符。</td>
+			<td><input type="hidden" name="do" value="{#$do#}" /><input type="hidden" name="type" value="{#$type#}" /><input type="hidden" name="ispost" value="on" /><input class="input" type="text" name="tplname" id="tplname" value="{#$guide[tplname]#}" size="30" /></td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">模板内容</span></td>
+			<td><textarea name="template" id="template" class="template">{#$guide[tplcontent]#}</textarea></td>
+		</tr>
+		<tr>
+			<td class="tbutton" colspan="2"><input type="hidden" name="tplid" value="{#$guide[tplid]#}" /><input type="hidden" name="do" value="{#$do#}" /><input type="hidden" name="type" value="{#$type#}" /><input type="submit" value="提交" class="btn" name="submit" /></td>
+		</tr>
+		{#elseif $type == 'sql'#}
+		<tr>
+			<td><span class="defaultbold">模板调用名称</span><br />字母、数字、下划线、中文组成，不超过100个字符。</td>
+			<td><input type="hidden" name="type" value="{#$type#}" /><input type="hidden" name="ispost" value="on" /><input class="input" type="text" name="tplname" id="tplname" value="{#$guide[tplname]#}" size="30" /></td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">显示参数</span><br /></td>
+			<td>
+				<p>时间格式：{#$timeformat#}</p>
+			</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">SQL查询语句</span><br /></td>
+			<td><textarea name="querysql" id="querysql" class="template">{#$guide[querysql]#}</textarea></td>
+		</tr>
+		<tr>
+			<td colspan="2">
+			<fieldset>
+				<legend><strong><span class="g">查询表别名约定</span></strong></legend>
+				<table style="width:100%">
+				<tr>
+					<td>分类表(categories): <input class="input" type="text" value="c"></td>
+					<td>主题表(threads): <input class="input" type="text" value="t"></td>
+					<td>评论表(comments): <input class="input" type="text" value="r"></td>
+				</tr>
+				<tr>
+					<td>会员表（members): <input class="input" type="text" value="m"></td>
+					<td>会员扩展表（memberexp): <input class="input" type="text" value="mx"></td>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>
+					<td colspan="3">注释：扩展模型表名和别名相同</td>
+				</tr>
+				</table>
+			</fieldset>
+			<br />
+			<fieldset>
+				<legend><strong><span class="g">内置特殊字段说明</span></strong></legend>
+				<table style="width:100%">
+				<tr>
+					<td>文章标题&#123;!--xxx.subject--&#125;: <input size="45" class="input" type="text" value="t.subject,t.titlecolor,t.titlestyle"></td>
+					<td>文章地址&#123;!--xxx.turl--&#125;: <input size="45" class="input" type="text" value="t.tid,t.realurl"></td>
+				</tr>
+				<tr>
+					<td>个人空间&#123;!--xxx.uurl--&#125;: <input size="45" class="input" type="text" value="m.uid,m.ucuid"></td>
+					<td>会员头像&#123;!--xxx.avatar--&#125;: <input size="45" class="input" type="text" value="m.avatar,m.ucuid"></td>
+				</tr>
+				<tr>
+					<td>会员签名&#123;!--xxx.signature--&#125;: <input size="45" class="input" type="text" value="mx.signature,mx.showsign,mx.ctsig"></td>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>
+					<td colspan="2">注释：xxx表示任意前缀</td>
+				</tr>
+				</table>
+			</fieldset>
+			{#$expandSpecialFields#}
+			<br />
+			<fieldset>
+				<legend><strong><span class="g">分类变量说明</span></strong></legend>
+				<table style="width:100%">
+				<tr>
+					<td>分类ID: <input class="input" type="text" value="&#123;!--cid--&#125;"></td>
+					<td>分类地址: <input class="input" type="text" value="&#123;!--curl--&#125;"></td>
+					<td>分类名称: <input class="input" type="text" value="&#123;!--cname--&#125;"></td>
+				</tr>
+				</table>
+			</fieldset>
+			<br />
+			<fieldset>
+				<legend><strong><span class="g">公共主题变量说明</span></strong></legend>
+				<table style="width:100%">
+				<tr>
+					<td>文章ID: <input class="input" type="text" value="&#123;!--t.tid--&#125;"></td>
+					<td>文章标题: <input class="input" type="text" value="&#123;!--t.subject--&#125;"></td>
+					<td>文章地址: <input class="input" type="text" value="&#123;!--t.turl--&#125;"></td>
+				</tr>
+				<tr>
+					<td>文章摘要: <input class="input" type="text" value="&#123;!--t.summary--&#125;"></td>
+					<td>封面图片: <input class="input" type="text" value="&#123;!--t.topicimg--&#125;"></td>
+					<td>发表时间: <input class="input" type="text" value="&#123;!--t.postdate--&#125;"></td>
+				</tr>
+				<tr>
+					<td>DIGG数: <input class="input" type="text" value="&#123;!--t.digg--&#125;"></td>
+					<td>BURY数: <input class="input" type="text" value="&#123;!--t.bury--&#125;"></td>
+					<td>评论数量: <input class="input" type="text" value="&#123;!--t.comments--&#125;"></td>
+				</tr>
+				<tr>
+					<td>作者: <input class="input" type="text" value="&#123;!--t.author--&#125;"></td>
+					<td>作者头像: <input class="input" type="text" value="&#123;!--t.avatar--&#125;"></td>
+					<td>作者空间: <input class="input" type="text" value="&#123;!--t.uurl--&#125;"></td>
+				</tr>
+				<tr>
+					<td>文章原标题: <input class="input" type="text" value="&#123;!--t.altsubject--&#125;"></td>
+					<td>推荐图片: <input class="input" type="text" value="&#123;!--t.commendpic--&#125;"></td>
+					<td>原文链接: <input class="input" type="text" value="&#123;!--t.contentlink--&#125;"></td>
+				</tr>
+				</table>
+			</fieldset>
+			{#$expandFields#}
+			<br />
+			<fieldset>
+				<legend><strong><span class="g">评论变量说明</span></strong></legend>
+				<table style="width:100%">
+				<tr>
+					<td>评论ID: <input class="input" type="text" value="&#123;!--r.rid--&#125;"></td>
+					<td>文章ID: <input class="input" type="text" value="&#123;!--r.tid--&#125;"></td>
+					<td>文章标题: <input class="input" type="text" value="&#123;!--r.subject--&#125;"></td>
+				</tr>
+				<tr>
+					<td>文章原标题: <input class="input" type="text" value="&#123;!--r.altsubject--&#125;"></td>
+					<td>文章地址: <input class="input" type="text" value="&#123;!--r.turl--&#125;"></td>
+					<td>评论摘要: <input class="input" type="text" value="&#123;!--r.content--&#125;"></td>
+				</tr>
+				<tr>
+					<td>作者: <input class="input" type="text" value="&#123;!--r.author--&#125;"></td>
+					<td>作者头像: <input class="input" type="text" value="&#123;!--r.avatar--&#125;"></td>
+					<td>作者空间: <input class="input" type="text" value="&#123;!--r.uurl--&#125;"></td>
+				</tr>
+				<tr>
+					<td>DIGG数: <input class="input" type="text" value="&#123;!--r.digg--&#125;"></td>
+					<td>BURY数: <input class="input" type="text" value="&#123;!--r.bury--&#125;"></td>
+					<td>发表时间: <input class="input" type="text" value="&#123;!--r.postdate--&#125;"></td>
+				</tr>
+				</table>
+			</fieldset>
+			<br />
+			<fieldset>
+				<legend><strong><span class="g">会员变量说明</span></strong></legend>
+				<table style="width:100%">
+				<tr>
+					<td>会员ID: <input class="input" type="text" value="&#123;!--m.uid--&#125;"></td>
+					<td>会员名称: <input class="input" type="text" value="&#123;!--m.username--&#125;"></td>
+					<td>会员头像: <input class="input" type="text" value="&#123;!--m.avatar--&#125;"></td>
+				</tr>
+				<tr>
+					<td>主题数量: <input class="input" type="text" value="&#123;!--m.postnum--&#125;"></td>
+					<td>评论数量: <input class="input" type="text" value="&#123;!--m.commentnum--&#125;"></td>
+					<td>DIGG数量: <input class="input" type="text" value="&#123;!--m.diggnum--&#125;"></td>
+				</tr>
+				<tr>
+					<td>BURY数量: <input class="input" type="text" value="&#123;!--m.burynum--&#125;"></td>
+					<td>注册时间: <input class="input" type="text" value="&#123;!--m.regdate--&#125;"></td>
+					<td>上传附件: <input class="input" type="text" value="&#123;!--m.uploadnum--&#125;"></td>
+				</tr>
+				<tr>
+					<td>好友数: <input class="input" type="text" value="&#123;!--m.friendnum--&#125;"></td>
+					<td>收藏主题: <input class="input" type="text" value="&#123;!--m.collectionnum--&#125;"></td>
+					<td>访问次数: <input class="input" type="text" value="&#123;!--m.visitnum--&#125;"></td>
+				</tr>
+				<tr>
+					<td>性别: <input class="input" type="text" value="&#123;!--m.gender--&#125;"></td>
+					<td>QQ: <input class="input" type="text" value="&#123;!--mx.qq--&#125;"></td>
+					<td>MSN: <input class="input" type="text" value="&#123;!--mx.msn--&#125;"></td>
+				</tr>
+				<tr>
+					<td>个人主页: <input class="input" type="text" value="&#123;!--mx.site--&#125;"></td>
+					<td>来自: <input class="input" type="text" value="&#123;!--mx.location--&#125;"></td>
+					<td>生日: <input class="input" type="text" value="&#123;!--mx.birthday--&#125;"></td>
+				</tr>
+				<tr>
+					<td>个人签名: <input class="input" type="text" value="&#123;!--mx.signature--&#125;"></td>
+					<td>UCenter ID: <input class="input" type="text" value="&#123;!--m.ucuid--&#125;"></td>
+					<td>&nbsp;</td>
+				</tr>
+				</table>
+			</fieldset>
+			</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">模板内容</span></td>
+			<td><textarea name="template" id="template" class="template">{#$guide[tplcontent]#}</textarea></td>
+		</tr>
+		<tr>
+			<td class="tbutton" colspan="2"><input type="hidden" name="tplid" value="{#$guide[tplid]#}" /><input type="hidden" name="do" value="{#$do#}" /><input type="hidden" name="type" value="{#$type#}" /><input type="submit" value="提交" class="btn" name="submit" /></td>
+		</tr>
+		{#/if#}
+	{#elseif $job == 'list'#}
+	<tbody class="aligncenter">
+	<tr class="tcell_header">
+		<td width="5%">选择</td>
+		<td width="30%">调用名称</td>
+		<td width="20%">调用标识</td>
+		<td width="20%">调用类型</td>
+		<td width="*">操作</td>
+	</tr>
+	{#foreach $tpllist as $v#}
+	<tr>
+		<td><input type="checkbox" name="tplids[]" value="{#$v[tplid]#}" /></td>
+		<td>{#$v[tplname]#}</td>
+		<td><input type="text" value="{#$v[tplmark]#}" class="input" size="20" /></td>
+		<td>{#$v[texttranttype]#}</td>
+		<td><a href="admincp.php?action=tpl&job=guide&do=edit&type={#$v[tranttype]#}&tplid={#$v[tplid]#}">编辑</a></td>
+	</tr>
+	{#/foreach#}
+	</tbody>
+	<tr>
+		<td class="tbutton" colspan="5"><input type="hidden" name="job" value="deltpl" /><input type="button" value="全选" class="btn" name="choseall" onclick="PBchoseAll(this.form)">&nbsp;<input type="submit" value="删除" class="btn" name="submit"></td>
+	</tr>
+	{#elseif $job == 'special'#}
+		{#if $do == 'edit'#}
+		<tr>
+			<td><span class="defaultbold">{#$specialtpl[tplname]#}模板</span></td>
+		</tr>
+		<tr>
+			<td><textarea name="template" id="template" class="template">{#$specialtpl[template]#}</textarea></td>
+		</tr>
+		<tr>
+			<td>
+			<fieldset>
+				<legend><strong><span class="g">模板变量说明</span></strong></legend>
+				<table style="width:100%">
+				{#if $specialtpl['tplid'] == '1'#}
+				<tr>
+					<td>标签ID: <input class="input" type="text" value="&#123;!--tagid--&#125;"></td>
+					<td>标签名称: <input class="input" type="text" value="&#123;!--tagname--&#125;"></td>
+					<td>编码标签名（用于url地址）: <input class="input" type="text" value="&#123;!--encodetagname--&#125;"></td>
+				</tr>
+				<tr>
+					<td>使用次数: <input class="input" type="text" value="&#123;!--usenum--&#125;"></td>
+					<td>彩云样式: <input class="input" type="text" value="&#123;!--color--&#125;"></td>
+					<td>&nbsp;</td>
+				</tr>
+				{#elseif $specialtpl['tplid'] == '2'#}
+				<tr>
+					<td>标签ID: <input class="input" type="text" value="&#123;!--tagid--&#125;"></td>
+					<td>标签名称: <input class="input" type="text" value="&#123;!--tagname--&#125;"></td>
+					<td>编码标签名（用于url地址）: <input class="input" type="text" value="&#123;!--encodetagname--&#125;"></td>
+				</tr>
+				<tr>
+					<td>使用次数: <input class="input" type="text" value="&#123;!--usenum--&#125;"></td>
+					<td>标签图片: <input class="input" type="text" value="&#123;!--tagpic--&#125;"></td>
+					<td>彩云样式: <input class="input" type="text" value="&#123;!--color--&#125;"></td>
+				</tr>
+				{#elseif $specialtpl['tplid'] == '3'#}
+				<tr>
+					<td>上一篇链接: <input class="input" type="text" value="&#123;!--prev--&#125;"></td>
+					<td>下一篇链接: <input class="input" type="text" value="&#123;!--next--&#125;"></td>
+					<td>&nbsp;</td>
+				</tr>
+				{#elseif $specialtpl['tplid'] == '4'#}
+				<tr>
+					<td>文章标题: <input class="input" type="text" value="&#123;!--subject--&#125;"></td>
+					<td>文章原标题: <input class="input" type="text" value="&#123;!--altsubject--&#125;"></td>
+					<td>文章地址: <input class="input" type="text" value="&#123;!--turl--&#125;"></td>
+				</tr>
+				<tr>
+					<td>DIGG数: <input class="input" type="text" value="&#123;!--digg--&#125;"></td>
+					<td>BURY数: <input class="input" type="text" value="&#123;!--bury--&#125;"></td>
+					<td>发表时间: <input class="input" type="text" value="&#123;!--postdate--&#125;"></td>
+				</tr>
+				{#/if#}
+				</table>
+			</fieldset>
+			</td>
+		</tr>
+		<tr>
+			<td class="tbutton" colspan="2"><input type="hidden" name="do" value="edit" /><input type="hidden" name="tplid" value="{#$specialtpl[tplid]#}" /><input type="submit" value="保存" class="btn" name="submit" /></td>
+		</tr>
+		{#else#}
+		<tbody class="aligncenter">
+		<tr class="tcell_header">
+			<td width="50%">模板名称</td>
+			<td width="30%">调用函数</td>
+			<td width="*">操作</td>
+		</tr>
+		{#foreach $specialtpl as $v#}
+		<tr>
+			<td>{#$v[tplname]#}</td>
+			<td>{#$v[tplfunc]#}</td>
+			<td><a href="admincp.php?action=tpl&job=special&do=edit&tplid={#$v[tplid]#}">编辑</a></td>
+		</tr>
+		{#/foreach#}
+		</tbody>
+		{#/if#}
+	{#/if#}
+	</table>
+</form>
+</div>
+</td><td class="box-main-right"></td></tr>
+<tr><td class="box-bottom-left"></td><td class="box-bottom-cen"></td><td class="box-bottom-right"></td></tr>
+</table>
+
+{#include footer#}
+</body>
+</html>

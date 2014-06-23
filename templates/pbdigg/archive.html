@@ -1,0 +1,59 @@
+{#include header#}
+
+<style type="text/css">
+#calendar {margin-top:20px;width:298px;text-align:center;border:1px dashed #ccc;}
+.month {font-weight:bold;text-align:center;padding:4px;}
+.week {background:#eee;border-bottom:2px solid #aaa;padding:4px;}
+.day {padding:4px 2px;}
+.today {background:#f1f1f1;border:1px solid #999;font-weight:bold;}
+#sidebar ul,.newslist ul {margin-bottom:25px;}
+#sidebar ul li,.newslist ul li {background: url(templates/digg2008/images/li.gif) no-repeat 2px center;padding:5px 0 5px 15px;}
+</style>
+
+
+<div class="maincontainer">
+
+    <div class="mainleft">
+    <div class="tips">
+	<p>文章归档，按日期存放的资料</p>
+</div>
+<ol class="archive_list">
+{#foreach $articles as $v#}
+<li><a href="show.php?tid={#$v[tid]#}" title="{#$v[subject]#}">{#$v[subject]#}</a></li>
+{#/foreach#}
+</ol>
+    </div>
+    <div class="sidebar">  
+	<div id="calendar">
+	<table cellpadding="0" cellspacing="1" style="width:100%">
+	<tr align="center">
+	<td colspan="7" class="month"><a href="{#$_PBENV[PB_URL]#}archive.php?day={#$prevmonth#}" title="{#$prevmonth#}归档内容">&laquo;</a> {#$currentmonth#} <a href="{#$_PBENV[PB_URL]#}archive.php?day={#$nextmonth#}" title="{#$nextmonth#}归档内容">&raquo;</a></td>
+	</tr>
+	<tr>
+	<th class="week"><span style="color:#833">日</span></th>
+	<th class="week">一</th>
+	<th class="week">二</th>
+	<th class="week">三</th>
+	<th class="week">四</th>
+	<th class="week">五</th>
+	<th class="week"><font color="#53A300">六</font></th>
+	</tr>
+	{#$calendar#}
+	</table>
+	</div>
+
+<div id="archives">
+<h2>月份归档</h2>
+<ol class="boder">
+{#$archives#}
+</ol>
+</div>  
+    </div>
+
+    </div>
+<!-- footer -->
+{#include footer#}
+<!-- footer -->
+
+</body>
+</html>

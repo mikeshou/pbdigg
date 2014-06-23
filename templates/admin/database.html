@@ -1,0 +1,297 @@
+{#include header#}
+<body>
+
+<!--提示信息-->
+<table cellpadding="0" cellspacing="0" width="100%" class="boxtable">
+<tr><td class="box-top-left"></td><td class="box-top-cen"></td><td class="box-top-right"></td></tr>
+<tr><td class="box-main-left"></td><td>
+<!--内容部分-->
+ <h3>提示信息</h3>
+<div class="text">
+	<div class="s3" style="margin-left:1em;">
+{#if $job == 'status'#}
+<li>如果数据表损坏或者存在较多碎片请到 <a class="g" href="admincp.php?action=database&job=optimize">数据库优化</a> 处进行修复。</li>
+{#elseif $job == 'export'#}
+<li>您可以根据自己的需要选择需要备份的数据库表，导出的数据文件可用“数据恢复”功能或 <a href="http://www.phpmyadmin.net/" class="g" target="_blank">phpMyAdmin</a> 导入。</li>
+<li>为了数据安全，备份文件采用时间戳加随机字符命名保存，如果备份数据超过设定的大小程序会自动采用分卷备份功能，请耐心等待直到程序提示全部备份完成。</li>
+<li>模板、附件和用户自定义头像的备份需通过 FTP 下载 /templates, /attachments 和 /images/avatars 目录，PBDigg 不提供单独备份。</li>
+{#elseif $job == 'import' || $job == 'checksqlfile'#}
+<li>本功能在恢复备份数据的同时，将全部覆盖原有数据，请确定恢复前已将网站关闭，恢复全部完成后可以将网站新开放。</li>
+<li>导入的数据必须是用PBDigg备份的文件，其它软件导出格式可能无法识别。</li>
+<li>如果备份文件有多个分卷，请点击任意分卷数据，系统会自动从分卷1的文件开始恢复。</li>
+<li>备份数据库的表前缀必须和当前数据库表前缀一致，否则将无法导入数据。</li>
+<li><span class="r">请确定备份数据中超级管理员帐户信息(用户名和密码)与当前超级管理员信息一致，否则可能会出现后台管理无权限的问题。</span></li>
+{#elseif $job == 'optimize'#}
+<li>数据表优化可以去除数据文件中的碎片，使记录排列紧密，提高读写速度。</li>
+{#/if#}
+	</div>
+</div>
+<!--内容部分结束-->
+</td><td class="box-main-right"></td></tr>
+<tr><td class="box-bottom-left"></td><td class="box-bottom-cen"></td><td class="box-bottom-right"></td></tr>
+</table>
+<!--提示信息-->
+
+<!-- item 1 -->
+{#if $job == 'status'#}
+<table cellpadding="0" cellspacing="0" width="100%">
+<tr><td class="box-top-left"></td><td class="box-top-cen"></td><td class="box-top-right"></td></tr>
+<tr><td class="box-main-left"></td><td>
+<h3>MySQL数据库信息</h3>
+<div class="text">
+	<table cellpadding="0" cellspacing="0" width="100%">
+		<tr>
+			<td width="50%"><span class="defaultbold">数据库版本</span></td>
+			<td>{#$database[version]#}</td>
+		</tr>
+		<tr>
+			<td width="50%"><span class="defaultbold">数据库运行时间</span></td>
+			<td>{#$database[runtime]#}</td>
+		</tr>
+	</table>
+</div>
+</td><td class="box-main-right"></td></tr>
+<tr><td class="box-bottom-left"></td><td class="box-bottom-cen"></td><td class="box-bottom-right"></td></tr>
+</table>
+
+<br />
+<!-- item 2-->
+<table cellpadding="0" cellspacing="0" width="100%">
+<tr><td class="box-top-left"></td><td class="box-top-cen"></td><td class="box-top-right"></td></tr>
+<tr><td class="box-main-left"></td><td>
+<h3>PBDigg数据库表</h3>
+<div class="text">
+		<table cellpadding="0" cellspacing="0" width="100%">
+			<tbody class="aligncenter">
+			<tr class="tth">
+				<td width="15%">数据库表名</td>
+				<td width="20%">表类型</td>
+				<td width="10%">记录数</td>
+				<td width="10%">数据大小</td>
+				<td width="*">碎片大小</td>
+			</tr>
+			{#foreach $pbtable as $v#}
+			<tr>
+				<td>{#$v[0]#}</td>
+				<td>{#$v[1]#}</td>
+				<td>{#$v[2]#}</td>
+				<td>{#$v[3]#}</td>
+				<td>{#$v[4]#}</td>
+			</tr>
+			{#/foreach#}
+			<tr class="tmult">
+				<td width="15%">表数量: {#$pbtablenum#}</td>
+				<td width="20%">&nbsp;</td>
+				<td width="10%">总记录数: {#$pbrownum#}</td>
+				<td width="30%">&nbsp;</td>
+				<td width="*" colspan="2">数据库大小: {#$pbtotalsize#}</td>
+			</tr>
+			</tbody>
+		</table>
+</div>
+</td><td class="box-main-right"></td></tr>
+<tr><td class="box-bottom-left"></td><td class="box-bottom-cen"></td><td class="box-bottom-right"></td></tr>
+</table>
+
+<br />
+<!-- item 3-->
+{#if $othertablenum#}
+<table cellpadding="0" cellspacing="0" width="100%">
+<tr><td class="box-top-left"></td><td class="box-top-cen"></td><td class="box-top-right"></td></tr>
+<tr><td class="box-main-left"></td><td>
+<h3>非PBDigg数据库表</h3>
+<div class="text">
+		<table cellpadding="0" cellspacing="0" width="100%">
+			<tbody class="aligncenter">
+			<tr class="tth">
+				<td width="15%">数据库表名</td>
+				<td width="20%">表类型</td>
+				<td width="10%">记录数</td>
+				<td width="10%">数据大小</td>
+				<td width="*">碎片大小</td>
+			</tr>
+			{#foreach $othertable as $v#}
+			<tr>
+				<td>{#$v[0]#}</td>
+				<td>{#$v[1]#}</td>
+				<td>{#$v[2]#}</td>
+				<td>{#$v[3]#}</td>
+				<td>{#$v[4]#}</td>
+			</tr>
+			{#/foreach#}
+			<tr class="tmult">
+				<td width="15%">表数量: {#$othertablenum#}</td>
+				<td width="20%">&nbsp;</td>
+				<td width="10%">总记录数: {#$otherrownum#}</td>
+				<td width="30%">&nbsp;</td>
+				<td width="*" colspan="2">数据库大小: {#$othertotalsize#}</td>
+			</tr>
+			</tbody>
+		</table>
+</div>
+</td><td class="box-main-right"></td></tr>
+<tr><td class="box-bottom-left"></td><td class="box-bottom-cen"></td><td class="box-bottom-right"></td></tr>
+</table>
+{#/if#}
+{#elseif $job == 'export'#}
+<table cellpadding="0" cellspacing="0" width="100%">
+<tr><td class="box-top-left"></td><td class="box-top-cen"></td><td class="box-top-right"></td></tr>
+<tr><td class="box-main-left"></td><td>
+<h3>PBDigg数据库备份</h3>
+<div class="text">
+		<form action="{#$basename#}" method="post" id="mainform">
+		<table cellpadding="0" cellspacing="0" width="100%">
+			<tbody class="aligncenter">
+			<tr class="tth">
+				<td width="*">数据库表名</td>
+				<td width="20%">记录数</td>
+				<td width="20%">数据大小</td>
+				<td width="10%">操作</td>
+			</tr>
+			{#foreach $pbtable as $v#}
+			<tr>
+				<td>{#$v[0]#}</td>
+				<td>{#$v[1]#}</td>
+				<td>{#$v[2]#}</td>
+				<td><input type="checkbox" name="tablename[]" value="{#$v[0]#}" /></td>
+			</tr>
+			{#/foreach#}
+			<tr>
+				<td class="tbutton" colspan="4"><input class="hidden" name="ispost" type="hidden" value="on"><input type="button" value="全选" onclick="PBchoseAll(this.form)" class="btn" />&nbsp;&nbsp;<input type="submit" value="备份" class="btn" name="submit"></td>
+			</tr>
+			</tbody>
+		</table>
+		</form>
+</div>
+</td><td class="box-main-right"></td></tr>
+<tr><td class="box-bottom-left"></td><td class="box-bottom-cen"></td><td class="box-bottom-right"></td></tr>
+</table>
+{#if $othertable#}
+<table cellpadding="0" cellspacing="0" width="100%">
+<tr><td class="box-top-left"></td><td class="box-top-cen"></td><td class="box-top-right"></td></tr>
+<tr><td class="box-main-left"></td><td>
+<h3>非PBDigg数据库备份</h3>
+<div class="text">
+		<form action="{#$basename#}" method="post" id="mainform">
+		<table cellpadding="0" cellspacing="0" width="100%">
+			<tbody class="aligncenter">
+			<tr class="tth">
+				<td width="*">数据库表名</td>
+				<td width="20%">记录数</td>
+				<td width="20%">数据大小</td>
+				<td width="10%">操作</td>
+			</tr>
+			{#foreach $othertable as $v#}
+			<tr>
+				<td>{#$v[0]#}</td>
+				<td>{#$v[1]#}</td>
+				<td>{#$v[2]#}</td>
+				<td><input type="checkbox" name="tablename[]" value="{#$v[0]#}" /></td>
+			</tr>
+			{#/foreach#}
+			<tr>
+				<td class="tbutton" colspan="4"><input class="hidden" name="ispost" type="hidden" value="on"><input type="button" value="全选" onclick="PBchoseAll(this.form)" class="btn" />&nbsp;&nbsp;<input type="submit" value="备份" class="btn" name="submit"></td>
+			</tr>
+			</tbody>
+		</table>
+		</form>
+</div>
+</td><td class="box-main-right"></td></tr>
+<tr><td class="box-bottom-left"></td><td class="box-bottom-cen"></td><td class="box-bottom-right"></td></tr>
+</table>
+{#/if#}
+{#elseif $job == 'import'#}
+<table cellpadding="0" cellspacing="0" width="100%">
+<tr><td class="box-top-left"></td><td class="box-top-cen"></td><td class="box-top-right"></td></tr>
+<tr><td class="box-main-left"></td><td>
+<h3>备份数据管理</h3>
+<div class="text">
+		<form action="{#$basename#}" method="post" id="mainform" {#$checkSubmit#}>
+		<table cellpadding="0" cellspacing="0" width="100%">
+			<tbody class="aligncenter">
+			<tr class="tth">
+				<td width="5%">选择</td>
+				<td width="35%">文件名称</td>
+				<td width="15%">版本号</td>
+				<td width="30%">备份时间</td>
+				<td width="5%">分卷号</td>
+				<td width="10%">操作</td>
+			</tr>
+			{#foreach $backupfile as $v#}
+			<tr>
+				<td><input type="checkbox" name="sqlfile[]" value="{#$v[filename]#}" /></td>
+				<td>{#$v[filename]#}</td>
+				<td>{#$v[version]#}</td>
+				<td>{#$v[date]#}</td>
+				<td>{#$v[volume]#}</td>
+				<td><a href="admincp.php?action=database&job=checksqlfile&sqlfile={#$v[filename]#}">[导入]</a></td>
+			</tr>
+			{#/foreach#}
+			<tr>
+				<td class="tbutton" colspan="6"><input type="hidden" name="job" value="del" /><input type="button" value="全选" class="btn" name="choseall" onclick="PBchoseAll(this.form)">&nbsp;<input type="submit" value="删除" class="btn" name="submit"></td>
+			</tr>
+			</tbody>
+		</table>
+		</form>
+</div>
+</td><td class="box-main-right"></td></tr>
+<tr><td class="box-bottom-left"></td><td class="box-bottom-cen"></td><td class="box-bottom-right"></td></tr>
+</table>
+{#elseif $job == 'checksqlfile'#}
+<table cellpadding="0" cellspacing="0" width="100%">
+<tr><td class="box-top-left"></td><td class="box-top-cen"></td><td class="box-top-right"></td></tr>
+<tr><td class="box-main-left"></td><td>
+<h3>备份恢复确认</h3>
+<div class="text">
+		<form action="{#$basename#}" method="post" id="mainform">
+		<table cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td><p class="desc"><span class="b">备份恢复功能将覆盖原来的数据</span>，您确认要导入备份数据！</p></td>
+			</tr>
+			<tr>
+				<td class="tbutton">
+					<input class="hidden" name="ispost" type="hidden" value="on">
+					<input class="hidden" name="job" type="hidden" value="import">
+					<input class="hidden" name="sqlfile" type="hidden" value="{#$sqlfile#}">
+					<input type="submit" value="确认导入备份" class="btn" name="submit">
+				</td>
+			</tr>
+		</table>
+		</form>
+</div>
+</td><td class="box-main-right"></td></tr>
+<tr><td class="box-bottom-left"></td><td class="box-bottom-cen"></td><td class="box-bottom-right"></td></tr>
+</table>
+{#elseif $job == 'optimize'#}
+<table cellpadding="0" cellspacing="0" width="100%">
+<tr><td class="box-top-left"></td><td class="box-top-cen"></td><td class="box-top-right"></td></tr>
+<tr><td class="box-main-left"></td><td>
+<h3>数据库优化</h3>
+<div class="text">
+<form action="{#$basename#}" method="post" id="mainform">
+<table cellpadding="0" cellspacing="0" width="100%">
+	<tr>
+		<td><span class="defaultbold">修复表</span><br />修复数据库在进行查询，删除，更新等操作时产生的错误。通常，您基本上不必运行此语句。但是，如果灾难发生，“修复”很有可能从数据表中找回所有数据。</td>
+		<td><input type="checkbox" value="1" name="repair" id="repair" /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">优化表</span><br />数据表优化可以去除数据文件中的碎片，使数据库运行效率提高。您不需要经常运行，每周一次或每月一次即可。</td>
+		<td><input type="checkbox" value="1" name="optimize" id="optimize" checked="checked" /></td>
+	</tr>
+	<tr>
+		<td class="tbutton" colspan="2">
+			<input type="submit" value="提交" class="btn" name="submit">
+		</td>
+	</tr>
+</table>
+</form>
+</div>
+</td><td class="box-main-right"></td></tr>
+<tr><td class="box-bottom-left"></td><td class="box-bottom-cen"></td><td class="box-bottom-right"></td></tr>
+</table>
+{#/if#}
+<!-- item end-->
+
+{#include footer#}
+</body>
+</html>

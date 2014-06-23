@@ -1,0 +1,49 @@
+{#include header#}
+<body>
+
+<!--提示信息-->
+<table cellpadding="0" cellspacing="0" width="100%" class="boxtable">
+<tr><td class="box-top-left"></td><td class="box-top-cen"></td><td class="box-top-right"></td></tr>
+<tr><td class="box-main-left"></td><td>
+<!--内容部分-->
+ <h3>提示信息</h3>
+<div class="text">
+	<div class="s3" style="margin-left:1em;">
+
+<li>系统标签将作为默认标签显示在发帖标签选择框内。</li>
+
+	</div>
+</div>
+<!--内容部分结束-->
+</td><td class="box-main-right"></td></tr>
+<tr><td class="box-bottom-left"></td><td class="box-bottom-cen"></td><td class="box-bottom-right"></td></tr>
+</table>
+<!--提示信息-->
+
+<!--main-->
+<table cellpadding="0" cellspacing="0" width="100%">
+<tr><td class="box-top-left"></td><td class="box-top-cen"></td><td class="box-top-right"></td></tr>
+<tr><td class="box-main-left"></td><td>
+<h3>文章模块</h3>
+<div class="text">
+<form action="{#$basename#}" method="post" id="mainform" {#$checkSubmit#}>
+	<table cellpadding="0" cellspacing="0" width="100%">
+	{#if $job == 'mod'#}
+	<tr>
+		<td>此模块无配置选项</td>
+	</tr>
+	{#elseif $job == 'help'#}
+	<tr>
+		<td>暂无帮助</td>
+	</tr>
+	{#/if#}
+	</table>
+</form>
+</div>
+</td><td class="box-main-right"></td></tr>
+<tr><td class="box-bottom-left"></td><td class="box-bottom-cen"></td><td class="box-bottom-right"></td></tr>
+</table>
+
+{#include footer#}
+</body>
+</html>

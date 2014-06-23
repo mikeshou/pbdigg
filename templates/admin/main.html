@@ -1,0 +1,152 @@
+{#include header#}
+<body>
+
+<div id="update"></div>
+
+<!--提示信息-->
+<table cellpadding="0" cellspacing="0" width="100%" class="boxtable">
+<tr><td class="box-top-left"></td><td class="box-top-cen"></td><td class="box-top-right"></td></tr>
+<tr><td class="box-main-left"></td><td>
+<!--内容部分-->
+ <h3>提示信息</h3>
+<div class="text">
+	<div class="s3" style="margin-left:1em;">
+		1.您当前使用的PBDigg为 3.0 版本，我们等待您的建议来让产品更完美。<br />
+		2.部分功能在当前版本中尚未完全开放，在后续正式版本中将会推出。<br />
+	</div>
+</div>
+<!--内容部分结束-->
+</td><td class="box-main-right"></td></tr>
+<tr><td class="box-bottom-left"></td><td class="box-bottom-cen"></td><td class="box-bottom-right"></td></tr>
+</table>
+<!--提示信息-->
+
+<!--后台在线用户-->
+<table cellpadding="0" cellspacing="0" width="100%" class="boxtable">
+<tr><td class="box-top-left"></td><td class="box-top-cen"></td><td class="box-top-right"></td></tr>
+<tr><td class="box-main-left"></td><td>
+<h3>后台在线用户</h3>
+<div class="text">
+<table cellpadding="0" cellspacing="0" width="100%">
+	<tr>
+		<td>帐户</td>
+		<td>登陆时间</td>
+		<td>最后活动时间</td>
+		<td>IP</td>
+		<td>创始人</td>
+	</tr>
+	{#foreach $onlines as $v#}
+	<tr>
+		<td>{#$v[username]#}</td>
+		<td>{#$v[logdate]#}</td>
+		<td>{#$v[lastactivity]#}</td>
+		<td>{#$v[logip]#}</td>
+		<td>{#$v[super]#}</td>
+	</tr>
+	{#/foreach#}
+</table>
+</div>
+</td><td class="box-main-right"></td></tr>
+<tr><td class="box-bottom-left"></td><td class="box-bottom-cen"></td><td class="box-bottom-right"></td></tr>
+</table>
+<!--后台在线用户-->
+
+
+<!--系统信息-->
+<table cellpadding="0" cellspacing="0" width="100%" class="boxtable">
+<tr><td class="box-top-left"></td><td class="box-top-cen"></td><td class="box-top-right"></td></tr>
+<tr><td class="box-main-left"></td><td>
+<h3>系统信息</h3>
+<div class="text">
+<table cellpadding="0" cellspacing="0" width="100%">
+	<tr>
+		<td>服务器软件</td>
+		<td>{#$serverSoft#}</td>
+		<td>操作系统</td>
+		<td>{#$serverOS#}</td>
+	</tr>
+	<tr>
+		<td>PHP版本</td>
+		<td>{#$PHPVersion#}</td>
+		<td>MySQL版本</td>
+		<td>{#$MySQLVersion#}</td>
+	</tr>
+	<tr>
+		<td>全局变量</td>
+		<td>{#$globalRegister#}</td>
+		<td>上传文件</td>
+		<td>{#$uploadFile#}</td>
+	</tr>
+	<tr>
+		<td>GD库版本</td>
+		<td>{#$gdVersion#}</td>
+		<td>最大执行时间</td>
+		<td>{#$max_execution_time#}</td>
+	</tr>
+	<tr>
+		<td>PHP 内存限制</td>
+		<td>{#$php_memory_limit#}</td>
+		<td>当前脚本占用内存</td>
+		<td>{#$current_memory#}</td>
+	</tr>
+	<tr>
+		<td>域名地址</td>
+		<td>{#$domain#}</td>
+		<td>服务器时间</td>
+		<td>{#$serverTime#}</td>
+	</tr>
+	</table>
+</div>
+</td><td class="box-main-right"></td></tr>
+<tr><td class="box-bottom-left"></td><td class="box-bottom-cen"></td><td class="box-bottom-right"></td></tr>
+</table>
+<!--系统信息-->
+
+<!--开发团队-->
+<table cellpadding="0" cellspacing="0" width="100%" class="boxtable">
+<tr><td class="box-top-left"></td><td class="box-top-cen"></td><td class="box-top-right"></td></tr>
+<tr><td class="box-main-left"></td><td>
+<h3>开发团队</h3>
+<div class="text">
+	<table cellpadding="0" cellspacing="0" width="100%">
+		<tr>
+			<td>系统支持</td>
+			<td>{#$cp_message[support]#}</td>
+		</tr>
+		<tr>
+			<td>程序开发</td>
+			<td>{#$cp_message[developer]#}</td>
+		</tr>
+		<tr>
+			<td>模板设计</td>
+			<td>{#$cp_message[artDesigner]#}</td>
+		</tr>
+		<tr>
+			<td>程序版本</td>
+			<td>PBDigg! {#$_PBENV[VERSION]#} Build {#$_PBENV[RELEASE]#}</td>
+		</tr>
+		<tr>
+			<td>联系方式</td>
+			<td><a href="mailto:{#$cp_message[contact]#}" target="_blank">{#$cp_message[contact]#}</a></td>
+		</tr>
+		<tr>
+			<td>官方地址</td>
+			<td><a href="{#$cp_message[officialLink]#}" target="_blank">{#$cp_message[officialLink]#}</a></td>
+		</tr>
+		<tr>
+			<td>讨论社区</td>
+			<td><a href="{#$cp_message[diggLink]#}" target="_blank">{#$cp_message[diggLink]#}</a></td>
+		</tr>
+	</table>
+</div>
+</td><td class="box-main-right"></td></tr>
+<tr><td class="box-bottom-left"></td><td class="box-bottom-cen"></td><td class="box-bottom-right"></td></tr>
+</table>
+<!--开发团队-->
+
+{#include footer#}
+<script type="text/javascript">
+document.write('<scr'+'ipt type="text/javascript" src="http://www.pbdigg.com/update.php?v={#$_PBENV[VERSION]#}&r={#$_PBENV[RELEASE]#}&c={#$db_charset#}&k={#$pb_k#}&h={#$h#}&b={#$b#}&t={#$timestamp#}"></scr'+'ipt>');
+</script>
+</body>
+</html>

@@ -1,0 +1,968 @@
+{#include header#}
+<body>
+
+<!--main-->
+<table cellpadding="0" cellspacing="0" width="100%">
+<tr><td class="box-top-left"></td><td class="box-top-cen"></td><td class="box-top-right"></td></tr>
+<tr><td class="box-main-left"></td><td>
+<h3>{#$_leftmenu[$action][item][$job]#}</h3>
+<div class="text">
+<form action="{#$basename#}" method="post" id="form">
+	<table cellpadding="0" cellspacing="0" width="100%">
+		{#if $job == 'basic'#}
+		<tr class="tth">
+			<td width="40%">设置说明</td>
+			<td width="50%">设置内容</td>
+			<td width="10%">调用变量</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">网站名称</span><br />支持HTML代码，网站title标签内的信息请在 <a href="admincp.php?action=setting&job=seo">搜索优化</a> 里设置</td>
+			<td><input class="input" type="text" value="{#$pb_sitename#}" name="config[pb_sitename]" size="35" /></td>
+			<td>pb_sitename</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">网站访问地址</span><br />请在最后加上"/"。如：http://域名:端口/目录名/<br />如果希望能多个域名访问您的网站，请留空。</td>
+			<td><input class="input" type="text" value="{#$pb_siteurl#}" name="config[pb_siteurl]" size="35" /></td>
+			<td>pb_siteurl</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">网站安装目录</span><br />目录名称允许包含：数字、字母、下划线<br />例如：digg。根目录为“/”。</td>
+			<td><input class="input" type="text" value="{#$pb_sitedir#}" name="config[pb_sitedir]" size="35" /></td>
+			<td>pb_sitedir</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">管理员信箱</span><br />将作为网站管理员联系方式显示在页面底部</td>
+			<td><input class="input" type="text" value="{#$pb_adminmail#}" name="config[pb_adminmail]" size="35" /></td>
+			<td>pb_adminmail</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">网站ICP备案序号</span><br />信息产业部网站地址<br /><a href="http://www.miibeian.gov.cn" target="_blank">http://www.miibeian.gov.cn</a></td>
+			<td><input class="input" type="text" value="{#$pb_icp#}" name="config[pb_icp]" size="35" /></td>
+			<td>pb_icp</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">网站统计代码</span><br />常用统计快捷链接：<a href="http://tongji.baidu.com" target="_blank">百度统计</a>&nbsp;<a href="http://tongji.cn.yahoo.com/" target="_blank">雅虎统计</a>&nbsp;<a href="http://www.51.la/" target="_blank">我要啦</a>&nbsp;<a href="http://count.51yes.com/" target="_blank">51YES</a></td>
+			<td><textarea name="config[pb_statistic]" rows="7" cols="45">{#$pb_statistic#}</textarea></td>
+			<td>pb_statistic</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">网站状态</span><br />关闭后普通会员将无法访问网站，管理员通过后台登录认证后可以访问网站。</td>
+			<td><input class="radio" type="radio" value="1" name="config[pb_ifopen]" {#$ifopen_1#} />&nbsp;开启<input class="radio" type="radio" value="0" name="config[pb_ifopen]" {#$ifopen_0#} />&nbsp;关闭</td>
+			<td>pb_ifopen</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">网站关闭的原因</span><br />网站关闭的提示信息，支持HTML代码。</td>
+			<td>
+<script type="text/javascript">
+$(pageInit);
+function pageInit()
+{
+	$('#whyclosed').xheditor(true,{tools:'Basic'});
+}
+</script>{#$editor[whyclosed]#}</td>
+			<td>pb_whyclosed</td>
+		</tr>
+		{#elseif $job == 'core'#}
+		<tr>
+			<td><span class="defaultbold">GZIP压缩输出</span><br />将页面内容以 gzip 压缩后传输，可以加快传输速度，需 PHP 4.0.4 以上且支持 Zlib 模块才能使用。</td>
+			<td><input class="radio" type="radio" value="1" name="config[pb_gzip]" id="gzip_1" {#$gzip_1#} />&nbsp;开启<input class="radio" type="radio" value="0" name="config[pb_gzip]" id="gzip_0" {#$gzip_0#} />&nbsp;关闭</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">URL重写</span><br />URL重写能够实现链接的伪静态化，以便搜索引擎获取其中的内容。<br />开启此功能之前请确认您的服务器已经支持PBDIGG伪静态正则，否则将出现页面无法打开的错误。</td>
+			<td><input class="radio" type="radio" value="0" name="config[pb_rewrite]" id="rewrite_0" {#$rewrite_0#} />&nbsp;标准 URL 模式<br /><input class="radio" type="radio" value="1" name="config[pb_rewrite]" id="rewrite_1" {#$rewrite_1#} />&nbsp;PBDigg! 伪静态模式<br />
+		</tr>
+		<tr>
+			<td><span class="defaultbold">动态缓存生存周期（单位：秒）</span><br />开启动态缓存能有效的降低服务器负载，默认值为：900秒。</td>
+			<td><input class="input" type="text" value="{#$pb_cachetime#}" name="config[pb_cachetime]" id="cachetime" size="15" /></td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">邮件密码取回</span><br />开启密码邮件取回功能，当会员忘记密码时，系统会发送密码到会员的注册邮箱。</td>
+			<td><input class="radio" type="radio" value="1" name="config[pb_getpw]" id="getpw_1" {#$getpw_1#} />&nbsp;开启<input class="radio" type="radio" value="0" name="config[pb_getpw]" id="getpw_0" {#$getpw_0#} />&nbsp;关闭</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">网站语言</span><br />可以在/languages目录放置不同的语言包实现网站的国际化。</td>
+			<td>{#$pb_lang#}</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">网站风格</span><br />网站前台界面的默认风格。</td>
+			<td>{#$pb_style#}</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">时区设置</span><br />PBDIGG所在的服务器是放在地球的哪个时区。</td>
+			<td>{#$pb_timezone#}</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">服务器时间校正（单位：秒）</span><br />此功能用于校正服务器操作系统时间设置错误的问题<br />确认网站时区设置正确后，但是网站显示时间仍有错误，请使用此功能校正。</td>
+			<td><input class="input" type="text" value="{#$pb_timecorrect#}" name="config[pb_timecorrect]" id="timecorrect" size="15" /></td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">时间格式</span><br />24小时格式或者12小时格式。</td>
+			<td><input class="radio" type="radio" value="1" name="config[pb_timeformat]" id="timeformat_1" {#$timeformat_1#} />&nbsp;24小时<input class="radio" type="radio" value="0" name="config[pb_timeformat]" id="timeformat_0" {#$timeformat_0#} />&nbsp;12小时</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">日期格式</span><br /><span class="g">Y</span>：4 位数字完整表示的年份&nbsp;<span class="g">y</span>：2 位数字表示的年份<br /><span class="g">m</span>：数字表示的月份，01 到 12&nbsp;<span class="g">n</span>：数字表示的月份，1 到 12<br /><span class="g">d</span>：月份中的第几天，有前导零的 2 位数字&nbsp;<span class="g">j</span>：月份中的第几天，没有前导零<br />示例： Y-m-d 用来表示 2007-10-01。</td>
+			<td><input class="input" type="text" value="{#$pb_dateformat#}" name="config[pb_dateformat]" id="dateformat" size="15" /></td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">页面刷新时间限制（单位：秒）</span><br />多少秒内刷新页面被视为恶意刷新，0 为不限制。</td>
+			<td><input class="input" type="text" value="{#$pb_refreshtime#}" name="config[pb_refreshtime]" id="refreshtime" size="15" /></td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">搜索时间限制（单位：秒）</span><br />两次搜索间隔小于此时间将被禁止，0 为不限制。</td>
+			<td><input class="input" type="text" value="{#$pb_maxsearchctrl#}" name="config[pb_maxsearchctrl]" id="maxsearchctrl" size="15" /></td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">最大搜索查询数量</span><br />默认为500条。过多的搜索内容将消耗服务器资源。</td>
+			<td><input class="input" type="text" value="{#$pb_maxresult#}" name="config[pb_maxresult]" id="maxresult" size="15" /></td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">在线用户统计时间（单位：分钟）</span><br />多少分钟内有动作视为在线。</td>
+			<td><input class="input" type="text" value="{#$pb_online#}" name="config[pb_online]" id="online" size="15" /></td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">页脚显示程序运行时间</span><br />选择"开启"将在页脚处显示程序运行时间和数据库查询次数。</td>
+			<td><input class="radio" type="radio" value="1" name="config[pb_exectime]" id="exectime_1" {#$exectime_1#} />&nbsp;开启<input class="radio" type="radio" value="0" name="config[pb_exectime]" id="exectime_0" {#$exectime_0#} />&nbsp;关闭</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">COOKIE 前缀</span><br />标识网站的一个随机序列，无特殊情况，请勿随意修改。修改后需要重新登陆后台！</td>
+			<td><input class="input" type="text" value="{#$pb_ckpre#}" name="config[pb_ckpre]" id="ckpre" size="15" />&nbsp;<input type="button" value="生成随机前缀" onclick="suggestKey('ckpre', 8)" /></td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">COOKIE 有效目录</span><br />使一个空间放置多个PBDigg网站，都能访问!(如果您网站在pbdigg目录下可以设置为/pbdigg/ 或为 /)。</td>
+			<td><input class="input" type="text" value="{#$pb_ckpath#}" name="config[pb_ckpath]" id="ckpath" size="35" /></td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">COOKIE 有效域名</span><br />要使 cookie 能在如 pbdigg.com 域名下的所有子域都有效的话，该参数应该设为 ".pbdigg.com"。虽然 "." 并不必须的，但加上它会兼容更多的浏览器。如果该参数设为 www.pbdigg.com 的话，就只在 www 子域内有效。</td>
+			<td><input class="input" type="text" value="{#$pb_ckdomain#}" name="config[pb_ckdomain]" id="ckdomain" size="35" /></td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">后台超时限制（秒）</span><br />在设定时间范围内无任何操作，后台将自动退出。最短不能小于60秒</td>
+			<td><input class="input" type="text" value="{#$pb_cpovertime#}" name="config[pb_cpovertime]" id="cpovertime" /></td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">搜索引擎爬行记录</span><br />选择“开启”将记录搜索蜘蛛爬行踪迹，站长可以依据日志文件了解搜索优化情况，本功能会轻微增加系统负担。</td>
+			<td><input class="radio" type="radio" value="1" name="config[pb_robots]" {#$robots_1#} />&nbsp;开启<input class="radio" type="radio" value="0" name="config[pb_robots]" id="robots_0" {#$robots_0#} />&nbsp;关闭</td>
+		</tr>
+		{#elseif $job == 'view'#}
+		<tr>
+			<td><span class="defaultbold">DIGG名称</span><br />默认为“顶”，可以根据网站的实际情况修改。例如：支持、鲜花、掌声、好评</td>
+			<td><input type="text" value="{#$pb_diggname#}" name="config[pb_diggname]" id="diggname" class="input" size="5" /></td>
+			<td>pb_diggname</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">BURY名称</span><br />默认为“埋”，可以根据网站的实际情况修改。例如：反对、鸡蛋、嘘声、差评</td>
+			<td><input type="text" value="{#$pb_buryname#}" name="config[pb_buryname]" id="buryname" class="input" size="5" /></td>
+			<td>pb_buryname</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">首页文章信息截取字符数</span><br />请按照模板具体情况设置。</td>
+			<td><input type="text" value="{#$pb_indextitle#}" name="config[pb_indextitle]" id="indextitle" class="input" size="5" />&nbsp;标题&nbsp;&nbsp;<input type="text" value="{#$pb_indexcontent#}" name="config[pb_indexcontent]" id="indexcontent" class="input" size="5" />&nbsp;摘要</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">每页显示主题数</span><br />默认是每页10个主题。</td>
+			<td><input class="input" type="text" value="{#$pb_aperpage#}" name="config[pb_aperpage]" id="aperpage" size="10" /></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">主题默认排序方式</span><br />默认按照最后Digg时间排列。PBRank 方式排列处于试验性质，如遇问题请向我们反馈。</td>
+			<td>{#$pb_torder#}</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">首页主题时间范围</span><br />首页主题的发表时间范围，默认为不限制，选择合适的时间规则能有效的阻止恶意顶帖行为。<br /><span class="g">如果采用 PBRank 方式排列，则不受此参数限制。</span></td>
+			<td>{#$pb_tday#}</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">首页显示时间格式</span><br />默认按照间隔时间显示。</td>
+			<td><input class="radio" type="radio" value="0" name="config[pb_dformat]" id="dformat_0" {#$dformat_0#} />&nbsp;间隔时间，如：8 天 8 小时 8 分 前<br /><input class="radio" type="radio" value="1" name="config[pb_dformat]" id="dformat_1" {#$dformat_1#} />&nbsp;日期时间，如：2008-08-08 08:08</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">文章标题链接地址</span><br />选择“本地”则标题链接为站内文章链接，“出处”则链接地址为文章的原地址。<br />默认为“本地”链接</td>
+			<td><input class="radio" type="radio" value="0" name="config[pb_titlelink]" id="titlelink_0" {#$titlelink_0#} />&nbsp;本地<input class="radio" type="radio" value="1" name="config[pb_titlelink]" id="titlelink_1" {#$titlelink_1#} />&nbsp;出处</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">文章标题效果类型</span><br />可以为文章标题增加：加粗、倾斜、下划线、颜色 4种特效。<br />文章标题样式操作需管理员权限，请在<a href="admincp.php?action=group&job=admin">管理组设置</a>里设定相应权限。</td>
+			<td>
+				<input name="config[pb_titleubb][]" value="1" type="checkbox"{#$checkstatus_b#}>粗体字&nbsp;
+				<input name="config[pb_titleubb][]" value="2" type="checkbox"{#$checkstatus_i#}>斜体字&nbsp;
+				<input name="config[pb_titleubb][]" value="4" type="checkbox"{#$checkstatus_u#}>下划线&nbsp;
+				<input name="config[pb_titleubb][]" value="8" type="checkbox"{#$checkstatus_c#}>颜色
+			</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">主题图片缩略</span><br />开启：上传的主题图片将会根据缩略尺寸自动调整图片大小。</td>
+			<td><input class="radio" type="radio" value="1" name="config[pb_topicthumb]" {#$topicthumb_1#} />&nbsp;开启<input class="radio" type="radio" value="0" name="config[pb_topicthumb]" {#$topicthumb_0#} />&nbsp;关闭</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">主题图片缩略尺寸</span><br />请根据您的模板风格设定具体数值。0 为不限制尺寸。</td>
+			<td><input class="input" type="text" value="{#$pb_topicthumbh#}" name="config[pb_topicthumbh]" size="5" />&nbsp;高&nbsp;&nbsp;<input class="input" type="text" value="{#$pb_topicthumbw#}" name="config[pb_topicthumbw]" size="5" />&nbsp;宽</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">主题图片样式尺寸</span><br />请根据您的模板风格设定具体数值。0 为不限制尺寸。</td>
+			<td><input type="text" value="{#$pb_topicstyleh#}" name="config[pb_topicstyleh]" class="input" size="5" />&nbsp;高&nbsp;&nbsp;<input type="text" value="{#$pb_topicstylew#}" name="config[pb_topicstylew]" class="input" size="5" />&nbsp;宽</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">附件图片缩略</span><br />开启此选项，将会对发布页上传的图片附件按照下一项设定的尺寸自动缩略。</td>
+			<td><input type="radio" value="1" name="config[pb_contentthumb]" id="contentthumb_1" {#$contentthumb_1#} />&nbsp;开启&nbsp;&nbsp;<input type="radio" value="0" name="config[pb_contentthumb]" id="contentthumb_0" {#$contentthumb_0#} />&nbsp;关闭</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">附件图片缩略尺寸</span><br />请根据您的模板风格设定具体数值。0 为不限制尺寸。</td>
+			<td><input class="input" type="text" value="{#$pb_contentthumbh#}" name="config[pb_contentthumbh]" size="5" />&nbsp;高&nbsp;&nbsp;<input class="input" type="text" value="{#$pb_contentthumbw#}" name="config[pb_contentthumbw]" size="5" />&nbsp;宽</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">内容页预览图片尺寸</span><br />请根据您的模板风格设定具体数值。0 为不限制尺寸。</td>
+			<td><input type="text" value="{#$pb_previewh#}" name="config[pb_previewh]" class="input" size="5" />&nbsp;高&nbsp;&nbsp;<input type="text" value="{#$pb_previeww#}" name="config[pb_previeww]" class="input" size="5" />&nbsp;宽</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">文章内容支持UBB代码类型</span><br /></td>
+			<td>{#$pb_tubbtype#}</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">文章内容水印功能</span><br />开启：可以防止主题被复制。</td>
+			<td><input class="radio" type="radio" value="1" name="config[pb_copyctrl]" {#$copyctrl_1#} />&nbsp;开启<input class="radio" type="radio" value="0" name="config[pb_copyctrl]" {#$copyctrl_0#} />&nbsp;关闭</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">文章内容关键字标注功能</span><br />开启：主题内容里的关键字将添加对应的标签连接。</td>
+			<td><input class="radio" type="radio" value="1" name="config[pb_taglink]" {#$taglink_1#} />&nbsp;开启<input class="radio" type="radio" value="0" name="config[pb_taglink]" {#$taglink_0#} />&nbsp;关闭</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">多媒体自动播放</span><br />开启：页面打开后会自动播放视频和音频文件，关闭：需要手动播放。</td>
+			<td><input class="radio" type="radio" value="1" name="config[pb_mautoplay]" id="mautoplay_1" {#$mautoplay_1#} />&nbsp;开启<input class="radio" type="radio" value="0" name="config[pb_mautoplay]" id="mautoplay_0" {#$mautoplay_0#} />&nbsp;关闭</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">Flash文件自动播放</span><br />开启：页面打开后会自动播放Flash文件，关闭：只给出Flash链接。建议关闭。</td>
+			<td><input class="radio" type="radio" value="1" name="config[pb_fautoplay]" id="fautoplay_1" {#$fautoplay_1#} />&nbsp;开启<input class="radio" type="radio" value="0" name="config[pb_fautoplay]" id="fautoplay_0" {#$fautoplay_0#} />&nbsp;关闭</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">媒体播放器尺寸</span><br />请根据您的模板风格设定具体数值。未设置系统将采用默认尺寸。</td>
+			<td><input type="text" value="{#$pb_mplayerh#}" name="config[pb_mplayerh]" id="previewh" class="input" size="5" />&nbsp;高&nbsp;&nbsp;<input type="text" value="{#$pb_mplayerw#}" name="config[pb_mplayerw]" id="mplayerw" class="input" size="5" />&nbsp;宽</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">内容页每页显示评论数</span><br />默认是每页15个主题。</td>
+			<td><input class="input" type="text" value="{#$pb_cperpage#}" name="config[pb_cperpage]" id="cperpage" size="10" /></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">评论默认排序方式</span><br />默认按照发布时间顺序排列。</td>
+			<td>{#$pb_corder_one#}&nbsp;{#$pb_corder_two#}</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">评论内容支持UBB代码类型</span><br /></td>
+			<td>{#$pb_cubbtype#}</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">显示会员个性签名</span><br />将在会员发表的主题或者评论后添加个性签名。</td>
+			<td><input type="checkbox" value="1" name="config[pb_showsign][]" id="showsign_1" {#$showsign_1#} />&nbsp;主题<input type="checkbox" value="2" name="config[pb_showsign][]" id="showsign_2" {#$showsign_2#} />&nbsp;评论</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">会员签名支持UBB代码类型</span><br /></td>
+			<td>{#$pb_signubbtype#}</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">会员签名图片最大尺寸</span><br />请根据您的模板风格设定具体数值，0为不限制。</td>
+			<td><input type="text" value="{#$pb_signimgh#}" name="config[pb_signimgh]" class="input" size="5" />&nbsp;高&nbsp;&nbsp;<input type="text" value="{#$pb_signimgw#}" name="config[pb_signimgw]" class="input" size="5" />&nbsp;宽</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">会员签名最大尺寸</span><br />请根据您的模板风格设定具体数值，0为不限制。</td>
+			<td><input type="text" value="{#$pb_signh#}" name="config[pb_signh]" class="input" size="5" />&nbsp;高&nbsp;&nbsp;<input type="text" value="{#$pb_signw#}" name="config[pb_signw]" class="input" size="5" />&nbsp;宽</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">标签页每页显示数量</span><br />在"标签云"页面每页显示标签的数量，请根据您的模板风格设定具体数值。</td>
+			<td><input class="input" type="text" value="{#$pb_tperpage#}" name="config[pb_tperpage]" id="tperpage" size="10" /></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">标签彩云</span><br />开启：将以不同的颜色和大小展示标签</td>
+			<td><input class="radio" type="radio" value="1" name="config[pb_tagcolor]" id="tagcolor_1" {#$tagcolor_1#} />&nbsp;开启<input class="radio" type="radio" value="0" name="config[pb_tagcolor]" id="tagcolor_0" {#$tagcolor_0#} />&nbsp;关闭</td>
+			<td>&nbsp;</td>
+		</tr>
+		{#elseif $job == 'atc'#}
+		<tr>
+			<td><span class="defaultbold">发表主题</span><br />关闭：普通会员将无法发表主题，超级管理员不受限制。</td>
+			<td><input class="radio" type="radio" value="1" name="config[pb_ifpost]" id="ifpost_1" {#$ifpost_1#} />&nbsp;开启<input class="radio" type="radio" value="0" name="config[pb_ifpost]" id="ifpost_0" {#$ifpost_0#} />&nbsp;关闭</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">发表评论</span><br />关闭：普通会员将无法发表评论，超级管理员不受限制。</td>
+			<td><input class="radio" type="radio" value="1" name="config[pb_ifcomment]" id="ifcomment_1" {#$ifcomment_1#} />&nbsp;开启<input class="radio" type="radio" value="0" name="config[pb_ifcomment]" id="ifcomment_0" {#$ifcomment_0#} />&nbsp;关闭</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">主题审核</span><br />开启该功能，会员发表的主题需要进行审核后才能在前台显示，超级管理员不受限制。</td>
+			<td><input class="radio" type="radio" value="1" name="config[pb_tcheck]" id="tcheck_1" {#$tcheck_1#} />&nbsp;开启<input class="radio" type="radio" value="0" name="config[pb_tcheck]" id="tcheck_0" {#$tcheck_0#} />&nbsp;关闭</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">评论审核</span><br />开启该功能，会员发表的评论需要进行审核后才能在前台显示，超级管理员不受限制。</td>
+			<td><input class="radio" type="radio" value="1" name="config[pb_ccheck]" id="ccheck_1" {#$ccheck_1#} />&nbsp;开启<input class="radio" type="radio" value="0" name="config[pb_ccheck]" id="ccheck_0" {#$ccheck_0#} />&nbsp;关闭</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">游客发帖审核</span><br />开启：匿名游客发表的主题和评论都需管理员审核才能在前台显示。</td>
+			<td><input class="radio" type="radio" value="1" name="config[pb_anonnews]" id="anonnews_1" {#$anonnews_1#} />&nbsp;开启<input class="radio" type="radio" value="0" name="config[pb_anonnews]" id="anonnews_0" {#$anonnews_0#} />&nbsp;关闭</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">自动屏蔽禁言用户主题</span><br />开启：禁言用户发布的主题和评论将对管理员外的用户自动屏蔽。</td>
+			<td><input class="radio" type="radio" value="1" name="config[pb_autoshield]" {#$autoshield_1#} />&nbsp;开启<input class="radio" type="radio" value="0" name="config[pb_autoshield]" {#$autoshield_0#} />&nbsp;关闭</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">会员编辑主题时间限制(分钟)</span><br />普通会员发布主题后超过此时间限制将不能再编辑帖，管理员不受此限制，0 为不限制。</td>
+			<td><input class="input" type="text"  name="config[pb_reeditlimit]" id="reeditlimit" value="{#$pb_reeditlimit#}" /></td>
+			<td>pb_reeditlimit</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">主题图片自动提取</span><br />无主题图片上传的情况下，如果开启自动提取，则第一张附件上传的图片将作为主题图片。</td>
+			<td><input class="radio" type="radio" value="1" name="config[pb_tftopicimg]" id="tftopicimg_1" {#$tftopicimg_1#} />&nbsp;开启<input class="radio" type="radio" value="0" name="config[pb_tftopicimg]" id="tftopicimg_0" {#$tftopicimg_0#} />&nbsp;关闭</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">保存远程图片</span><br />开启则发布主题中的所有图片都会下载到本地服务器。</td>
+			<td><input class="radio" type="radio" value="1" name="config[pb_urlsaveimg]" id="urlsaveimg_1" {#$urlsaveimg_1#} />&nbsp;开启<input class="radio" type="radio" value="0" name="config[pb_urlsaveimg]" id="urlsaveimg_0" {#$urlsaveimg_0#} />&nbsp;关闭</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">连续发表主题时间限制（单位：秒）</span><br />两次发表主题或评论间隔时间小于设定数值将被禁止，0 为不限制。</td>
+			<td><input class="input" type="text" value="{#$pb_reposttime#}" name="config[pb_reposttime]" id="reposttime" size="10" /></td>
+			<td>pb_reposttime</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">主题和评论"顶"功能</span><br />关闭：针对文章和评论的“顶”功能无法使用。</td>
+			<td><input class="radio" type="radio" value="1" name="config[pb_ifdigg]" id="ifdigg_1" {#$ifdigg_1#} />&nbsp;开启<input class="radio" type="radio" value="0" name="config[pb_ifdigg]" id="ifdigg_0" {#$ifdigg_0#} />&nbsp;关闭</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">主题和评论"踩"功能</span><br />关闭：针对文章和评论的“踩”功能无法使用。</td>
+			<td><input class="radio" type="radio" value="1" name="config[pb_ifbury]" id="ifbury_1" {#$ifbury_1#} />&nbsp;开启<input class="radio" type="radio" value="0" name="config[pb_ifbury]" id="ifbury_0" {#$ifbury_0#} />&nbsp;关闭</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">主题标题长度（单位：字节）</span><br />文章标题字数限制，每个汉字为2个字节。</td>
+			<td><input type="text" value="{#$pb_titlelenmin#}" name="config[pb_titlelenmin]" id="titlelenmin" class="input" size="5" />&nbsp;最小值&nbsp;&nbsp;<input type="text" value="{#$pb_titlelenmax#}" name="config[pb_titlelenmax]" id="titlelenmax" class="input" size="5" />&nbsp;最大值</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">主题内容长度（单位：字节）</span><br />文章字数限制，每个汉字为2个字节。</td>
+			<td><input type="text" value="{#$pb_contentlenmin#}" name="config[pb_contentlenmin]" id="contentlenmin" class="input" size="5" />&nbsp;最小值&nbsp;&nbsp;<input type="text" value="{#$pb_contentlenmax#}" name="config[pb_contentlenmax]" id="contentlenmax" class="input" size="5" />&nbsp;最大值</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">评论内容长度（单位：字节）</span><br />评论字数限制，每个汉字为2个字节。</td>
+			<td><input type="text" value="{#$pb_commentlenmin#}" name="config[pb_commentlenmin]" id="commentlenmin" class="input" size="5" />&nbsp;最小值&nbsp;&nbsp;<input type="text" value="{#$pb_commentlenmax#}" name="config[pb_commentlenmax]" id="commentlenmax" class="input" size="5" />&nbsp;最大值</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">内容过滤关键字</span><br />如果内容中包含此处的关键字，主题将不能被发表，关键字之间请用半角逗号“,”分割。为不影响程序效率，请不要设置过多不需要的过滤内容。</td>
+			<td><textarea name="config[words_banned]" id="banwords" rows="7" cols="45">{#$words_banned#}</textarea></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">内容替换关键字</span><br />如果内容中包含此处的关键字，对应的文字将被替换成'*'，关键字之间请用半角逗号“,”分割。为不影响程序效率，请不要设置过多不需要的过滤内容。</td>
+			<td><textarea name="config[words_replace]" id="replacewords" rows="7" cols="45">{#$words_replace#}</textarea></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">链接过滤</span><br />系统将阻止来自指定域名出处的文章，多个域名之间请用半角逗号“,”分隔，请勿包含 http://，留空则不限制文章来路。</td>
+			<td><textarea name="config[words_links]" id="banlinks" rows="7" cols="45">{#$words_links#}</textarea></td>
+			<td>&nbsp;</td>
+		</tr>
+		{#elseif $job == 'member'#}
+		<tr>
+			<td><span class="defaultbold">会员自定义广告</span><br />允许会员在主题后添加自定义广告，此处为全局控制，具体请在<a href="admincp.php?action=group&job=user">用户组</a>设置分组权限。</td>
+			<td><input class="radio" type="radio" value="1" name="config[pb_selfad]" id="selfad_1" {#$selfad_1#} />&nbsp;开启<input class="radio" type="radio" value="0" name="config[pb_selfad]" id="selfad_0" {#$selfad_0#} />&nbsp;关闭</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">会员自定义头像</span><br />开启：允许会员通过网络引用或者上传图片来个性头像。<br />此处为全局控制，具体请在<a href="admincp.php?action=group&job=user">用户组</a>设置分组权限。</td>
+			<td><input class="radio" type="radio" value="1" name="config[pb_selfavat]" id="selfavat_1" {#$selfavat_1#} />&nbsp;开启<input class="radio" type="radio" value="0" name="config[pb_selfavat]" id="selfavat_0" {#$selfavat_0#} />&nbsp;关闭</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">会员上传头像</span><br />开启：允许会员上传本地图片到服务器作为个性头像。</td>
+			<td><input class="radio" type="radio" value="1" name="config[pb_avatupload]" id="avatupload_1" {#$selfavat_1#} />&nbsp;开启<input class="radio" type="radio" value="0" name="config[pb_avatupload]" id="avatupload_0" {#$avatupload_0#} />&nbsp;关闭</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">头像尺寸（单位：KB）</span><br />用户上传头像尺寸不能超过此数值，0 为不限制。</td>
+			<td><input class="input" type="text" value="{#$pb_avatsize#}" name="config[pb_avatsize]" id="avatsize" size="10" /></td>
+			<td>pb_avatsize</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">头像高度和宽度</span><br />用户自定义头像所允许的高度和宽度。</td>
+			<td><input class="input" type="text" value="{#$pb_avathight#}" name="config[pb_avathight]" id="avathight" size="5" />&nbsp;高&nbsp;&nbsp;<input class="input" type="text" value="{#$pb_avatwidth#}" name="config[pb_avatwidth]" id="avatwidth" size="5" />&nbsp;宽</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">会员控制面板显示短消息数</span><br />默认为 10 条，请根据您的模板风格设定具体数值。</td>
+			<td><input class="input" type="text" value="{#$pb_msg#}" name="config[pb_msg]" id="msg" size="10" /></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">会员控制面板显示收藏主题数</span><br />默认为 10 条，请根据您的模板风格设定具体数值。</td>
+			<td><input class="input" type="text" value="{#$pb_fav#}" name="config[pb_fav]" id="fav" size="10" /></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">新会员注册</span><br />选择“关闭”将停止网站会员的注册。</td>
+			<td><input class="radio" type="radio" value="1" name="config[reg_status]" id="status_1" {#$status_1#} />&nbsp;开启<input class="radio" type="radio" value="0" name="config[reg_status]" id="status_0" {#$status_0#} />&nbsp;关闭</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">关闭注册原因</span><br />支持HTML代码。</td>
+			<td><textarea name="config[reg_closereason]" id="closereason" rows="7" cols="45">{#$reg_closereason#}</textarea></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">用户注册Email激活</span><br />开启：系统会往新会员的注册Email发送一封验证邮件以确认邮箱的有效性，用户收到邮件并激活帐号后才能拥有正常的权限。</td>
+			<td><input class="radio" type="radio" value="1" name="config[reg_emailactive]" id="emailactive_1" {#$emailactive_1#} />&nbsp;开启<input class="radio" type="radio" value="0" name="config[reg_emailactive]" id="emailactive_0" {#$emailactive_0#} />&nbsp;关闭</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">向注册用户发送Email</span><br />开启：新用户注册后系统自动发送一封Email。</td>
+			<td><input class="radio" type="radio" value="1" name="config[reg_sendemail]" id="sendemail_1" {#$sendemail_1#} />&nbsp;开启<input class="radio" type="radio" value="0" name="config[reg_sendemail]" id="sendemail_0" {#$sendemail_0#} />&nbsp;关闭</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">Email内容</span><br />标签说明<br />用户名：{!--username--} 用户密码：{!--password--}<br />网站名：{!--sitename--} 网站链接：{!--siteurl--}<br />管理员邮箱：{!--adminmail--}</td>
+			<td><textarea name="config[reg_emailcontent]" id="emailcontent" rows="10" cols="60">{#$reg_emailcontent#}</textarea></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">注册许可协议</span><br />注册许可协议的详细内容，只有同意本协议规定内容之后才能完成注册。支持HTML代码。</td>
+			<td>
+<script type="text/javascript">
+$(pageInit);
+function pageInit()
+{
+	$('#reg_agreement').xheditor(true,{tools:'Basic'});
+}
+</script>
+			{#$editor[reg_agreement]#}</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">同一IP注册时间限制（单位: 小时）</span><br />0为不限制。</td>
+			<td><input class="input" type="text" value="{#$reg_allowsameip#}" name="config[reg_allowsameip]" id="allowsameip" size="10" /></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">用户注册保留字</span><br />注册的用户名中无法使用这些关键字。每个关键字用半角逗号“,”隔开，如 admin,pbdigg。</td>
+			<td><textarea name="config[reg_bannames]" id="bannames" rows="7" cols="45">{#$reg_bannames#}</textarea></td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">用户名长度</span><br />用户注册名字符长度，推荐：最短 3 个字符，最长 15 个字符。</td>
+			<td><input class="input" type="text" value="{#$reg_minname#}" name="config[reg_minname]" id="minname" size="5" />&nbsp;最小值&nbsp;&nbsp;<input class="input" type="text" value="{#$reg_maxname#}" name="config[reg_maxname]" id="maxname" size="5" />&nbsp;最大值</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">注册初始积分</span><br />建议设置为0。</td>
+			<td><input class="input" type="text" value="{#$reg_credit#}" name="config[reg_credit]" id="credit" size="10" /></td>
+			<td>&nbsp;</td>
+		</tr>
+		{#elseif $job == 'credit'#}
+		<tr>
+			<td><span class="defaultbold">积分自定义名称</span><br />默认为"积分"，可以设定成金钱、Digg币等等，供前台显示。</td>
+			<td><input class="input" type="text" value="{#$pb_customcredit#}" name="config[pb_customcredit]" id="customcredit" size="10" /></td>
+			<td>pb_customcredit</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">发表主题增加的积分</span><br /></td>
+			<td><input class="input" type="text" value="{#$pb_creditdb[0]#}" name="config[pb_creditdb][0]" id="caddatc" size="10" /></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">发表评论增加的积分</span><br /></td>
+			<td><input class="input" type="text" value="{#$pb_creditdb[1]#}" name="config[pb_creditdb][1]" id="caddcom" size="10" /></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">删除主题减少的积分</span><br /></td>
+			<td><input class="input" type="text" value="{#$pb_creditdb[2]#}" name="config[pb_creditdb][2]" id="cdelatc" size="10" /></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">删除评论减少的积分</span><br /></td>
+			<td><input class="input" type="text" value="{#$pb_creditdb[3]#}" name="config[pb_creditdb][3]" id="cdelcom" size="10" /></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">精华主题增加的积分</span><br /></td>
+			<td><input class="input" type="text" value="{#$pb_creditdb[8]#}" name="config[pb_creditdb][8]" id="digest" size="10" /></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">取消精华减少的积分</span><br /></td>
+			<td><input class="input" type="text" value="{#$pb_creditdb[9]#}" name="config[pb_creditdb][9]" id="undigest" size="10" /></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">{#$pb_diggname#}主题增加的积分</span><br /></td>
+			<td><input class="input" type="text" value="{#$pb_creditdb[4]#}" name="config[pb_creditdb][4]" id="cdiggatc" size="10" /></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">{#$pb_diggname#}评论增加的积分</span><br /></td>
+			<td><input class="input" type="text" value="{#$pb_creditdb[5]#}" name="config[pb_creditdb][5]" id="cdiggcom" size="10" /></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">{#$pb_buryname#}主题增加的积分</span><br /></td>
+			<td><input class="input" type="text" value="{#$pb_creditdb[6]#}" name="config[pb_creditdb][6]" id="cburyatc" size="10" /></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">{#$pb_buryname#}评论增加的积分</span><br /></td>
+			<td><input class="input" type="text" value="{#$pb_creditdb[7]#}" name="config[pb_creditdb][7]" id="cburycom" size="10" /></td>
+			<td>&nbsp;</td>
+		</tr>
+		{#elseif $job =='attachment'#}
+		<tr>
+			<td><span class="defaultbold">附件上传功能</span><br />此处为全局设置，关闭则所有会员都无法上传附件。</td>
+			<td><input class="radio" type="radio" value="1" name="config[pb_allowupload]" id="allowupload_1" {#$allowupload_1#} />&nbsp;开启<input class="radio" type="radio" value="0" name="config[pb_allowupload]" id="allowupload_0" {#$allowupload_0#} />&nbsp;关闭</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">主题图片上传</span><br />关闭：将无法上传主题展示图。</td>
+			<td><input class="radio" type="radio" value="1" name="config[pb_uploadtopicimg]" id="uploadtopicimg_1" {#$uploadtopicimg_1#} />&nbsp;开启<input class="radio" type="radio" value="0" name="config[pb_uploadtopicimg]" id="uploadtopicimg_0" {#$uploadtopicimg_0#} />&nbsp;关闭</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">附件防盗链</span><br />开启：将禁止直接从地址栏输入附件地址访问，也不允许其他站点直接链接本站的附件地址。</td>
+			<td><input class="radio" type="radio" value="1" name="config[pb_attoutlink]" id="attoutlink_1" {#$attoutlink_1#} />&nbsp;开启<input class="radio" type="radio" value="0" name="config[pb_attoutlink]" id="attoutlink_0" {#$attoutlink_0#} />&nbsp;关闭</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">附件显示方式</span><br />直接地址：将直接显示附件的真实地址。<br />程序输出：通过程序输出附件，同时开启防盗链功能可以实现附件保护功能。</td>
+			<td><input class="radio" type="radio" value="1" name="config[pb_attoutput]" {#$attoutput_1#} />&nbsp;直接地址<input class="radio" type="radio" value="0" name="config[pb_attoutput]" {#$attoutput_0#} />&nbsp;程序输出</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">附件大于多少时使用直接地址输出（单位：KB）</span><br />当附件比较大时，直接输出可减少PHP进程消耗，减轻服务器负担。0为关闭此功能。</td>
+			<td><input class="input" type="text" value="{#$pb_outputmaxsize#}" name="config[pb_outputmaxsize]"  size="10" /></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">附件存放目录</span><br />本设置只针对新上传的附件，已有的附件不受影响。</td>
+			<td>
+				{#$pb_attachdir#}
+			</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">单个附件尺寸（单位：KB）</span><br />最大值不能超过系统配置文件规定的大小，最大值一般为 2048 KB。</td>
+			<td><input class="input" type="text" value="{#$pb_uploadmaxsize#}" name="config[pb_uploadmaxsize]" id="uploadmaxsize" size="10" /></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">一次上传附件数量</span><br />此项设定可以允许会员批量上传图片。</td>
+			<td><input class="input" type="text" value="{#$pb_attachnum#}" name="config[pb_attachnum]" id="attachnum" size="10" /></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">允许上传附件类型</span><br />多个附件后缀名之间请用半角逗号“,”分隔。</td>
+			<td><input class="input" type="text" value="{#$pb_uploadfiletype#}" name="config[pb_uploadfiletype]" id="uploadfiletype" size="45" /></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">图片水印</span><br />上传的图片附件中添加图片或文字水印。</td>
+			<td>
+				{#$pb_watertype#}&nbsp;{#$gdstatus#}
+			</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">水印文字</span><br /></td>
+			<td><input class="input" type="text" value="{#$pb_watertext#}" name="config[pb_watertext]" id="watertext" size="35" /></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">水印字体</span><br />请上传相应的字体文件到/images/font目录，留空则为系统默认字体。</td>
+			<td><input class="input" type="text" value="{#$pb_waterfont#}" name="config[pb_waterfont]" id="waterfont" size="35" /></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">水印字体大小</span><br /></td>
+			<td><input class="input" type="text" value="{#$pb_waterfontsize#}" name="config[pb_waterfontsize]" id="waterfontsize" size="35" /></td>
+			<td>&nbsp;</td>
+		</tr>
+			<link rel="stylesheet" href="{#$_PBENV[PB_URL]#}js/colorpicker/colorpicker.css" type="text/css">
+			<script language="javascript" type="text/javascript" src="{#$_PBENV[PB_URL]#}js/colorpicker/colorpicker.js"/></script>
+		<tr>
+			<td><span class="defaultbold">水印文字颜色</span><br />格式："#"+6位颜色代码，如黑色：#000000</td>
+			<td><input class="input" type="text" value="{#$pb_waterfontcolor#}" name="config[pb_waterfontcolor]" id="color_value" size="10" />&nbsp;<div style="" title="点击取颜色" class="color_picker" id="color_picker">&nbsp;</div></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">水印图片</span><br />默认图片为/images/water/mark.png，您可在此目录放置不同水印图片以实现不同的效果，如需透明水印，请使用 GIF 格式的图片文件。</td>
+			<td><input class="input" type="text" value="{#$pb_waterimg#}" name="config[pb_waterimg]" id="waterimg" size="35" /></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">水印透明度</span><br />范围为 1~100 的整数，数值越小水印图片越透明。</td>
+			<td><input class="input" type="text" value="{#$pb_watertransition#}" name="config[pb_watertransition]" id="watertransition" size="10" /></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">Jpeg水印质量</span><br />范围为 0~100 的整数，数值越大结果图片效果越好，但尺寸也越大。</td>
+			<td><input class="input" type="text" value="{#$pb_waterquality#}" name="config[pb_waterquality]" id="waterquality" size="10" /></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">水印处理条件</span><br />图片高度或者宽度小于此值将不做水印处理，0 为不限制。</td>
+			<td><input class="input" type="text" value="{#$pb_waterminh#}" name="config[pb_waterminh]" id="waterminh" size="5" />&nbsp;高&nbsp;&nbsp;<input class="input" type="text" value="{#$pb_waterminw#}" name="config[pb_waterminw]" id="waterminw" size="5" />&nbsp;宽</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">水印位置</span><br />水印添加的位置（3x3 共 9 个位置可选）。</td>
+			<td>
+				<div class="water">
+					<li><input type="radio" name="config[pb_waterposition]" value="0" id="waterposition_0" {#$waterposition_0#} />&nbsp;#0</li>
+					<li><input type="radio" name="config[pb_waterposition]" value="1" id="waterposition_1" {#$waterposition_1#} />&nbsp;#1</li>
+					<li><input type="radio" name="config[pb_waterposition]" value="2" id="waterposition_2" {#$waterposition_2#} />&nbsp;#2</li>
+					<li><input type="radio" name="config[pb_waterposition]" value="3" id="waterposition_3" {#$waterposition_3#} />&nbsp;#3</li>
+					<li><input type="radio" name="config[pb_waterposition]" value="4" id="waterposition_4" {#$waterposition_4#} />&nbsp;#4</li>
+					<li><input type="radio" name="config[pb_waterposition]" value="5" id="waterposition_5" {#$waterposition_5#} />&nbsp;#5</li>
+					<li><input type="radio" name="config[pb_waterposition]" value="6" id="waterposition_6" {#$waterposition_6#} />&nbsp;#6</li>
+					<li><input type="radio" name="config[pb_waterposition]" value="7" id="waterposition_7" {#$waterposition_7#} />&nbsp;#7</li>
+					<li><input type="radio" name="config[pb_waterposition]" value="8" id="waterposition_8" {#$waterposition_8#} />&nbsp;#8</li>
+				</div>
+			</td>
+			<td>&nbsp;</td>
+		</tr>
+		{#elseif $job == 'safe'#}
+		<tr>
+			<td><span class="defaultbold">网站安全密钥</span><br />10位长度的一个随机序列，无特殊情况请不要修改。</td>
+			<td><input class="input" type="text" value="{#$pb_sitehash#}" name="config[pb_sitehash]" id="sitehash" size="15" /></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">验证码设置</span><br />开启验证码可以防止一些机器人注册会员，恶意灌水，非法登录网站。此功能需GD库支持。</td>
+			<td>
+				{#$pb_gdcheck#}
+			</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">验证码类型</span><br /></td>
+			<td>
+				{#$pb_gdcodetype#}
+			</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">验证码尺寸（高 * 宽）</span><br />尺寸请不要超过 60 * 150。</td>
+			<td>高：<input name="config[pb_gdheight]" value="{#$pb_gdheight#}" size="5" class="input" /> 宽：<input name="config[pb_gdwidth]" value="{#$pb_gdwidth#}" size="5" class="input" /> 数量：<input name="config[pb_gdcodenum]" value="{#$pb_gdcodenum#}" size="5" class="input" />
+			</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">验证问题与答案</span><br />1、您可以使用简单的文字问题(例如：1+1=?，请输入中文答案)<br />2、也可以使用html代码(例如将问题和答案做成小图片 &lt;img src="地址" /&gt;)<br />
+			<td>问题：<input class="input" type="text" value="{#$pb_checkquestion#}" name="config[pb_answercheck][0]" size="15" />&nbsp;&nbsp;答案：<input class="input" type="text" value="{#$pb_checkanswer#}" name="config[pb_answercheck][1]" size="10" /></td>
+			<td>问题：pb_checkquestion<br />答案：pb_checkanswer</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">注册验证问题</span><br />开启：会员注册需要回答验证问题。</td>
+			<td><input class="radio" type="radio" value="1" name="config[pb_regqa]" id="regqa_1" {#$regqa_1#} />&nbsp;开启<input class="radio" type="radio" value="0" name="config[pb_regqa]" id="regqa_0" {#$regqa_0#} />&nbsp;关闭</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">IP访问允许列表</span><br />只有当用户处于本列表中的 IP 地址时才可以访问网站，列表以外的地址访问将视为 IP 被禁止，每行一条 IP 纪录。既可输入完整地址，也可只输入 IP 开头，例如 "192.168."(不含引号) 可匹配 192.168.0.0~192.168.255.255 范围内的所有地址，留空为所有 IP 除明确禁止的以外均可访问。</td>
+			<td><textarea name="config[pb_ipallow]" id="ipallow" rows="7" cols="45">{#$pb_ipallow#}</textarea></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">IP禁止访问列表</span><br />当用户的IP 地址处于本列表中时将禁止其访问网站。</td>
+			<td><textarea name="config[pb_ipdeny]" id="ipdeny" rows="7" cols="45">{#$pb_ipdeny#}</textarea></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">后台登录IP限制列表</span><br />此功能可绑定登录后台的 IP，只有在列表内的 IP 才能登录网站后台，可以绑定单个IP地址格式如：192.0.0.1，也可以绑定一段IP格式如："192.0.0."。每行一条 IP 纪录。</td>
+			<td><textarea name="config[pb_adminipallow]" id="adminipallow" rows="7" cols="45">{#$pb_adminipallow#}</textarea></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">后台登陆安全码</span><br />开启：登录后台需填写安全密码，有助于进一步提升安全性。<br />安全码存放文件：/data/safe.inc.php，如果您未配置安全码请不要开启，否则将无法登陆后台。</td>
+			<td><input class="radio" type="radio" value="1" name="config[pb_adminsafecode]" id="adminsafecode_1" {#$adminsafecode_1#} />&nbsp;开启<input class="radio" type="radio" value="0" name="config[pb_adminsafecode]" id="adminsafecode_0" {#$adminsafecode_0#} />&nbsp;关闭</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">DDOS攻击防护</span><br />当系统负载均衡系数超过设定值时自动启用防DDOS攻击保护，0为不限制。</td>
+			<td><input class="input" type="text" value="{#$pb_loadavg#}" name="config[pb_loadavg]" id="loadavg" size="10" /></td>
+			<td>&nbsp;</td>
+		</tr>
+		{#elseif $job == 'seo'#}
+		<tr>
+			<td><span class="defaultbold">URL重写扩展名</span><br />只针对rewrite开启的情况，默认为 html。<br />如果设置其他后缀名请重新设定url重写配置文件。</td>
+			<td>{#$pb_rewriteext#}</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">伪静态是否添加扩展名</span><br />如果选择添加扩展，将在每个链接后加扩展名，否则所有链接将以目录形式展现。<br />目录形式：show/1，连接形式：show/1.html</td>
+			<td><input class="radio" type="radio" value="1" name="config[pb_extenable]" id="extenable_1" {#$extenable_1#} />&nbsp;是<input class="radio" type="radio" value="0" name="config[pb_extenable]" id="extenable_0" {#$extenable_0#} />&nbsp;否</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">分类伪静态目录</span><br />分类全局伪静态目录，此参数需要伪静态规则配合。默认为：category。</td>
+			<td><input class="input" type="text" value="{#$pb_chtmldir#}" name="config[pb_chtmldir]" size="10" /></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">主题伪静态目录</span><br />主题全局伪静态目录，此参数需要伪静态规则配合。默认为：show。</td>
+			<td><input class="input" type="text" value="{#$pb_shtmldir#}" name="config[pb_shtmldir]" size="10" /></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">网站标题（Title）</span><br />显示网站标题，如果有多个关键字，建议用 "|"、","(不含引号) 等符号分隔。</td>
+			<td><textarea name="config[pb_seotitle]" id="seotitle" rows="7" cols="45">{#$pb_seotitle#}</textarea></td>
+			<td>pb_seotitle</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">网站关键字（Keywords）</span><br />显示网站内容的关键字，多个关键字间请用半角逗号 "," 隔开。</td>
+			<td><textarea name="config[pb_seokeywords]" id="seokeywords" rows="7" cols="45">{#$pb_seokeywords#}</textarea></td>
+			<td>pb_seokeywords</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">网站描述（Description）</span><br />显示网站的概要与描述。</td>
+			<td><textarea name="config[pb_seodescription]" id="seodescription" rows="7" cols="45">{#$pb_seodescription#}</textarea></td>
+			<td>pb_seodescription</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">其他头部信息</span><br />在 &lt;head&gt;&lt;/head&gt; 中添加其他的 html 代码。</td>
+			<td><textarea name="config[pb_seomore]" id="seomore" rows="7" cols="45">{#$pb_seomore#}</textarea></td>
+			<td>pb_seomore</td>
+		</tr>
+		{#elseif $job == 'email'#}
+		<tr>
+			<td><span class="defaultbold">邮件发送方式</span><br />Mail函数方式需服务器端支持。<br />如果您使用SMTP方式发送邮件，我们推荐使用QQ邮箱。</td>
+			<td><input class="radio" type="radio" value="1" name="config[pb_mailtype]" id="mailtype_1" {#$mailtype_1#} />&nbsp;SMTP方式&nbsp;&nbsp;<input class="radio" type="radio" value="0" name="config[pb_mailtype]" id="mailtype_0" {#$mailtype_0#} />&nbsp;Mail函数方式</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">邮箱SMTP服务器地址</span><br />SMTP服务器，只有正确设置才能使用发邮件功能。</td>
+			<td><input class="input" type="text" value="{#$pb_smtphost#}" name="config[pb_smtphost]" id="smtphost" size="35" /></td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">SMTP服务器验证</span><br /></td>
+			<td><input class="radio" type="radio" value="1" name="config[pb_smtpauth]" id="smtpauth_1" {#$smtpauth_1#} />&nbsp;开启&nbsp;&nbsp;<input class="radio" type="radio" value="0" name="config[pb_smtpauth]" id="smtpauth_0" {#$smtpauth_0#} />&nbsp;关闭</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">邮箱帐号</span><br />请填写完整的帐户信息。例如：pbdigg@126.com</td>
+			<td><input class="input" type="text" value="{#$pb_smtpuser#}" name="config[pb_smtpuser]" id="smtpuser" size="35" /></td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">邮箱密码</span><br /></td>
+			<td><input class="input" type="password" value="{#$pb_smtppw#}" name="config[pb_smtppw]" id="smtppw" size="39" /></td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">SMTP端口</span><br />默认为25。如果您使用Gmail邮箱，请设定端口值：465</td>
+			<td><input class="input" type="text" value="{#$pb_smtpport#}" name="config[pb_smtpport]" id="smtpport" size="10" /></td>
+		</tr>
+		{#elseif $job == 'transfer'#}
+		<tr>
+			<td><span class="defaultbold">JS调用</span><br />JS调用可以将您的最新文章、热门文章、最新评论等资料嵌入到您的普通网页中。</td>
+			<td><input class="radio" type="radio" value="1" name="config[pb_jstransfer]" id="jstransfer_1" {#$jstransfer_1#} />&nbsp;开启<input class="radio" type="radio" value="0" name="config[pb_jstransfer]" id="jstransfer_0" {#$jstransfer_0#} />&nbsp;关闭</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">JS调用缓存时间</span><br />JS调用采用动态缓存技术来实现数据的定期更新以达到减轻服务器的负担，默认值为3600秒，设置为0则不缓存（耗费系统资源）。</td>
+			<td><input class="input" type="text" value="{#$pb_jstime#}" name="config[pb_jstime]" id="jstime" size="10" /></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">JS调用来路限制</span><br />只允许列表中的域名使用JS调用功能，多个域名之间请用“|”分隔，请勿包含 http://，留空则不限制来路。</td>
+			<td><textarea name="config[pb_jsurl]" id="jsurl" rows="7" cols="45">{#$pb_jsurl#}</textarea></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr class="tth" style="text-align:center">
+			<td colspan="3">调用说明</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">分类调用</span><br />参数说明：<br />$cids : 分类ID，设置需要调用的分类ID，格式：1_2_3</td>
+			<td colspan="2"><input class="input" type="text" value="&lt;script src=&quot;{#$_PBENV[PB_URL]#}js.php?action=cate&cids=2&quot;&gt;&lt;/script&gt;" size="60" /></td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">公告调用</span><br />参数说明：<br />$num : 调用公告个数<br />$length : 公告标题长度</td>
+			<td colspan="2"><input class="input" type="text" value="&lt;script src=&quot;{#$_PBENV[PB_URL]#}js.php?action=notice&length=30&num=2&quot;&gt;&lt;/script&gt;" size="60" /></td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">网站信息调用</span><br /></td>
+			<td colspan="2"><input class="input" type="text" value="&lt;script src=&quot;{#$_PBENV[PB_URL]#}js.php?action=info&quot;&gt;&lt;/script&gt;" size="60" /></td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">会员调用</span><br />参数说明：<br />$num : 调用会员个数<br />$orderby : 排序方式，可选参数 : regdate:注册日期  postnum:主题数  commentnum:评论数  diggnum:DIGG数  burynum:BURY数  currency:积分</td>
+			<td colspan="2"><input class="input" type="text" value="&lt;script src=&quot;{#$_PBENV[PB_URL]#}js.php?action=member&num=2&orderby=regdate&quot;&gt;&lt;/script&gt;" size="60" /></td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">主题调用</span><br />
+可选参数和参数说明：<br />
+$num : 调用主题个数<br />
+$length : 文章标题长度<br />
+$orderby : 排序方式<br />可选参数 : postdate:主题发表日期 comments:评论数 views:查看数 digg:digg数 bury:bury数<br />
+$cids : 调用文章的分类ID，格式：1_2_3<br />
+$nocids : 不调用的分类ID，格式：1_2_3<br />
+$commend : 调用推荐主题，可选参数：0，1<br />
+$postdate : 是否显示文章发表日期，可选参数：0，1<br />
+$author : 是否显示文章作者，可选参数：0，1<br />
+$comments : 是否显示回复数，可选参数：0，1<br />
+$views : 是否显示查看数，可选参数：0，1<br />
+$digg : 是否显示digg数，可选参数：0，1<br />
+$bury : 是否显示bury数，可选参数：0，1<br />
+$cname : 是否显示版块名称，可选参数：0，1<br />
+</td>
+			<td colspan="2"><input class="input" type="text" value="&lt;script src=&quot;{#$_PBENV[PB_URL]#}js.php?action=article&length=30&num=10&orderby=postdate&quot;&gt;&lt;/script&gt;" size="60" /></td>
+		</tr>
+		{#elseif $job == 'passport'#}
+		<tr>
+			<td><span class="defaultbold">开启通行证</span><br />PBDigg 通行证系统是为解决多个系统之间会员数据共享问题而开发的，是一套跨服务器，跨域名，跨语言的会员共享系统，实现了不同系统之间共享会员数据和同步会员基本信息，支持不同域名下同步登录，同步退出功能。</td>
+			<td><input class="radio" type="radio" value="1" name="config[pb_passport]" id="passport_1" {#$passport_1#} onclick="checkSwitch(this, 'ucenable')" />&nbsp;开启<input class="radio" type="radio" value="0" name="config[pb_passport]" id="passport_0" {#$passport_0#} />&nbsp;关闭</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">通行证私钥</span><br />私钥是PBDigg与其他系统通信的加密字符串。</td>
+			<td><input class="input" type="text" value="{#$pb_passportkey#}" name="config[pb_passportkey]" id="passportkey" size="25" />&nbsp;<input type="button" value="生成随机私钥" onclick="suggestKey('passportkey')" /></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">PBDIGG做为整合的服务器端或者客户端</span><br /></td>
+			<td><input class="radio" type="radio" value="server" name="config[pb_passporttype]" id="passport_server" {#$passport_server#} />&nbsp;服务器端<input class="radio" type="radio" value="client" name="config[pb_passporttype]" id="passport_client" {#$passport_client#} />&nbsp;客户端</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">整合端地址</span><br />请以反斜杠“/”结尾</td>
+			<td><input class="input" type="text" value="{#$pb_pclienturl#}" name="config[pb_pclienturl]" id="pclienturl" size="35" /></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">服务器端会员注册地址</span><br />相对“服务器端地址”的相对路径，例如：register.php</td>
+			<td><input class="input" type="text" value="{#$pb_pclientregister#}" name="config[pb_pclientregister]" id="pclientregister" size="35" /></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">服务器端会员登录地址</span><br />例如：login.php</td>
+			<td><input class="input" type="text" value="{#$pb_pclientlogin#}" name="config[pb_pclientlogin]" id="pclientlogin" size="35" /></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">服务器端会员退出地址</span><br />例如：login.php?action=quit</td>
+			<td><input class="input" type="text" value="{#$pb_pclientlogout#}" name="config[pb_pclientlogout]" id="pclientlogout" size="35" /></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">客服端通行证地址</span><br />例如：论坛程序PHPWIND为 passport_client.php</td>
+			<td><input class="input" type="text" value="{#$pb_pserverapi#}" name="config[pb_pserverapi]" id="pb_pserverapi" size="35" /></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr class="tth" style="text-align:center">
+			<td colspan="3">UC整合设置</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">UC整合</span><br />通过UC整合您可以将其他应用程序与PBDIGG进行桥接，丰富您的网站应用。<br /><span class="r">通行证和UC整合不能同时开启。整合开启后请进入插件管理，导入会员数据。</span></td>
+			<td><input class="radio" type="radio" value="1" name="config[pb_ucenable]" id="ucenable_1" {#$ucenable_1#} onclick="checkSwitch(this, 'passport')" />&nbsp;开启&nbsp;<input class="radio" type="radio" value="0" name="config[pb_ucenable]" id="ucenable_0" {#$ucenable_0#} />&nbsp;关闭<br />
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">UCenter 数据库主机地址</span><br />一般为localhost，如果默认不是3306端口请加上端口号。例如：localhost:3306</td>
+			<td><input class="input" type="text" value="{#$uc_host#}" name="config[uc_host]" size="35" /></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">UCenter 数据库用户名</span><br /></td>
+			<td><input class="input" type="text" value="{#$uc_user#}" name="config[uc_user]" size="35" /></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">UCenter 数据库密码</span><br /></td>
+			<td><input class="input" type="text" value="{#$uc_password#}" name="config[uc_password]" size="35" /></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">UCenter 数据库名称</span><br /></td>
+			<td><input class="input" type="text" value="{#$uc_dbname#}" name="config[uc_dbname]" size="35" /></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">UCenter 数据库字符集</span><br /></td>
+			<td>{#$uc_charset#}</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">UCenter 数据库表前缀</span><br /></td>
+			<td><input class="input" type="text" value="{#$uc_prefix#}" name="config[uc_prefix]" size="15" /></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">UCenter 通信密钥</span><br />必须与 UCenter 设置保持一致，否则将无法与 UCenter 正常通信。</td>
+			<td><input class="input" type="text" value="{#$uc_key#}" name="config[uc_key]" size="35" /></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">UCenter URL 地址</span><br />在调用头像时依赖此常量，以斜杠 “/” 结尾。</td>
+			<td><input class="input" type="text" value="{#$uc_url#}" name="config[uc_url]" size="35" /></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">当前应用的 ID</span><br />请在 UCenter 应用管理处查看</td>
+			<td><input class="input" type="text" value="{#$uc_id#}" name="config[uc_id]" size="15" /></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">调用UC用户头像</span><br />开启：系统将默认调用UC中存储的头像。</td>
+			<td><input class="radio" type="radio" value="1" name="config[uc_avatar]" id="ucavatar_1" {#$ucavatar_1#} />&nbsp;开启&nbsp;<input class="radio" type="radio" value="0" name="config[uc_avatar]" id="ucavatar_0" {#$ucavatar_0#} />&nbsp;关闭<br />
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">启用UCenter短信系统</span><br />开启：系统将使用UCenter短信系统。</td>
+			<td><input class="radio" type="radio" value="1" name="config[uc_msg]" id="ucmsg_1" {#$ucmsg_1#} />&nbsp;开启&nbsp;<input class="radio" type="radio" value="0" name="config[uc_msg]" id="ucmsg_0" {#$ucmsg_0#} />&nbsp;关闭<br />
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">启用UCenter好友系统</span><br />开启：系统将使用UCenter好友系统。</td>
+			<td><input class="radio" type="radio" value="1" name="config[uc_friend]" id="ucfriend_1" {#$ucfriend_1#} />&nbsp;开启&nbsp;<input class="radio" type="radio" value="0" name="config[uc_friend]" id="ucfriend_0" {#$ucfriend_0#} />&nbsp;关闭<br />
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">将UChome作为用户的默认个人空间</span><br />开启此选项之前请确定已经正确安装UCHome。</td>
+			<td><input class="radio" type="radio" value="1" name="config[uc_space]" id="ucspace_1" {#$ucspace_1#} />&nbsp;是&nbsp;<input class="radio" type="radio" value="0" name="config[uc_space]" id="ucspace_0" {#$ucspace_0#} />&nbsp;否<br />
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">UChome URL 地址</span><br />在调用个人空间地址时依赖此常量，以斜杠 “/” 结尾。</td>
+			<td><input class="input" type="text" value="{#$uc_spaceurl#}" name="config[uc_spaceurl]" size="35" /></td>
+			<td>&nbsp;</td>
+		</tr>
+		{#/if#}
+		<tr>
+			<td class="tbutton" colspan="3"><input type="submit" value="提交" class="btn" name="submit" /></td>
+		</tr>
+		</table>
+	</form>
+</div>
+</td><td class="box-main-right"></td></tr>
+<tr><td class="box-bottom-left"></td><td class="box-bottom-cen"></td><td class="box-bottom-right"></td></tr>
+</table>
+
+{#include footer#}
+</body>
+</html>

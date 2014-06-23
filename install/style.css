@@ -1,0 +1,299 @@
+body
+{
+	margin: auto;
+	text-align:center;
+	padding: 0;
+	margin:0;
+	font-family: Verdana, Geneva, Helvetica, Trebuchet MS, Sans-serif;
+	font-size: 12px;
+	color: #333;
+	background:url(images/bgbody.gif) #CFE1ED repeat-x;
+}
+a
+{
+	font-size: 12px;
+	text-decoration: underline;
+	font-weight: bold;
+color: #330099;
+}
+a:visited
+{
+	color: #330099;
+
+}
+a:active
+{
+	color: #ccc;
+
+}
+a:hover
+{
+	color: #000;
+	text-decoration: none;
+}
+.t_table {border: 1px solid #CAD9EA; empty-cells: show; border-collapse: collapse;width:94%;font-size:12px;}
+.t_table td {padding: 5px; border-bottom: 1px solid #CAD9EA; border-right: 1px solid #CAD9EA; overflow: hidden;text-align:center;}
+.t_table th{
+	background:#D6E0EF;
+	border-bottom: 1px solid #CAD9EA;
+}
+#content
+{
+	background: #fff;
+	width: 760px;
+	margin: 25px auto;
+	text-align:left;
+	border: 1px solid #000;
+}
+#pageheader
+{
+	background: #BFD5E4;
+	border-bottom: 1px solid #000;
+	height:80px;
+}
+#logo
+{
+	float:left;
+}
+#version
+{
+	float:right;
+}
+#innercontent
+{
+	margin: 20px;
+}
+.botBorder
+{
+	margin: 10px 0px;
+	border-bottom: #7B81A9 1px dashed;
+	padding:10px 0px;
+}
+
+.solidLine
+{
+	border-top: #999 1px solid;
+}
+.rightheader
+{
+	font-size: 12px;
+	font-weight:	bold;
+	color:	#fff;
+	padding:	22px;
+}
+.error
+{
+	font-size: 15px;
+	margin-bottom: 8px;
+	font-weight: bold;
+	color: #990000;
+}
+.shade
+{
+	background-color: #f6f6f6;
+	padding: 0 0 10px 22px;
+	margin-top: 10px;
+	margin-bottom: 20px;
+	border: #7B81A9 1px solid;
+}
+.stephead
+{
+	font-size: 18px;
+	font-weight: bold;
+	color: #999;
+	letter-spacing: 2px;
+	margin:	0;
+}
+.settingHead
+{
+	font-size: 18px;
+	font-weight: bold;
+	color: #990000;
+	letter-spacing: 2px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+h1
+{
+	font-size: 16px;
+	font-weight: bold;
+	color: #5B6082;
+	margin-top: 15px;
+	margin-bottom: 16px;
+	border-bottom: #7B81A9 2px solid;
+}
+h2
+{
+	font-size: 14px;
+	color: #000;
+	letter-spacing: 2px;
+	margin-top: 6px;
+	margin-bottom: 6px;
+}
+h3
+{
+	font-size: 18px;
+	color: #000;
+	letter-spacing: 2px;
+	margin-top: 15px;
+	margin-bottom: 15px;
+	border-bottom: #7B81A9 1px dashed;
+}
+h4
+{
+	font-size: 16px;
+	font-weight: bold;
+	color: #000;
+	margin-top: 5px;
+	margin-bottom: 14px;
+}
+h5
+{
+	font-size: 12px;
+	font-weight: bold;
+	color: #000;
+	margin-top: 16px;
+	margin-bottom: 0;
+}
+p
+{
+	font-size: 12px;
+	font-weight: normal;
+	color: #333;
+	margin-top: 4px;
+	margin-bottom: 8px;
+}
+
+li
+{
+	font-size: 11px;
+	margin-bottom: 4px;
+	color: #000;
+	margin-left: 10px;
+}
+.pad
+{
+	padding: 1px 0 4px 0;
+}
+.center
+{
+	text-align: center;
+	margin-top:10px;
+}
+strong
+{
+	font-weight: bold;
+}
+i
+{
+	font-style: italic;
+}
+.red
+{
+	color: #900;
+}
+.blue
+{
+	color: #009;
+}
+.green
+{
+	color: #090;
+}
+.copyright
+{
+	text-align: center;
+	font-size: 9px;
+	color: #999999;
+	line-height: 15px;
+	margin-top: 20px;
+	margin-bottom: 15px;
+	padding: 20px;
+}
+.border
+{
+	border-bottom: #7B81A9 1px dashed;
+}
+form
+{
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+.hidden
+{
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+.input
+{
+	border: 1px solid #979AC2;
+	color: #333;
+	height: 1.7em;
+	padding: 0;
+	margin:	0;
+	padding:3px 1px 0px;
+	height:23px;
+}
+.textarea
+{
+	border: 2px solid #979AC2;
+	color: #333;
+	font-size: 12px;
+	padding: 3px;
+	margin:	0;
+	width:100%;
+	line-height:150%;
+	height:280px;
+	text-align:left;
+}
+.select
+{
+	background-color: #fff;
+	font-size: 11px;
+	font-weight: normal;
+	letter-spacing: .1em;
+	color: #333;
+	margin-top: 2px;
+	margin-bottom: 2px;
+}
+.multiselect
+{
+	border-top: 2px solid #979AC2;
+	border-left: 2px solid #979AC2;
+	border-bottom: 1px solid #979AC2;
+	border-right: 1px solid #979AC2;
+	background-color: #fff;
+	color: #333;
+	font-size: 11px;
+	margin-top: 2px;
+	margin-top: 2px;
+}
+.radio
+{
+	margin-top: 4px;
+	margin-bottom: 4px;
+	padding: 0;
+	border: 0;
+}
+.checkbox
+{
+	padding: 0;
+	border: 0;
+}
+.submit
+{
+	background-color: #fff;
+	font-size: 11px;
+	font-weight: normal;
+	border-top:	1px solid #989AB6;
+	border-left:	1px solid #989AB6;
+	border-right:	1px solid #434777;
+	border-bottom:	1px solid #434777;
+	letter-spacing: .1em;
+	padding: 1px 3px 2px 3px;
+	margin:	0;
+	background-color: #6C73B4;
+	color: #fff;
+}

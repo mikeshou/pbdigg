@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<plugin>
+<pname>UCenter 会员导入器</pname>
+<pmark>ucmerge</pmark>
+<version>1.0</version>
+<description>UCenter 会员导入器可以将PBDigg会员导入进UCenter数据库。</description>
+<withstage>0</withstage>
+<actionhook></actionhook>
+<filterhook></filterhook>
+<copyright>PBDigg.Com 版权所有</copyright>
+</plugin>

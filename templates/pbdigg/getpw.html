@@ -1,0 +1,59 @@
+{#include header#}
+<div class="maincontainer warp">
+<div class="tips">
+	<p>您也可以尝试<a href="login.php">重新登录</a>！ 或者返回<a href="./"><strong>首页</strong></a>！</p>
+</div>
+<!-- 内容 -->
+
+{#if $action == 'get'#}
+<!-- 修改密码 -->
+<div class="login-main">
+	<h1 class="login-title">修改密码</h1>
+	<form action="getpw.php?action=get" id="getpw" name="getpw" method="post">
+		<!-- 密码 -->
+		<p>
+			<label for="password">密码</label>
+			<input type="password" name="password" id="password" size="25" value="" class="input_out"   onfocus="this.className='input_on';this.onmouseout=''" onblur="this.className='input_off';this.onmouseout=function(){this.className='input_out'};" onmousemove="this.className='input_move'" onmouseout="this.className='input_out'" />
+		</p>
+		<!-- 重复密码 -->
+		<p>
+			<label for="rpassword">重复密码</label>
+			<input type="password" name="rpassword" id="rpassword" size="25" value="" class="input_out"   onfocus="this.className='input_on';this.onmouseout=''" onblur="this.className='input_off';this.onmouseout=function(){this.className='input_out'};" onmousemove="this.className='input_move'" onmouseout="this.className='input_out'" />
+		</p>
+		<p class="login-submit">
+		<input type="hidden" name="confirm" id="confirm" value="{#$confirm#}" />
+		<input type="hidden" name="verify" id="verify" value="{#$verifyhash#}" />
+		<input type="submit" value="确认修改" name="submit" id="submit"   class="button"/>
+		</p>
+	</form>
+</div>
+{#else#}
+<!-- 验证用户信息 -->
+<div class="login-main">
+	<h1 class="login-title">取回密码</h1>
+	<form action="getpw.php?action=send" id="getpw" name="getpw" method="post">
+		<!-- 用户名 -->
+		<p>
+			<label for="username">用户名</label>
+			<input type="text" name="username" id="username" size="25" value="" class="input_out"   onfocus="this.className='input_on';this.onmouseout=''" onblur="this.className='input_off';this.onmouseout=function(){this.className='input_out'};" onmousemove="this.className='input_move'" onmouseout="this.className='input_out'" />
+		</p>
+		<!-- 电子邮件地址 -->
+		<p>
+			<label for="password">电子邮件</label>
+			<input type="text" name="email" id="email" size="25" value=""  class="input_out"   onfocus="this.className='input_on';this.onmouseout=''" onblur="this.className='input_off';this.onmouseout=function(){this.className='input_out'};" onmousemove="this.className='input_move'" onmouseout="this.className='input_out'"/>
+		</p>
+		<p class="login-submit">
+			<input type="hidden" name="verify" id="verify" value="{#$verifyhash#}" />
+			<input type="submit" value="发送密码" name="submit" id="submit"  class="button"/>
+		</p>
+	</form>
+</div>
+{#/if#}
+<div class="clear"></div></div>
+
+<!-- footer -->
+{#include footer#}
+<!-- footer -->
+
+</body>
+</html>

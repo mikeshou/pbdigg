@@ -1,0 +1,18 @@
+body{padding:0;margin:0px;font-size:12px;color:#fff;font-family:Verdana;}
+*{padding:0;margin:0;}
+#main{background:url(bg.png) no-repeat;width:632px;height:372px;margin:9em auto;}
+.logo{width:230px;text-align:center;}
+.login{padding-left:3em;}
+.login ul li{list-style:none;line-height:24px;height:30px;clear:both;}
+.login ul li span{float:left;width:6em;text-align:right;}
+.login ul li input{margin-left:1em;}
+.input{border:1px solid #38686c;background:#a1c8cf url(input.png) left top no-repeat;font-size:12px;vertical-align:middle;height:17px;pading:3px 1px 1px 3px;}
+.btn{margin-top:5px;}
+.btn input{cursor:pointer;border:0px;vertical-align:middle;background:url(btn.png);height:32px;width:85px;}
+/*表单宽度*/
+.u{width:8.5em;}
+.m{width:10em;}
+.an{width:10em;}
+.y{width:3em;}
+.copyright{width:500px;margin:auto;text-align:center;color:#555;}
+.copyright a{text-decoration:none;color:#555;line-height:50px;}

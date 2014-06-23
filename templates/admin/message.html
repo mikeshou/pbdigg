@@ -1,0 +1,42 @@
+{#include header#}
+<body>
+
+<!--main-->
+<table cellpadding="0" cellspacing="0" width="100%">
+<tr><td class="box-top-left"></td><td class="box-top-cen"></td><td class="box-top-right"></td></tr>
+<tr><td class="box-main-left"></td><td>
+<h3>{#$_leftmenu[$action][item][$job]#}</h3>
+<div class="text">
+<form action="{#$basename#}" method="post" id="mainform">
+	<table cellpadding="0" cellspacing="0" width="100%">
+	<tr>
+		<td><span class="defaultbold">发送对象</span></td>
+		<td>{#$mailto#}</td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">标题</span><br /></td>
+		<td><input class="input" type="text" name="title" id="title" size="50" /></td>
+	</tr>
+	<tr>
+		<td colspan="2"><span class="defaultbold">内容</span></td>
+	</tr>
+	<tr>
+		<td colspan="2"><textarea name="content" id="content" class="template"></textarea></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">每次批处理数量</span><br /></td>
+		<td><input class="input" type="text" value="100" name="count" id="count" size="10" /></td>
+	</tr>
+	<tr>
+		<td class="tbutton" colspan="2"><input type="hidden" value="on" name="ispost"><input type="submit" value="提交" class="btn" name="submit"></td>
+	</tr>
+	</table>
+</form>
+</div>
+</td><td class="box-main-right"></td></tr>
+<tr><td class="box-bottom-left"></td><td class="box-bottom-cen"></td><td class="box-bottom-right"></td></tr>
+</table>
+
+{#include footer#}
+</body>
+</html>

@@ -1,0 +1,19 @@
+* {padding:0;margin:0;outline:0;}
+body{color:#363636;font:12px Tahoma, Verdana, sans-serif; background:#d3e8ed;}
+table{border-collapse:collapse;border-spacing:0;}
+fieldset,img{border:none;}
+address,caption,cite,code,dfn,em,th,var{font-style:normal;font-weight:normal;}
+caption,th {text-align:left;}
+em{font-style:normal;font-family: tahoma, verdana, arial;font-size: 9px;color:#666;}
+input, textarea{
+	font: 12px/150% 'Lucida Grande', Verdana, Arial, Sans-serif;
+}
+a { color:#2686cd;text-decoration:none;}
+a:hover {color:#105cb6; text-decoration:underline;}
+
+.clear{ clear:both; height:0px; font-size:0px; line-height:0px; }
+.hidden{	display: none; }
+
+.alignleft {float: left;}
+.alignright {float: right;}
+.aligncenter {margin: 0 auto;}

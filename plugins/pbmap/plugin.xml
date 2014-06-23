@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<plugin>
+<pname>PB网站地图生成器</pname>
+<pmark>pbmap</pmark>
+<version>2.0</version>
+<description>PB网站地图生成器可以根据Sitemap 协议生成站点Sitemap。使您的网站更便于搜索引擎抓取。</description>
+<withstage>0</withstage>
+<actionhook></actionhook>
+<filterhook></filterhook>
+<copyright>PBDigg.Com 版权所有</copyright>
+</plugin>

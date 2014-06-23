@@ -1,0 +1,111 @@
+{#include header#}
+<body>
+
+<!--提示信息-->
+<table cellpadding="0" cellspacing="0" width="100%" class="boxtable">
+<tr><td class="box-top-left"></td><td class="box-top-cen"></td><td class="box-top-right"></td></tr>
+<tr><td class="box-main-left"></td><td>
+<!--内容部分-->
+ <h3>提示信息</h3>
+<div class="text">
+	<div class="s3" style="margin-left:1em;">
+{#if $job == 'recount'#}
+<li>经常重建数据有助于提高数据准确性。</li>
+{#elseif $job == 'cache'#}
+<li>在网站数据恢复后或者前台不能正常访问时，可以使用此功能更新网站全部缓存数据。</li>
+{#elseif $job == 'filepermission'#}
+<li>如果某个文件或目录被检查到“<span class="r">Failed</span>”，请立即通过 FTP 或其他工具修改其属性（例如设置为 777），以确保网站功能的正常使用。</li>
+{#/if#}
+	</div>
+</div>
+<!--内容部分结束-->
+</td><td class="box-main-right"></td></tr>
+<tr><td class="box-bottom-left"></td><td class="box-bottom-cen"></td><td class="box-bottom-right"></td></tr>
+</table>
+<!--提示信息-->
+
+<!--main-->
+<table cellpadding="0" cellspacing="0" width="100%">
+<tr><td class="box-top-left"></td><td class="box-top-cen"></td><td class="box-top-right"></td></tr>
+<tr><td class="box-main-left"></td><td>
+<h3>{#$_leftmenu[$action][item][$job]#}</h3>
+<div class="text">
+<form action="{#$basename#}" method="post" id="mainform">
+	<table cellpadding="0" cellspacing="0" width="100%">
+	{#if $job == 'cache'#}
+	<tr>
+		<td><span class="defaultbold">系统设置</span></td>
+		<td><input type="checkbox" value="1" name="config" id="config" checked="checked" /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">分类缓存</span></td>
+		<td><input type="checkbox" value="1" name="cate" id="cate" checked="checked" /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">主题缓存</span></td>
+		<td><input type="checkbox" value="1" name="article" id="article" checked="checked" /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">评论缓存</span></td>
+		<td><input type="checkbox" value="1" name="comment" id="comment" checked="checked" /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">标签缓存</span></td>
+		<td><input type="checkbox" value="1" name="tag" id="tag" checked="checked" /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">友情链接</span></td>
+		<td><input type="checkbox" value="1" name="link" id="link" checked="checked" /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">会员信息</span></td>
+		<td><input type="checkbox" value="1" name="member" id="member" checked="checked" /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">网站公告</span></td>
+		<td><input type="checkbox" value="1" name="announce" id="announce" checked="checked" /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">统计缓存</span><br />包括：分组信息、注册信息、网站统计信息等</td>
+		<td><input type="checkbox" value="1" name="stat" id="stat" checked="checked" /></td>
+	</tr>
+	<tr>
+		<td class="tbutton" colspan="2"><input type="submit" value="提交" class="btn" name="submit"></td>
+	</tr>
+	{#elseif $job == 'recount'#}
+	<tr>
+		<td><span class="defaultbold">重建文章评论数</span><br /></td>
+		<td><input type="hidden" value="提交" name="type"><input onclick="this.form.type.value='article'" type="submit" value="提交" class="btn" name="submit"></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">重建用户信息</span><br /></td>
+		<td><input onclick="this.form.type.value='member'" type="submit" value="提交" class="btn" name="submit"></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">重建分类信息</span><br /></td>
+		<td><input onclick="this.form.type.value='cate'" type="submit" value="提交" class="btn" name="submit"></td>
+	</tr>
+	{#elseif $job == 'filepermission'#}
+	<tbody class="aligncenter">
+	<tr class="tcell_header">
+		<td width="10%">目录</td>
+		<td width="10%">所属</td>
+	</tr>
+	{#foreach $systemdir as $k => $v#}
+	<tr>
+		<td style="text-align:left">{#$k#}</td>
+		<td>{#$v#}</td>
+	</tr>
+	{#/foreach#}
+	</tbody>
+	{#/if#}
+	</table>
+</form>
+</div>
+</td><td class="box-main-right"></td></tr>
+<tr><td class="box-bottom-left"></td><td class="box-bottom-cen"></td><td class="box-bottom-right"></td></tr>
+</table>
+
+{#include footer#}
+</body>
+</html>

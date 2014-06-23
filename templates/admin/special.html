@@ -1,0 +1,265 @@
+{#include file="header.html"#}
+<body>
+
+<!-- top menu -->
+{#include file="top.html"#}
+<!-- top menu -->
+
+<!-- wrap -->
+<div class="wrap">
+	<!-- nav -->
+	<div class="navlink"><a href="admincp.php">{#$cp_lang.cp#}</a>{#$navlink#}</div>
+	<!-- msg -->
+	<!-- main -->
+	<div class="container">
+		<table cellpadding="0" cellspacing="0">
+		<tr>
+		<td style="width:180px">
+		<!-- sidebar -->
+		<div class="sidebar">
+		<div class="leftmenuheader">专题管理</div>
+		{#foreach from=$menu item=item key=key name=outmenu#}
+		<div class="leftmenubody">
+			<div class="leftmenutitle" onClick="show_menu('leftmenuitem_','{#$smarty.foreach.outmenu.iteration#}');"><img src="{#$PB_ENV.PB_URL#}templates/admin/images/collapse.gif" class="leftmenuicon" alt="Collapse" id="leftmenuitem_icon_{#$smarty.foreach.outmenu.iteration#}" />&nbsp;&nbsp;{#$item.mName#}</div>
+			<div class="leftmenuitem" id="leftmenuitem_{#$smarty.foreach.outmenu.iteration#}">
+				{#foreach from=$item.mItems item=s_item key=s_key#}
+				<li><a href="admincp.php?action={#$s_item#}">{#$s_key#}</a></li>
+				{#/foreach#}
+			</div>
+		</div>
+		{#/foreach#}
+		</div>
+		<!-- sidebar end -->
+		</td>
+		<td>
+		<!-- content -->
+		<div class="content">
+			<!-- include -->
+			{#if $type == "add"#}
+			<!-- tip -->
+			<div class="msgbox">
+				<div class="msgtitle">操作提示</div>
+				<div class="msgcontent">
+					<li>此处添加的标签将作为系统标签显示在发帖标签输入处。</li>
+				</div>
+			</div>
+			<!-- tip end -->
+			<!-- item -->
+			<div class="tablebody">
+				<div class="tabletitle" onClick="show_menu('tablecontent_','1');"><span style="float:right;"><img src="{#$PB_ENV.PB_URL#}templates/admin/images/collapse.gif" class="leftmenuicon" alt="Collapse" id="tablecontent_icon_1" /></span>添加专题</div>
+				<div class="tablecontent" id="tablecontent_1">
+				<form action="{#$actionurl#}" method="post" name="form" id="{#$type#}">
+				<table cellpadding="0" cellspacing="0">
+					<tr>
+						<td width="50%" class="tcell_one"><span class="defaultbold">专题名称</span><br />为专题取个合适的名称。例如：微软、电信、PHP等等</td>
+						<td width="50%" class="tcell_one"><input class="forminput" type="text" value="" name="sname" id="sname" size="15" maxlength="15" /></td>
+					</tr>
+					<tr>
+						<td width="50%" class="tcell_two"><span class="defaultbold">专题关键字</span><br />专题列表将用到的keywrods。适当的关键字设置有利于搜索引擎的抓取。</td>
+						<td width="50%" class="tcell_two"><textarea cols="40" rows="7" name="skeywords"></textarea></td>
+					</tr>
+					<tr>
+						<td width="50%" class="tcell_two"><span class="defaultbold">专题描述</span><br />关于专题的简要介绍。</td>
+						<td width="50%" class="tcell_two"><textarea cols="40" rows="7" name="sdesc"></textarea></td>
+					</tr>
+					<tr>
+						<td width="50%" class="tcell_one"><span class="defaultbold">专题logo</span><br />专题的封面图片</td>
+						<td width="50%" class="tcell_one"><input class="forminput" type="file" name="slogo" id="slogo" size="35" /></td>
+					</tr>
+					<tr>
+						<td width="50%" class="tcell_two"><span class="defaultbold">专题模板</span><br />每个专题允许有自己特定的列表页面。相关的模板文件必须存放在当前模板风格文件夹下。</td>
+						<td width="50%" class="tcell_two"><input class="forminput" type="input" name="stpl" id="stpl" size="15" /></td>
+					</tr>
+					<tr>
+						<td width="50%" class="tcell_one"><span class="defaultbold">是否开放</span><br />未开放的专题将不会在前台显示</td>
+						<td width="50%" class="tcell_one"><input type="radio" name="ifopen" value="1" checked="checked" />开放&nbsp;<input type="radio" name="ifopen" value="0" />关闭&nbsp;</td>
+					</tr>
+					<tr>
+						<td class="tcell_sub" colspan="2">
+							<input class="hidden" name="submitted" type="hidden" value="submitted">
+							<input type="submit" value="{#$cp_lang.submit#}" class="submit" name="submit">
+							<input type="reset" value="{#$cp_lang.reset#}" class="submit" name="reset">
+						</td>
+					</tr>
+					</table>
+					</form>
+				</div>
+			</div>
+			<!-- item -->
+			{#elseif $type eq "list"#}
+			<!-- tip -->
+			<div class="msgbox">
+				<div class="msgtitle">操作提示</div>
+				<div class="msgcontent">
+					<li>此处添加的标签将作为系统标签显示在发帖标签输入处。</li>
+				</div>
+			</div>
+			<!-- tip end -->
+			<!-- item -->
+			<div class="tablebody">
+				<div class="tabletitle" onClick="show_menu('tablecontent_','1');"><span style="float:right;"><img src="{#$PB_ENV.PB_URL#}templates/admin/images/collapse.gif" class="leftmenuicon" alt="Collapse" id="tablecontent_icon_1" /></span>专题列表</div>
+				<div class="tablecontent" id="tablecontent_1">
+				<form action="{#$actionurl#}" method="post" name="form" id="{#$type#}">
+				<table cellpadding="0" cellspacing="0">
+					<tr>
+						<td width="10%" class="tcell_header">ID</td>
+						<td width="10%" class="tcell_header">名称</td>
+						<td width="40%" class="tcell_header">描述</td>
+						<td width="10%" class="tcell_header">状态</td>
+						<td width="*" class="tcell_header">操作</td>
+					</tr>
+					{#foreach from=$special item=item name=special#}
+					<tr class="{#if $smarty.foreach.special.iteration % 2 == 0#}tcell_one{#else#}tcell_two{#/if#}"#}">
+						<td align="center"><input type="checkbox" name="sids[]" value="{#$item.sid#}" />{#$item.sid#}</td>
+						<td align="center">{#$item.sname#}</td>
+						<td align="center">{#$item.sdesc#}</td>
+						<td align="center">{#$item.ifopenword#}</td>
+						<td align="center"><span class="altconfirm" onclick="checkAction('admincp.php?action=special&type=status&status={#$item.ifopen#}&sid={#$item.sid#}', '{#$item.opptagstatus#}')"><img src="../templates/admin/images/status_{#$item.ifopen#}.gif" alt="{#$item.opptagstatus#}" /></span>&nbsp;&nbsp;<span class="altconfirm" onclick="checkAction('admincp.php?action=special&type=del&sids[]={#$item.sid#}', '')"><img src="../templates/admin/images/del.gif" alt="{#$cp_lang.del#}" /></span>&nbsp;&nbsp;<span class="altconfirm" onclick="location.href='admincp.php?action=special&type=edit&sid={#$item.sid#}'"><img src="../templates/admin/images/edit.gif" alt="{#$cp_lang.edit#}" /></span></td>
+					</tr>
+					{#/foreach#}
+					<tr>
+						<td class="tcell_mult">{#$cp_lang.records#}：{#$total_records#}</td>
+						<td class="tcell_mult" colspan="5" style="text-align:right;">
+							&nbsp;{#$mult#}
+						</td>
+					</tr>
+					<tr>
+						<td class="tcell_sub" colspan="6">
+							<input type="hidden" class="hidden" name="submitted" value="submitted">
+							<input type="hidden" class="hidden" name="type" value="del">
+							<input type="button" value="{#$cp_lang.chose_all#}" class="submit" name="choseall" onclick="PBchoseAll(this.form)">
+							<input type="submit" value="{#$cp_lang.delchose#}" class="submit" name="submit">
+						</td>
+					</tr>
+					</table>
+					</form>
+				</div>
+			</div>
+			<!-- item -->
+			{#elseif $type eq "manage"#}
+			<!-- tip -->
+			<div class="msgbox">
+				<div class="msgtitle">检索标签</div>
+				<div class="msgcontent">
+					提示：多个标签名称之间用半角逗号分割，支持"*"通配符。
+					<form action="admincp.php?action=tag&amp;type=manage&amp;submitted=1" name="" method="post">
+						标签名称：<input type="input" name="tagname" value="" size="35" class="forminput" />&nbsp;&nbsp;是否为系统标签：<input type="radio" name="ifsys" value="1" />是&nbsp;<input type="radio" name="ifsys" value="0" checked="checked" />否&nbsp;&nbsp;<input type="submit" name="submit" value="查询" />
+					</form>
+				</div>
+			</div>
+			<!-- tip end -->
+			<!-- list tag start -->
+			<div class="tablebody">
+				<div class="tabletitle" onClick="show_menu('tablecontent_','1');"><span style="float:right;"><img src="{#$PB_ENV.PB_URL#}templates/admin/images/collapse.gif" class="leftmenuicon" alt="Collapse" id="tablecontent_icon_1" /></span>{#$cp_lang.manage_tag#}</div>
+				<div class="tablecontent" id="tablecontent_1">
+				<form action="{#$actionurl#}" method="post" name="form" id="{#$type#}">
+				<table cellpadding="0" cellspacing="0">
+					<tr>
+						<td width="10%" class="tcell_header">{#$cp_lang.tag_id#}</td>
+						<td width="40%" class="tcell_header">{#$cp_lang.tag_name#}</td>
+						<td width="10%" class="tcell_header">{#$cp_lang.usenum#}</td>
+						<td width="10%" class="tcell_header">{#$cp_lang.tag_status#}</td>
+						<td width="20%" class="tcell_header">{#$cp_lang.operation#}</td>
+						<td width="*" class="tcell_header">{#$cp_lang.chose#}</td>
+					</tr>
+					{#foreach from=$tag item=item name=tag#}
+					<tr class="{#if $smarty.foreach.tag.iteration % 2 == 0#}tcell_one{#else#}tcell_two{#/if#}"#}">
+						<td align="center">{#$item.tagid#}</td>
+						<td align="center">{#$item.tagname#}</td>
+						<td align="center">{#$item.usenum#}</td>
+						<td align="center">{#$item.tagstatus#}</td>
+						<td align="center"><span class="altconfirm" onclick="checkAction('admincp.php?action=tag&type=status&status={#$item.ifopen#}&tagid={#$item.tagid#}', '{#$item.opptagstatus#}')"><img src="../templates/admin/images/status_{#$item.ifopen#}.gif" alt="{#$item.opptagstatus#}" /></span>&nbsp;&nbsp;<span class="altconfirm" onclick="checkAction('admincp.php?action=tag&type=del&tagid[]={#$item.tagid#}', '')"><img src="../templates/admin/images/del.gif" alt="{#$cp_lang.del#}" /></span>&nbsp;&nbsp;<span class="altconfirm" onclick="location.href='admincp.php?action=tag&type=mod&tagid={#$item.tagid#}'"><img src="../templates/admin/images/edit.gif" alt="{#$cp_lang.edit#}" /></span></td>
+						<td align="center"><input type="checkbox" name="tagid[]" value="{#$item.tagid#}" /></td>
+					</tr>
+					{#/foreach#}
+					<tr>
+						<td class="tcell_mult">{#$cp_lang.records#}：{#$total_records#}</td>
+						<td class="tcell_mult" colspan="5" style="text-align:right;">
+							&nbsp;{#$mult#}
+						</td>
+					</tr>
+					<tr>
+						<td class="tcell_sub" colspan="6">
+							<input type="hidden" class="hidden" name="submitted" value="submitted">
+							<input type="hidden" class="hidden" name="type" value="del">
+							<input type="button" value="{#$cp_lang.chose_all#}" class="submit" name="choseall" onclick="PBchoseAll(this.form)">
+							<input type="submit" value="{#$cp_lang.delchose#}" class="submit" name="submit">
+						</td>
+					</tr>
+					</table>
+					</form>
+				</div>
+			</div>
+			<!-- list cate end -->
+			{#elseif $type eq "mod"#}
+			<!-- tip -->
+			<!-- tip end -->
+			<!-- mod cate start -->
+			<div class="tablebody">
+				<div class="tabletitle" onClick="show_menu('tablecontent_','1');"><span style="float:right;"><img src="{#$PB_ENV.PB_URL#}templates/admin/images/collapse.gif" class="leftmenuicon" alt="Collapse" id="tablecontent_icon_1" /></span>{#$cp_lang.mod_tag#}</div>
+				<div class="tablecontent" id="tablecontent_1">
+				<form action="{#$actionurl#}" method="post" name="form" id="{#$type#}">
+				<table cellpadding="0" cellspacing="0">
+					<tr>
+						<td width="50%" class="tcell_one"><span class="defaultbold">{#$cp_lang.add_tag_name#}</span><br />{#$cp_lang.add_tag_name_intro#}</td>
+						<td width="50%" class="tcell_one"><input class="forminput" type="text" value="{#$tag.tagname#}" name="tag[name]" id="name" size="35" maxlength="30" /></td>
+					</tr>
+					<tr>
+						<td width="50%" class="tcell_two"><span class="defaultbold">{#$cp_lang.add_tag_status#}</span><br />{#$cp_lang.add_tag_status_intro#}</td>
+						<td width="50%" class="tcell_two"><input class="radio" type="radio" value="1" name="tag[ifopen]" id="ifopen_1" {#$ifopen_1#} />&nbsp;{#$cp_lang.status_open#}<input class="radio" type="radio" value="0" name="tag[ifopen]" id="ifopen_0" {#$ifopen_0#} />&nbsp;{#$cp_lang.status_close#}</td>
+					</tr>
+					<tr>
+						<td width="50%" class="tcell_one"><span class="defaultbold">系统标签</span><br /></td>
+						<td width="50%" class="tcell_one"><input class="radio" type="radio" value="1" name="tag[ifsys]" id="ifsys_1" {#$ifsys_1#} />&nbsp;{#$cp_lang.yes#}<input class="radio" type="radio" value="0" name="tag[ifsys]" id="ifsys_0" {#$ifsys_0#} />&nbsp;否</td>
+					</tr>
+					<tr>
+						<td width="50%" class="tcell_two"><span class="defaultbold">{#$cp_lang.usenum#}</span><br />{#$cp_lang.mod_tag_usenum_intro#}</td>
+						<td width="50%" class="tcell_two">{#$tag.usenum#}</td>
+					</tr>
+					<tr>
+						<td class="tcell_sub" colspan="2">
+							<input class="hidden" name="submitted" type="hidden" value="submitted">
+							<input type="submit" value="{#$cp_lang.submit#}" class="submit" name="submit">
+							<input type="reset" value="{#$cp_lang.reset#}" class="submit" name="reset">
+						</td>
+					</tr>
+					</table>
+					</form>
+				</div>
+			</div>
+			<!-- mod cate end -->
+			{#elseif $type eq "tidy"#}
+			<!-- tidy cate start -->
+			<div class="tablebody">
+				<div class="tabletitle" onClick="show_menu('tablecontent_','1');"><span style="float:right;"><img src="{#$PB_ENV.PB_URL#}templates/admin/images/collapse.gif" class="leftmenuicon" alt="Collapse" id="tablecontent_icon_1" /></span>{#$cp_lang.tidy_tag#}</div>
+				<div class="tablecontent" id="tablecontent_1">
+				<form action="{#$actionurl#}" method="post" name="form" id="{#$type#}">
+				<table cellpadding="0" cellspacing="0">
+					<tr>
+						<td class="tcell_two">
+						<p class="desc">{#$cp_lang.tidy_tag_intro#}</p>
+						{#$cp_lang.batch_count#}：<input class="forminput" type="text" value="300" name="count" id="count" size="5" maxlength="5" /></td>
+					</tr>
+					<tr>
+						<td class="tcell_sub">
+							<input class="hidden" name="step" type="hidden" value="1">
+							<input type="submit" value="{#$cp_lang.submit#}" class="submit" name="submit">
+						</td>
+					</tr>
+					</table>
+					</form>
+				</div>
+			</div>
+			<!-- tidy cate end -->
+			{#/if#}
+			<!-- include -->
+		</div>
+		<!-- content -->
+		</td>
+		</tr>
+		</table>
+	</div>
+</div>
+<!-- wrap -->
+
+{#include file="footer.html"#}

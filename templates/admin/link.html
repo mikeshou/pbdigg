@@ -1,0 +1,91 @@
+{#include header#}
+<body>
+
+<!--提示信息-->
+<table cellpadding="0" cellspacing="0" width="100%" class="boxtable">
+<tr><td class="box-top-left"></td><td class="box-top-cen"></td><td class="box-top-right"></td></tr>
+<tr><td class="box-main-left"></td><td>
+<!--内容部分-->
+ <h3>提示信息</h3>
+<div class="text">
+	<div class="s3" style="margin-left:1em;">
+	<li>友情链接仅首页调用有效</li>
+	<li>普通文字链接调用变量：&#123;#$_links_text#&#125;</li>
+	<li>带图链接调用变量：&#123;#$_links_pic#&#125;</li>
+	</div>
+</div>
+<!--内容部分结束-->
+</td><td class="box-main-right"></td></tr>
+<tr><td class="box-bottom-left"></td><td class="box-bottom-cen"></td><td class="box-bottom-right"></td></tr>
+</table>
+<!--提示信息-->
+
+<!--main-->
+<table cellpadding="0" cellspacing="0" width="100%">
+<tr><td class="box-top-left"></td><td class="box-top-cen"></td><td class="box-top-right"></td></tr>
+<tr><td class="box-main-left"></td><td>
+<h3>{#$_leftmenu[$action][item][$job]#}</h3>
+<div class="text">
+<form action="{#$basename#}" method="post" id="mainform" {#$checkSubmit#}>
+	<table cellpadding="0" cellspacing="0" width="100%">
+	{#if $job == 'add' || $job == 'mod'#}
+	<tr>
+		<td><span class="defaultbold">链接状态</span><br />关闭：网站链接将不在前台显示</td>
+		<td><input class="radio" type="radio" value="1" name="status" id="status_1" {#$status_1#} />&nbsp;开启&nbsp;&nbsp;<input class="radio" type="radio" value="0" name="status" id="status_0" {#$status_0#} />&nbsp;关闭</td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">排列顺序</span><br />请填写大于等于 0 的整数，序号越小，链接显示位置越靠前。</td>
+		<td><input class="input" type="text" value="{#$link[displayorder]#}" name="displayorder" id="displayorder" size="10" maxlength="5" /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">网站名称</span></td>
+		<td><input class="input" type="text" value="{#$link[sitename]#}" name="sitename" id="sitename" size="50" /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">网站地址</span></td>
+		<td><input class="input" type="text" value="{#$link[siteurl]#}" name="siteurl" id="siteurl" size="50" /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">网站Logo地址</span><br />如果填写Logo地址，则网站链接将以图片形式展示。</td>
+		<td><input class="input" type="text" value="{#$link[logo]#}" name="logo" id="logo" size="50" /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">网站描述</span><br />网站描述信息将显示在超链接title属性中，留空则用网站名称替代。</td>
+		<td><input class="input" type="text" value="{#$link[description]#}" name="description" id="description" size="50" /></td>
+	</tr>
+	<tr>
+		<td class="tbutton" colspan="5"><input type="hidden" value="{#$link[lid]#}" name="lid" /><input type="submit" value="提交" class="btn" name="submit"></td>
+	</tr>
+	{#elseif $job == 'edit'#}
+	<tbody class="aligncenter">
+	<tr class="tth">
+		<td width="10%">选择</td>
+		<td width="40%">网站地址</td>
+		<td width="10%">是否显示</td>
+		<td width="10%">顺序</td>
+		<td width="30%">操作</td>
+	</tr>
+	{#foreach $links as $v#}
+	<tr>
+		<td><input type="checkbox" name="lids[]" value="{#$v[lid]#}" /></td>
+		<td align="left"><a href="{#$v[siteurl]#}" target="_blank">{#$v[sitename]#}</a></td>
+		<td>{#$v[ifshow]#}</td>
+		<td>{#$v[displayorder]#}</td>
+		<td><a href="admincp.php?action=link&job=mod&lid={#$v[lid]#}">[编辑]</a></td>
+	</tr>
+	{#/foreach#}
+	</tbody>
+	<tr>
+		<td class="tbutton" colspan="5"><input type="button" value="全选" onclick="PBchoseAll(this.form)" class="btn" />&nbsp;&nbsp;<input type="submit" value="删除" class="btn" name="submit" /></td>
+	</tr>
+	{#/if#}
+	</table>
+</form>
+</div>
+</td><td class="box-main-right"></td></tr>
+<tr><td class="box-bottom-left"></td><td class="box-bottom-cen"></td><td class="box-bottom-right"></td></tr>
+</table>
+
+{#include footer#}
+</body>
+</html>

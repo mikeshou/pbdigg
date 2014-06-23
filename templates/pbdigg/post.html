@@ -1,0 +1,29 @@
+{#include header#}
+<div class="maincontainer warp">
+<div class="active-tip">
+	<p><a href="{#$_PBENV[PB_URL]#}"><span>首页</span></a> &raquo; <span>发布信息</span></p>
+</div>
+<!-- 内容 -->
+<div id="container">
+
+{#if !$cid#}
+<!-- 选择分类 -->
+{#$chosecate#}
+{#elseif !$moduleid#}
+<!-- 选择模型 -->
+{#foreach $moduleList as $v#}
+<a href="post.php?moduleid={#$v[mid]#}&cid={#$cid#}"><img src="{#$pb_sitedir#}templates/{#$pb_style#}/pic/module_{#$v[identifier]#}.gif" alt="{#$v[name]#}" /></a>
+{#/foreach#}
+{#else#}
+<!-- 发布主题 -->
+{#include post_{$moduleIdentifier}#}
+{#/if#}
+
+<div class="clear"></div></div>
+</div>
+<!-- footer -->
+{#include footer#}
+<!-- footer end -->
+
+</body>
+</html>

@@ -1,0 +1,103 @@
+{#include header#}
+<body>
+<script type="text/javascript" src="../js/date.js"></script>
+<!--提示信息-->
+<table cellpadding="0" cellspacing="0" width="100%" class="boxtable">
+<tr><td class="box-top-left"></td><td class="box-top-cen"></td><td class="box-top-right"></td></tr>
+<tr><td class="box-main-left"></td><td>
+<!--内容部分-->
+ <h3>提示信息</h3>
+<div class="text">
+	<div class="s3" style="margin-left:1em;">
+<li>可对网站公告进行编辑、删除、操作，设置所有公告的显示顺序。</li>
+<li>公告标题和内容支持HTML代码</li>
+<li>关闭公告请将“公告结束时间”设定成小于当前时间的日期</li>
+	</div>
+</div>
+<!--内容部分结束-->
+</td><td class="box-main-right"></td></tr>
+<tr><td class="box-bottom-left"></td><td class="box-bottom-cen"></td><td class="box-bottom-right"></td></tr>
+</table>
+<!--提示信息-->
+
+<!--main-->
+<table cellpadding="0" cellspacing="0" width="100%">
+<tr><td class="box-top-left"></td><td class="box-top-cen"></td><td class="box-top-right"></td></tr>
+<tr><td class="box-main-left"></td><td>
+<h3>{#$_leftmenu[$action][item][$job]#}</h3>
+<div class="text">
+<form action="{#$basename#}" method="post" id="mainform" {#$checkSubmit#}>
+	<table cellpadding="0" cellspacing="0" width="100%">
+	{#if $job == 'add' || $job == 'mod'#}
+	<tr>
+		<td><span class="defaultbold">公告范围</span><br />全站显示请选择所有分类，分类公告请选择相应的栏目。</td>
+		<td>
+			{#$option#}
+		</td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">排列顺序</span><br />请填写大于等于 0 的整数，序号越小，公告显示位置越靠前。</td>
+		<td><input class="input" type="text" value="{#$announcements[displayorder]#}" name="displayorder" id="displayorder" size="10" maxlength="5" /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">公告标题</span><br />支持html代码。</td>
+		<td><input class="input" type="text" value="{#$announcements[subject]#}" name="subject" id="subject" size="50" /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">链接地址</span><br />可定向到一个地址，如果填写链接，公告内容可以省略。</td>
+		<td><input class="input" type="text" value="{#$announcements[url]#}" name="url" id="url" size="50" /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">公告结束时间</span><br />无限期公告请留空。</td>
+		<td><input class="input" type="text" value="{#$announcements[enddate]#}" name="enddate" id="enddate" size="15" onclick="ShowCalendar('enddate',2)" /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">公告内容</span><br />支持html代码。</td>
+		<td>
+<script type="text/javascript">
+$(pageInit);
+function pageInit()
+{
+	$('#content').xheditor(true,{tools:'Basic'});
+}
+</script>
+		{#$editor[content]#}</td>
+	</tr>
+	<tr>
+		<td class="tbutton" colspan="2"><input type="hidden" value="{#$announcements[aid]#}" name="aid" /><input type="submit" value="提交" class="btn" name="submit"></td>
+	</tr>
+	{#elseif $job == 'edit'#}
+	<tbody class="aligncenter">
+	<tr class="tth">
+		<td width="10%">选择</td>
+		<td width="10%">所属分类</td>
+		<td width="40%">公告标题</td>
+		<td width="10%">结束日期</td>
+		<td width="10%">顺序</td>
+		<td width="*">操作</td>
+	</tr>
+	{#foreach $announcements as $v#}
+	<tr>
+		<td><input type="checkbox" name="aids[]" value="{#$v[aid]#}" /></td>
+		<td>{#$v[cate]#}</td>
+		<td>{#$v[subject]#}</td>
+		<td>{#$v[enddate]#}</td>
+		<td>{#$v[displayorder]#}</td>
+		<td><a href="admincp.php?action=announcement&job=mod&aid={#$v[aid]#}">[编辑]</a></td>
+	</tr>
+	{#/foreach#}
+	</tbody>
+	<tr>
+		<td class="tbutton" colspan="6"><input type="button" value="全选" onclick="PBchoseAll(this.form)" class="btn" />&nbsp;&nbsp;<input type="submit" value="删除" class="btn" name="submit"></td>
+	</tr>
+	{#/if#}
+	</table>
+</form>
+</div>
+</td><td class="box-main-right"></td></tr>
+<tr><td class="box-bottom-left"></td><td class="box-bottom-cen"></td><td class="box-bottom-right"></td></tr>
+</table>
+
+{#include footer#}
+</body>
+</html>

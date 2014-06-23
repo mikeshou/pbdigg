@@ -1,0 +1,117 @@
+{#include header#}
+<body>
+
+<!--提示信息-->
+<table cellpadding="0" cellspacing="0" width="100%" class="boxtable">
+<tr><td class="box-top-left"></td><td class="box-top-cen"></td><td class="box-top-right"></td></tr>
+<tr><td class="box-main-left"></td><td>
+<!--内容部分-->
+ <h3>提示信息</h3>
+<div class="text">
+	<div class="s3" style="margin-left:1em;">
+{#if $job == 'edit'#}
+<li>如果您需要临时停止某个模块的工作，请选择“关闭”选项。“卸载”将删除此模块的所有数据库记录，请谨慎使用。</li>
+{#elseif $job == 'add'#}
+<li>本功能仅供模型开发者或高级技术人员使用，不正确的模型设计或安装可能危及到整个网站的正常使用。</li>
+{#/if#}
+	</div>
+</div>
+<!--内容部分结束-->
+</td><td class="box-main-right"></td></tr>
+<tr><td class="box-bottom-left"></td><td class="box-bottom-cen"></td><td class="box-bottom-right"></td></tr>
+</table>
+<!--提示信息-->
+
+<!--main-->
+<table cellpadding="0" cellspacing="0" width="100%">
+<tr><td class="box-top-left"></td><td class="box-top-cen"></td><td class="box-top-right"></td></tr>
+<tr><td class="box-main-left"></td><td>
+<h3>{#$_leftmenu[$action][item][$job]#}</h3>
+<div class="text">
+<form action="{#$basename#}" method="post" id="mainform" {#$checkSubmit#}>
+	<table cellpadding="0" cellspacing="0" width="100%">
+	{#if $job == 'add'#}
+		{#if $step == 'check'#}
+		<tr>
+			<td><span class="defaultbold">模块名称</span><br /></td>
+			<td>{#$moduleInfo[name]#}</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">模块标识</span><br /></td>
+			<td>{#$moduleInfo[identifier]#}</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">作者</span><br /></td>
+			<td>{#$moduleInfo[author]#}</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">发布日期</span><br /></td>
+			<td>{#$moduleInfo[publish]#}</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">版本号</span><br /></td>
+			<td>{#$moduleInfo[version]#}</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">功能描述</span><br /></td>
+			<td class="ww">{#$moduleInfo[description]#}</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">许可协议</span><br /></td>
+			<td><textarea name="" style="width:90%" rows="10">{#$moduleInfo[copyright]#}</textarea></td>
+		</tr>
+		<tr>
+			<td class="tmult" colspan="2" style="text-align:center"><input type="checkbox" id="agree" name="agree" checked="checked" title="是否同意服务条款" onclick="$('#submit').attr('disabled', ($('#agree').attr('checked') == true ? '' : 'disabled'))" />&nbsp;我已看过并同意安装许可协议</td>
+		</tr>
+		<tr>
+			<td class="tbutton" colspan="2"><input type="hidden" value="{#$moduleInfo[identifier]#}" name="moduleDir" /><input type="hidden" value="install" name="step" /><input type="submit" value="开始安装" class="btn" id="submit" /></td>
+		</tr>
+		{#else#}
+		<tr>
+			<td><span class="defaultbold">第一步：填写模块目录</span><br />安装模块前，模块文件夹已经上传至服务器上 module 目录下。</td>
+			<td><input class="input" type="text" name="moduleDir" size="25" /></td>
+		</tr>
+		<tr>
+			<td class="tbutton" colspan="2"><input type="hidden" value="check" name="step" /><input type="submit" value="提交" class="btn" name="submit" /></td>
+		</tr>
+		{#/if#}
+	{#elseif $job == 'edit'#}
+	<tbody class="aligncenter">
+	<tr class="tth">
+		<td width="15%">模块名称</td>
+		<td width="15%">模块目录</td>
+		<td width="15%">版本号</td>
+		<td width="15%">发布日期</td>
+		<td width="40%">操作</td>
+	</tr>
+	{#foreach $moduledata as $v#}
+	<tr>
+		<td>{#$v[name]#}</td>
+		<td>{#$v[identifier]#}</td>
+		<td>{#$v[version]#}</td>
+		<td>{#$v[publish]#}</td>
+		<td><a href="admincp.php?action=module&job=mod&mid={#$v[mid]#}">[配置]</a>&nbsp;<a href="admincp.php?action=module&job=status&mid={#$v[mid]#}">[{#$v[status]#}]</a>&nbsp;<a href="admincp.php?action=module&job=del&mid={#$v[mid]#}">[卸载]</a>&nbsp;<a href="admincp.php?action=module&job=help&mid={#$v[mid]#}">[帮助]</a></td>
+	</tr>
+	{#/foreach#}
+	</tbody>
+	{#elseif $job == 'del'#}
+	<tr>
+		<td><p class="desc"><span class="b">删除模型将同时删除数据库内的相关记录。此操作不可恢复！</span></p></td>
+	</tr>
+	<tr>
+		<td class="tbutton">
+			<input class="hidden" name="mid" type="hidden" value="{#$mid#}" />
+			<input type="submit" value="确认删除模型" class="btn" name="submit" />
+		</td>
+	</tr>
+	{#/if#}
+	</table>
+</form>
+</div>
+</td><td class="box-main-right"></td></tr>
+<tr><td class="box-bottom-left"></td><td class="box-bottom-cen"></td><td class="box-bottom-right"></td></tr>
+</table>
+
+{#include footer#}
+</body>
+</html>

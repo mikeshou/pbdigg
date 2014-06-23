@@ -1,0 +1,51 @@
+{#include header#}
+<body>
+
+<!--提示信息-->
+<table cellpadding="0" cellspacing="0" width="100%" class="boxtable">
+<tr><td class="box-top-left"></td><td class="box-top-cen"></td><td class="box-top-right"></td></tr>
+<tr><td class="box-main-left"></td><td>
+<!--内容部分-->
+ <h3>提示信息</h3>
+<div class="text">
+	<div class="s3" style="margin-left:1em;">
+<li>{#$plugin_message[plugin_tip]#}</li>
+	</div>
+</div>
+<!--内容部分结束-->
+</td><td class="box-main-right"></td></tr>
+<tr><td class="box-bottom-left"></td><td class="box-bottom-cen"></td><td class="box-bottom-right"></td></tr>
+</table>
+<!--提示信息-->
+
+<!--main-->
+<table cellpadding="0" cellspacing="0" width="100%">
+<tr><td class="box-top-left"></td><td class="box-top-cen"></td><td class="box-top-right"></td></tr>
+<tr><td class="box-main-left"></td><td>
+<h3>{#$plugin_message[plugin_title]#}</h3>
+<div class="text">
+<form action="{#$basename#}" method="post" name="mainform">
+	<table cellpadding="0" cellspacing="0" width="100%">
+	<tr>
+		<td><span class="defaultbold">网站地图类型</span><br />提供百度和google两种网站地图文件</td>
+		<td><input type="checkbox" name="baidu" value ="1" checked="checked" />百度&nbsp;<input type="checkbox" name="google" value ="1" checked="checked" />Google</td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">分类栏目</span><br />请选择需要生成地图的栏目，留空则为生成全部栏目地图。</td>
+		<td>
+			{#$mapcate#}
+		</td>
+	</tr>
+	<tr>
+		<td class="tbutton" colspan="6"><input type="hidden" name="process" value="on" /><input type="hidden" name="pmark" value="pbmap" /><input type="button" value="全选" class="btn" name="choseall" onclick="PBchoseAll(this.form)">&nbsp;<input type="submit" value="递交" class="btn" name="submit"></td>
+	</tr>
+	</table>
+</form>
+</div>
+</td><td class="box-main-right"></td></tr>
+<tr><td class="box-bottom-left"></td><td class="box-bottom-cen"></td><td class="box-bottom-right"></td></tr>
+</table>
+
+{#include footer#}
+</body>
+</html>

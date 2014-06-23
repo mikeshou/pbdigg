@@ -1,0 +1,24 @@
+.modalOverlay{color:#555;text-align:center;font-size:14px;}
+.modalContainer{border:5px solid #0099FF;background:#e9f3fc;height:100%; padding-top:30px; position:relative; -moz-border-radius: 5px;-webkit-border-radius: 5px;   /* FireFox 专用样式*/
+  opacity:0.95;
+  /* IE 专用样式*/
+  filter: Alpha(Opacity=95); }
+.modalContainer .modalData{padding:8px 0; background:#fff; }
+.modalHeader{}
+.login-close{height:16px; position:absolute; top:0px; right:0;text-indent:-2000em;margin: 6px 10px 0 6px;overflow: hidden;background:url(../pic/close.gif) no-repeat;height:16px; width:16px;}
+
+.ajax{padding:20px; line-height:200%; text-align:left; margin: 0 auto;}
+.ajax span{ display:block; margin:0 0 5px;}
+
+.ajax input { border:2px solid #66CCFF; background-color:#f4f6f8; padding:1px 8px 0; font-size:14px;}
+.ajax input.checkbox_tag{border:none; background:none; margin-right:10px; margin-left:3px; vertical-align:middle; padding:0;}
+
+.ajax .ccxz {clear:both; display:block; overflow:auto; margin-bottom:5px; height:30px; zoom:1;}
+.ajax .ccxz span {width:20px; height:20px; float:left; background:none; margin-top:3px; }
+.ajax .ccxz  input{margin-top:3px; margin-right:5px;float:left; border:none; background:none;padding:0;}
+
+.ajax .plt{padding:3px 4px;margin:5px 10px 5px 0;border:2px solid #CCEFF5;
+	background-color: #FAFCFD ; height:120px; overflow:auto;-moz-border-radius: 5px;-webkit-border-radius: 5px; width:350px;}
+	
+.ajax .leftup{width:180px; float:left;  overflow:hidden; margin-top:2px;}
+.ajax .rightup{width:170px; float:left; overflow:hidden;}

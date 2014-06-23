@@ -1,0 +1,84 @@
+{#include header#}
+<div class="maincontainer">
+<!-- 注册选项-->
+<div class="tips">
+	<p>已经有帐号了？<strong><a href="login.php">立即登录</a></strong>！</p>
+</div>
+
+<!-- 内容 -->
+
+<script src="{#$_PBENV[PB_URL]#}js/reg.js" type="text/javascript"></script>
+
+<div class="reg-main">
+	<h1 class="reg-title">填写注册信息</h1>
+	<form action="{#$registerFormURL#}" method="post" id="regform" name="regform" onsubmit="return regsubmit();">
+		<!-- 用户名 -->
+		<p>
+			<label for="username">用户名</label>
+			<input type="text" name="username" id="username" value="" onblur="ckusername()" size="25" maxlength="15" /><span class="reg-cktip" id="ckusername">您选择的用户名长度不符合系统设定。</span>
+        </p>
+    	<p class="reg-ck">可以是中文、英文，长度控制在 {#$reg_minname#} - {#$reg_maxname#} 字符以内。</p>
+		<!-- 电子邮件 -->
+		<p>
+			<label for="email">电子邮件</label>
+			<input type="text" name="email" id="email" value="" onBlur="ckemail()" size="25" /><span class="reg-cktip" id="ckemail">Email 地址无效！</span>
+		</p>
+		<p class="reg-ck">用来确认您的身份，{#$pb_sitename#}绝不公开您的Email信息。</p>
+		<!-- 密码 -->
+		<p>
+			<label for="password">设置密码</label>
+			<input type="password" name="password" id="password" value="" onBlur="ckpw()" size="25" /><span class="reg-cktip" id="ckpw">密码长度小于6位或包含非法字符！</span>
+		</p>
+		<p class="reg-ck">可以使用英文字母（区分大小写）、数字、符号，长度不少于6位。</p>
+		<!-- 密码确认 -->
+		<p>
+			<label for="rpassword">重复密码</label>
+			<input type="password" name="rpassword" id="rpassword" value="" onBlur="ckrpw()" size="25" /><span class="reg-cktip" id="ckrpw">两次输入的密码不一致！</span>
+		</p>
+		<p class="reg-ck">再输一次，看看是否记住密码了。</p>
+		{#if $pb_gdcheck & 1#}
+		<!-- 验证码 -->
+		<p>
+			<label for="captcha">验证码</label>
+			<input type="text" name="captcha" id="captcha" onblur="ckcaptcha()" title="请将图片中的数字填入到文本框中" size="25" /><span class="reg-cktip" id="ckcaptcha">验证码错误</span>
+		</p>
+		<p class="reg-ck"><img src="checkcode.php?" onclick="refreshCheckcode()" style="cursor:pointer;" align="absmiddle" id="checkcode" alt="看不清楚？点击图片刷新一下。" />&nbsp;防止恶意注册程序，请您输入验证码。</p>
+		{#/if#}
+
+		{#if $pb_regqa#}
+		<!-- 注册验证问题 -->
+		<p>
+			<label for="answer">防恶意注册</label>
+			<input type="text" id="answer" name="answer" value="" onblur="ckanswer()"  size="25" /><span class="reg-cktip" id="ckanswer"></span>
+		</p>
+		<p class="reg-ck">问：{#$pb_checkquestion#} 答：{#$pb_checkanswer#}</p>
+		{#/if#}
+		<!--隐私政策-->
+		<p class="reg-ck"><input type="checkbox" class="checkbox" name="privacy" id="privacy" value="1" onclick="ckprivacy(this)" checked="checked" />我已经阅读并理解我们的<a href="privacy.php" target="_blank">隐私政策</a>。<span class="reg-cktip" id="ckprivacy">您必须同意我们的隐私策略才能完成注册</span></p>
+		<p class="reg-submit"><input type="submit" name="submit" id="submit" value="完成注册" class="button" /><span id="registsending" style="display:none;">注册信息提交中，请稍候...</span></p>
+	</form>
+</div>
+
+</div>
+
+<script type="text/javascript">
+<!--
+var reg_minname = {#$reg_minname#};
+var reg_maxname = {#$reg_maxname#};
+var reg_name_len = '用户名长度必须大于{#$reg_minname#}，小于{#$reg_maxname#}';
+var ajax_response_loading = '正在检查数据，请等待...';
+var ajax_response_failed = '与服务器通信失败，请刷新重新尝试！';
+var reg_email_error = 'Email 地址无效！';
+var reg_pw_error = '密码长度小于6位或包含非法字符！';
+var reg_pw_nmatch = '两次输入的密码不一致！';
+var captcha_error = '验证码错误';
+var reg_privacy_error = '您必须同意我们的隐私策略才能完成注册！';
+//-->
+</script>
+
+<!-- footer -->
+{#include footer#}
+<!-- footer -->
+
+</body>
+</html>

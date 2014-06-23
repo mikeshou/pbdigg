@@ -1,0 +1,98 @@
+{#include header#}
+<script language="javascript" type="text/javascript" src="{#$_PBENV[PB_URL]#}js/simplemodal.js" /></script>
+<div class="maincontainer">
+    <div class="mainleft">
+		<div id="nav_guide">
+					您所在的位置：{#func nav()#}
+		</div>
+
+	<div class="catelist">
+    	<div class="clhot">
+        	<h3><span>共有{#$currentCateData[tnum]#}篇文章，发表了{#$currentCateData[cnum]#}条评论</a></span>编辑推荐的资讯</h3>
+				<ul>
+{#tpl self_41be5f0c#}
+           
+                </ul>
+
+
+        </div>
+        <div class="lefttop">
+				<h3>
+                	<span class="tool"><strong>发表时间</strong></span>
+					<a href="{#$_PBENV[PB_URL]#}category.php?cid={#$cid#}&amp;viewday=365" class="tool">365 天</a>
+                    <a href="{#$_PBENV[PB_URL]#}category.php?cid={#$cid#}&amp;viewday=30" class="tool">30 天</a>
+                    <a href="{#$_PBENV[PB_URL]#}category.php?cid={#$cid#}&amp;viewday=7" class="tool">7 天</a>
+                    <a href="{#$_PBENV[PB_URL]#}category.php?cid={#$cid#}&amp;viewday=1" class="tool">最近24小时</a>
+				</h3>
+        </div>
+
+	<!-- 文章列表 -->
+    <div class="catearticlelist">
+
+	{#foreach $article as $k => $item#}
+                <ul class="articleright {#if $k % 2#}bg_1{#else#}bg_2{#/if#}">
+                <div style="float:right;">{#$item[topicimg]#}</div>
+                
+                <a href="{#$item[titleurl]#}" title="{#$item[altsubject]#}" class="user_avatar" target="_blank"><img src="{#$item[avatar]#}" alt="{#$item[author]#}" /></a>
+			<li class="title">
+
+        <a href="{#$item[titleurl]#}" title="{#$item[altsubject]#}" target="_blank">{#$item[subject]#}</a>
+			</li>
+            	<li class="summary">
+            	<span style="display:block;">{#$item[postdate]#} , <em style="font-size:12px; font-weight:normal; padding-left:5px;">{#$item[tags]#}</em></span>{#$item[summary]#} 
+            </li>
+            <li class="tool"><span class="diggc">
+{#if $pb_ifdigg#}
+                <a href="javascript:void(0);" onclick="{#if $pb_ifdigg#}dbaction('digg', {#$item[tid]#}, 0);{#else#}javascript:void(0);{#/if#}" id="digg_{#$item[tid]#}_0" class="diggcd">{#$item[digg]#}</a>
+            {#/if#}
+            {#if $pb_ifbury#}
+                    <a href="javascript:void(0);" onclick="{#if $pb_ifbury#}dbaction('bury', {#$item[tid]#}, 0);{#else#}javascript:void(0);{#/if#}" id="bury_{#$item[tid]#}_0" class="diggcb">{#$item[bury]#}</a>
+            {#/if#}
+            </span>
+            
+            	<span class="pinglun"><a href="{#$item[turl]#}#comment" target="_blank">{#$item[comments]#} 评论</a></span><span class="share">{#$item[views]#} 人读过</span><span class="bury">来源：<a href="{#$item[contentlink]#}" target="_blank">{#$item[linkhost]#}</a></span><span class="tagico"></span>            </li>
+
+        </ul>
+
+
+	{#/foreach#}
+
+    </div>
+	<!-- 文章列表 -->
+       	{#$multLink#}    
+
+        
+	</div>
+    	</div>
+    <div class="sidebar">    
+
+	<a href="{#$rssurl#}" class="rssbg">{#$currentCateData[name]#}</a>
+	<h2>最新文章<span>Posts</span></h2>
+			<ol class="boder">
+				{#tpl self_63bebcc0#}
+			</ol>
+	<h2>会员评论<span>Comments</span></h2>
+			<dl class="boder">
+				{#tpl self_353a93cb#}
+			</dl>
+   		<h2>标签Tag<span><a href="tag.php" target="_blank">More...</a></span></h2>
+			<div class="hottags boder">
+			{#func hottags(30)#}
+			</div>
+
+		<h2>一周热门<span>7days top</span></h2>
+
+			<ol class="boder">
+			{#tpl self_b24f5373#}
+			</ol>
+
+    </div>
+
+</div>
+
+<!-- 脚注 -->
+{#include footer#}
+<!-- 脚注 -->
+
+</body>
+</html>

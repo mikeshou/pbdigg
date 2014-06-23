@@ -1,0 +1,338 @@
+{#include header#}
+<body>
+
+<!--提示信息-->
+<table cellpadding="0" cellspacing="0" width="100%" class="boxtable">
+<tr><td class="box-top-left"></td><td class="box-top-cen"></td><td class="box-top-right"></td></tr>
+<tr><td class="box-main-left"></td><td>
+<!--内容部分-->
+ <h3>提示信息</h3>
+<div class="text">
+	<div class="s3" style="margin-left:1em;">
+{#if $job == 'count'#}
+PBDigg! 用户组分为系统会员组、特殊会员组和普通会员组，普通会员组以积分确定组别和权限，而系统组和特殊组是人为设定，不会由系统自行改变。
+{#elseif $job == 'admin' || $job == 'mod'#}
+PBDigg! 管理组包括后台管理员、前台管理员，可以自由设定管理组前后台管理权限。
+{#elseif $job == 'user'#}
+PBDigg! 会员组管理可以设定用户使用网站基本权限。 
+{#/if#}
+	</div>
+</div>
+<!--内容部分结束-->
+</td><td class="box-main-right"></td></tr>
+<tr><td class="box-bottom-left"></td><td class="box-bottom-cen"></td><td class="box-bottom-right"></td></tr>
+</table>
+<!--提示信息-->
+
+<!--main-->
+<table cellpadding="0" cellspacing="0" width="100%">
+<tr><td class="box-top-left"></td><td class="box-top-cen"></td><td class="box-top-right"></td></tr>
+<tr><td class="box-main-left"></td><td>
+<h3>{#$_leftmenu[$action][item][$job]#}</h3>
+<div class="text">
+<form action="{#$basename#}" method="post" id="mainform">
+	<table cellpadding="0" cellspacing="0" width="100%">
+	{#if $job == 'count'#}
+	<tbody class="aligncenter">
+	<tr class="tth">
+		<td width="20%">用户组</td>
+		<td width="50%">会员数量</td>
+		<td width="30%">操作</td>
+	</tr>
+	{#foreach $groups as $k => $v#}
+	<tr>
+		<td>{#$v[groupname]#}</td>
+		<td>{#$v[amount]#}</td>
+		<td><a href="admincp.php?action=group&job=mod&type=user&groupid={#$v[groupid]#}">[编辑]</a>&nbsp;&nbsp;<a href="admincp.php?action=member&job=list&ispost=on&groupid={#$v[groupid]#}">[搜索]</a></td>
+	</tr>
+	{#/foreach#}
+	</tbody>
+	{#elseif $job == 'admin'#}
+	<tbody class="aligncenter">
+	<tr class="tth">
+		<td width="20%">管理组ID</td>
+		<td width="50%">分组名称</td>
+		<td width="30%">操作</td>
+	</tr>
+	{#foreach $groups as $k => $v#}
+	<tr>
+		<td>{#$v[adminid]#}</td>
+		<td>{#$v[groupname]#}</td>
+		<td><a href="admincp.php?action=group&job=mod&type=admin&adminid={#$v[adminid]#}">[编辑]</a>&nbsp;&nbsp;<a href="admincp.php?action=member&job=list&ispost=on&groupid={#$v[groupid]#}">[搜索]</a></td>
+	</tr>
+	{#/foreach#}
+	</tbody>
+	{#elseif $job == 'user'#}
+	<tbody class="aligncenter">
+	<tr class="tth">
+		<td width="20%">用户组ID</td>
+		<td width="50%">分组名称</td>
+		<td width="30%">操作</td>
+	</tr>
+	<tr>
+		<td colspan="3"><strong>系统会员组</strong></td>
+	</tr>
+	{#foreach $systemgroup as $v#}
+	<tr>
+		<td>{#$v[groupid]#}</td>
+		<td>{#$v[groupname]#}</td>
+		<td><a href="admincp.php?action=group&job=mod&type=user&groupid={#$v[groupid]#}">[编辑]</a>&nbsp;&nbsp;<a href="admincp.php?action=member&job=list&ispost=on&groupid={#$v[groupid]#}">[搜索]</a></td>
+	</tr>
+	{#/foreach#}
+	<tr>
+		<td colspan="3"><strong>特殊会员组</strong></td>
+	</tr>
+	{#foreach $specialgroup as $v#}
+	<tr>
+		<td>{#$v[groupid]#}</td>
+		<td>{#$v[groupname]#}</td>
+		<td><a href="admincp.php?action=group&job=mod&type=user&groupid={#$v[groupid]#}">[编辑]</a>&nbsp;&nbsp;<a href="admincp.php?action=member&job=list&ispost=on&groupid={#$v[groupid]#}">[搜索]</a></td>
+	</tr>
+	{#/foreach#}
+	<tr>
+		<td colspan="3"><strong>普通会员组</strong></td>
+	</tr>
+	{#foreach $membergroup as $v#}
+	<tr>
+		<td>{#$v[groupid]#}</td>
+		<td>{#$v[groupname]#}</td>
+		<td><a href="admincp.php?action=group&job=mod&type=user&groupid={#$v[groupid]#}">[编辑]</a>&nbsp;&nbsp;<a href="admincp.php?action=member&job=list&ispost=on&groupid={#$v[groupid]#}">[搜索]</a></td>
+	</tr>
+	{#/foreach#}
+	</tbody>
+	{#elseif $job == 'mod'#}
+	{#if $type == 'admin'#}
+	<tr class="tth" style="text-align:center">
+		<td colspan="2">前管理权限编辑</td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">是否允许编辑主题</span><br />管理员拥有网站主题和评论的编辑权限。</td>
+		<td><input type="checkbox" name="alloweditatc" id="alloweditatc" value="1" {#$alloweditatc#} /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">是否允许删除主题</span><br />管理员拥有网站主题和评论的删除权限。</td>
+		<td><input type="checkbox" name="allowdelatc" id="allowdelatc" value="1" {#$allowdelatc#} /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">是否允许审核主题</span><br />管理员拥有网站主题和评论的审核权限。</td>
+		<td><input type="checkbox" name="allowcheckatc" id="allowcheckatc" value="1" {#$allowcheckatc#} /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">是否允许锁定主题</span><br />管理员可以锁定和解锁主题，锁定的主题将不允许“回复”操作。</td>
+		<td><input type="checkbox" name="allowlockatc" id="allowlockatc" value="1" {#$allowlockatc#} /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">是否允许屏蔽主题</span><br />管理员可以将主题和评论内容单独屏蔽，无权限用户将无法查看相应内容。</td>
+		<td><input type="checkbox" name="allowshield" id="allowshield" value="1" {#$allowshield#} /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">是否允许移动主题</span><br />管理员可以将文章归并到合适的分类。</td>
+		<td><input type="checkbox" name="allowmoveatc" id="allowmoveatc" value="1" {#$allowmoveatc#} /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">是否允许复制主题</span><br />管理员可以将文章复制到不同的分类。</td>
+		<td><input type="checkbox" name="allowcopyatc" id="allowcopyatc" value="1" {#$allowcopyatc#} /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">是否允许置顶主题</span><br />管理员可以将重要的文章进行置顶操作。置顶模板请在模板调用里进行设置。</td>
+		<td><input type="checkbox" name="allowtopatc" id="allowtopatc" value="1" {#$allowtopatc#} /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">是否允许推荐主题</span><br />管理员可以将精华文章做主题推荐，在网站前台醒目位置显示。</td>
+		<td><input type="checkbox" name="allowcommend" id="allowcommend" value="1" {#$allowcommend#} /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">是否允许标题样式管理</span><br />管理员可以将文章标题做加粗、修改颜色等处理。</td>
+		<td><input type="checkbox" name="allowtitlestyle" id="allowtitlestyle" value="1" {#$allowtitlestyle#} /></td>
+	</tr>
+	<tr class="tth" style="text-align:center">
+		<td colspan="2">后台管理权限编辑</td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">是否允许进入后台</span><br />管理员可以进入后台进行规定权限内的操作，除超级管理员外建议谨慎开启。</td>
+		<td><input type="checkbox" name="allowadmincp" id="allowadmincp" value="1" {#$allowadmincp#} /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">系统设置</span><br />系统设置内包含控制网站各项参数属性的选项。</td>
+		<td><input type="checkbox" name="admin_right[setting]" id="setting" value="1" {#$admin_right[setting]#} /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">分类管理</span><br />管理网站的分类。</td>
+		<td><input type="checkbox" name="admin_right[cate]" id="cate" value="1" {#$admin_right[cate]#} /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">标签管理</span><br />增加、删除、修改网站标签（tag）。</td>
+		<td><input type="checkbox" name="admin_right[tag]" id="tag" value="1" {#$admin_right[tag]#} /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">会员管理</span><br />增加、删除、编辑会员。</td>
+		<td><input type="checkbox" name="admin_right[member]" id="member" value="1" {#$admin_right[member]#} /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">分组管理</span><br />管理编辑网站管理组和会员组。</td>
+		<td><input type="checkbox" name="admin_right[group]" id="group" value="1" {#$admin_right[group]#} /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">模块管理</span><br />系统模块的参数设置和内容管理。</td>
+		<td><input type="checkbox" name="admin_right[module]" id="check" value="1" {#$admin_right[module]#} /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">审核管理</span><br />处理待审核的主题和评论。</td>
+		<td><input type="checkbox" name="admin_right[check]" id="check" value="1" {#$admin_right[check]#} /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">专题管理</span><br />专题的创建、整理、取消。</td>
+		<td><input type="checkbox" name="admin_right[special]" id="special" value="1" {#$admin_right[special]#} /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">内容管理</span><br />批量管理主题、评论、附件、系统短信息、邮件等。</td>
+		<td><input type="checkbox" name="admin_right[batch]" id="batch" value="1" {#$admin_right[batch]#} /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">插件管理</span><br />网站插件程序的安装和卸载，以及插件属性的设置。</td>
+		<td><input type="checkbox" name="admin_right[plugin]" id="plugin" value="1" {#$admin_right[plugin]#} /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">消息管理</span><br />群发系统短信、邮件。</td>
+		<td><input type="checkbox" name="admin_right[message]" id="message" value="1" {#$admin_right[message]#} /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">模板管理</span><br />在线网站风格模板编辑、内容调用设置。</td>
+		<td><input type="checkbox" name="admin_right[tpl]" id="tpl" value="1" {#$admin_right[tpl]#} /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">数据库管理</span><br />网站数据库的备份、恢复、优化等。</td>
+		<td><input type="checkbox" name="admin_right[database]" id="database" value="1" {#$admin_right[database]#} /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">链接管理</span><br />管理网站友情链接。</td>
+		<td><input type="checkbox" name="admin_right[link]" id="link" value="1" {#$admin_right[link]#} /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">公告管理</span><br />管理网站公告。</td>
+		<td><input type="checkbox" name="admin_right[announcement]" id="announcement" value="1" {#$admin_right[announcement]#} /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">工具管理</span><br />多项有用工具的使用。</td>
+		<td><input type="checkbox" name="admin_right[tool]" id="tool" value="1" {#$admin_right[tool]#} /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">日志管理</span><br />管理后台、前台和数据库日志。</td>
+		<td><input type="checkbox" name="admin_right[log]" id="log" value="1" {#$admin_right[log]#} /></td>
+	</tr>
+	{#else#}
+	<tr class="tth" style="text-align:center">
+		<td colspan="2">{#$grouptitle#}</td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">是否允许访问</span><br />关闭：分组成员的访问请求将被拒绝。</td>
+		<td><input type="checkbox" name="allowvisit" id="allowvisit" value="1" {#$allowvisit#} /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">是否允许访问隐藏分类</span><br />开启：分组成员拥有访问私密分类的权限，查看<a href="admincp.php?action=cate&job=edit" class="b">网站分类</a>。</td>
+		<td><input type="checkbox" name="allowsort" id="allowsort" value="1" {#$allowsort#} /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">是否允许浏览主题</span><br />关闭：分组成员将不能阅读主题和评论。</td>
+		<td><input type="checkbox" name="allowread" id="allowread" value="1" {#$allowread#} /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">是否允许发表主题</span><br />关闭：分组成员将不能发表主题，游客组开启此选项则允许匿名发表主题。</td>
+		<td><input type="checkbox" name="allowpost" id="allowpost" value="1" {#$allowpost#} /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">是否允许发表评论</span><br />关闭：分组成员将不能发表评论，游客组开启此选项则允许匿名发表评论。</td>
+		<td><input type="checkbox" name="allowcomment" id="allowcomment" value="1" {#$allowcomment#} /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">是否允许“顶”</span><br />支持主题或者评论，建议对所有分组成员开启此功能。</td>
+		<td><input type="checkbox" name="allowdigg" id="allowdigg" value="1" {#$allowdigg#} /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">是否允许“反对”</span><br />反对主题或者评论，建议对所有分组成员开启此功能。</td>
+		<td><input type="checkbox" name="allowbury" id="allowbury" value="1" {#$allowbury#} /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">是否允许基本搜索</span><br />基本搜索内容包括文章标题、标签、作者。关闭则分组成员无法使用网站的搜索功能。</td>
+		<td><input type="checkbox" name="allowbsearch" id="allowbsearch" value="1" {#$allowbsearch#} /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">是否允许全文搜索</span><br />全文搜索将较为消耗系统资源，建议对部分分组开放此功能。</td>
+		<td><input type="checkbox" name="allowasearch" id="allowasearch" value="1" {#$allowasearch#} /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">搜索间隔时间（单位：秒）</span><br />两次搜索的间隔时间，0为不限制。</td>
+		<td><input class="input" type="text" value="{#$searchmax#}" name="searchmax" id="searchmax" size="10" /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">是否允许举报文章</span><br />会员可以向管理员举报包含非法内容的文章。</td>
+		<td><input type="checkbox" name="allowreport" id="allowreport" value="1" {#$allowreport#} /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">是否允许html标记</span><br /><span class="r">警告：</span>可能会产生严重安全问题，建议除系统管理员外禁止此权限。</td>
+		<td><input type="checkbox" name="allowhtml" id="allowhtml" value="1" {#$allowhtml#} /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">是否允许发送短信息</span><br />会员可以通过站内短消息向其他成员发送信息。</td>
+		<td><input type="checkbox" name="allowmsg" id="allowmsg" value="1" {#$allowmsg#} /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">收件箱最大容量</span><br />允许存放的短信息数量，如果一个会员的短信收件箱信息条数超过此数值，则不能继续接收其它成员的短信，系统短信接收不受影响。</td>
+		<td><input class="input" type="text" value="{#$msgmax#}" name="msgmax" id="msgmax" size="10" /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">是否允许使用主题收藏夹</span><br />会员可以通过收藏将文章保存起来供以后使用。</td>
+		<td><input type="checkbox" name="allowfavors" id="allowfavors" value="1" {#$allowfavors#} /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">收藏夹容量</span><br />可以收藏的主题数量。</td>
+		<td><input class="input" type="text" value="{#$favorsmax#}" name="favorsmax" id="favorsmax" size="10" /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">是否允许自定义头像</span><br />开启：允许会员通过网络引用或者上传图片来个性头像。<br />关闭：会员只能选择系统自定义的图片作为个性头像。</td>
+		<td><input type="checkbox" name="allowavatar" id="allowavatar" value="1" {#$allowavatar#} /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">是否允许上传附件</span><br />关闭：会员将不允许上传任何附件。</td>
+		<td><input type="checkbox" name="allowaupload" id="allowaupload" value="1" {#$allowaupload#} /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">最大上传文件尺寸（单位：KB）</span><br />分组成员上传的单个附件的最大尺寸。</td>
+		<td><input class="input" type="text" value="{#$uploadmax#}" name="uploadmax" id="uploadmax" size="10" /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">上传文件类型</span><br />多个附件类型之间请用半角逗号“,”分隔，推荐类型：jpeg、jpg、gif、png、zip、rar。</td>
+		<td><input class="input" type="text" value="{#$uploadtype#}" name="uploadtype" id="uploadtype" size="35" /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">自定义发布时间</span><br />可以根据需要调整发布文章的时间值，推荐仅对管理人员开放此功能。</td>
+		<td><input type="checkbox" value="1" name="allowtimestamp" id="allowtimestamp" {#$allowtimestamp#} /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">自定义文章初始状态值</span><br />可以根据需要调整文章发布后的点击数、“顶”次数、“反对”次数，推荐仅对管理人员开放此功能。</td>
+		<td><input type="checkbox" value="1" name="allowinitstatus" id="allowinitstatus" {#$allowinitstatus#} /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">文章初始状态最大值</span><br />允许设定的文章初始点击数、“支持”次数、“反对”次数最大值，此选项依赖上项设置。</td>
+		<td>点击数：<input class="input" type="text" value="{#$inithit#}" name="inithit" id="inithit" size="10" />&nbsp;支持数：<input class="input" type="text" value="{#$initdigg#}" name="initdigg" id="initdigg" size="10" /><br /<br />反对数：<input class="input" type="text" value="{#$initbury#}" name="initbury" id="initbury" size="10" />&nbsp;
+		</td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">自定义广告</span><br />会员可以在自己发布的文章内放置广告，此举可以吸引会员主动投稿。</td>
+		<td><input type="checkbox" value="1" name="allowad" id="allowad" {#$allowad#} /></td>
+	</tr>
+	{#/if#}
+	<tr>
+		<td class="tbutton" colspan="2"><input type="hidden" name="adminid" value="{#$adminid#}" /><input type="hidden" name="groupid" value="{#$groupid#}" /><input type="hidden" name="type" value="{#$type#}" /><input type="submit" value="提交" class="btn" name="submit"></td>
+	</tr>
+	{#/if#}
+	</table>
+</form>
+</div>
+</td><td class="box-main-right"></td></tr>
+<tr><td class="box-bottom-left"></td><td class="box-bottom-cen"></td><td class="box-bottom-right"></td></tr>
+</table>
+
+{#include footer#}
+</body>
+</html>

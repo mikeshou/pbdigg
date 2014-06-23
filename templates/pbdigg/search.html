@@ -1,0 +1,67 @@
+{#include header#}
+
+<div class="maincontainer">
+<div class="tips">
+	<p>欢迎使用搜索，建议您使用更简洁的关键字查询……</p>
+</div>
+<div class="search">
+{#if $searchresult#}
+
+		<div class="tac">
+<form action="search.php" method="post">
+
+<select name="searchitem"  style="width:70px;font-size:14px;height:24px;">
+<option value="1">标题</option>
+<option value="2">标签</option>
+<option value="3">作者</option>
+{#if $allowasearch#}
+<option value="4">全文</option>
+{#/if#}
+</select>
+<input type="text" name="pb_s" size="40"  style="padding:5px 0 0 2px;height:16px;font-size:12px;"/>
+<input type="hidden" name="verify" value="{#$verifyhash#}" />
+<input type="submit" name="submit" value="给我搜" style="width:70px;height:23px;font-size:14px;"  />
+</form>
+		</div>
+
+
+
+<div class="search_list">
+<ul>
+{#foreach $searchresult as $v#}
+<li><a href="show.php?tid={#$v[tid]#}" target="_blank">{#$v[subject]#} <em>({#$v[postdate]#})</em></a><br ><span>{#$v[summary]#}</span></li>
+{#/foreach#}
+</ul>
+</div>
+<div>{#$multLink#}</div>
+{#else#}
+
+		<div class="tac">
+<form action="search.php?verify={#$verifyhash#}" method="post">
+
+<select name="searchitem"  style="width:70px;font-size:14px;height:24px;">
+<option value="1">标题</option>
+<option value="2">标签</option>
+<option value="3">作者</option>
+{#if $allowasearch#}
+<option value="4">全文</option>
+{#/if#}
+</select>
+<input type="text" name="pb_s" size="40"  style="padding:5px 0 0 2px;height:16px;font-size:12px;"/>
+
+<input type="submit" name="submit" value="给我搜" style="width:70px;height:23px;font-size:14px;"  />
+</form>
+		</div>
+
+
+{#/if#}
+</div>
+</div>
+
+
+<!-- footer -->
+{#include footer#}
+<!-- footer -->
+
+</body>
+</html>

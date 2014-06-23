@@ -1,0 +1,49 @@
+{#include header#}
+<body>
+
+<!--提示信息-->
+<table cellpadding="0" cellspacing="0" width="100%" class="boxtable">
+<tr><td class="box-top-left"></td><td class="box-top-cen"></td><td class="box-top-right"></td></tr>
+<tr><td class="box-main-left"></td><td>
+<!--内容部分-->
+ <h3>提示信息</h3>
+<div class="text">
+	<div class="s3" style="margin-left:1em;">
+<li>{#$plugin_message[plugin_tip]#}</li>
+	</div>
+</div>
+<!--内容部分结束-->
+</td><td class="box-main-right"></td></tr>
+<tr><td class="box-bottom-left"></td><td class="box-bottom-cen"></td><td class="box-bottom-right"></td></tr>
+</table>
+<!--提示信息-->
+
+<!--main-->
+<table cellpadding="0" cellspacing="0" width="100%">
+<tr><td class="box-top-left"></td><td class="box-top-cen"></td><td class="box-top-right"></td></tr>
+<tr><td class="box-main-left"></td><td>
+<h3>{#$plugin_message[plugin_title]#}</h3>
+<div class="text">
+<form action="{#$basename#}" method="post" name="mainform">
+	<table cellpadding="0" cellspacing="0" width="100%">
+	<tr>
+		<td><span class="defaultbold">单次跳转整合数量</span><br />默认：500</td>
+		<td><input type="text" name="percount" value ="500" class="input" size="25" /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">是否强制整合</span><br />如果UCenter数据库内已经存在同名会员，将强制以PBDigg数据库内记录为准。</td>
+		<td><input type="checkbox" name="pbuc" value ="1" checked="checked" /></td>
+	</tr>
+	<tr>
+		<td class="tbutton" colspan="6"><input type="hidden" name="process" value="on" /><input type="hidden" name="pmark" value="ucmerge" /><input type="submit" value="递交" class="btn" name="submit"></td>
+	</tr>
+	</table>
+</form>
+</div>
+</td><td class="box-main-right"></td></tr>
+<tr><td class="box-bottom-left"></td><td class="box-bottom-cen"></td><td class="box-bottom-right"></td></tr>
+</table>
+
+{#include footer#}
+</body>
+</html>

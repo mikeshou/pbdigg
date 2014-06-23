@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>PBDigg! Administrator's Control Panel</title>
+<meta http-equiv="Content-Type" content="text/html; charset={#$db_charset#}">
+<meta name="copyright" content="pbdigg.com" />
+<link href="../templates/admin/images/style.css" rel="stylesheet" type="text/css" media="all" />
+<script type="text/javascript" src="../js/jquery.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	toggleMenu('index');
+	$('.text tr').hover(function(){$(this).addClass("hover");},function(){$(this).removeClass("hover");});
+});
+var navMenu = {'index':'首页','system':'系统','cate':'分类','member':'会员','content':'内容','template':'界面','plugin':'扩展','tools':'工具','log':'日志'};
+
+var leftMenu = {{#$leftmenu#}};
+function toggleMenu(id, sn, url)
+{
+	var html = '';
+	var item = 1;
+	var menu = leftMenu[id];
+	var url = typeof url == 'undefined' ? '' : url;
+	var sn = typeof sn == 'undefined' ? 1 : parseInt(sn);
+
+	for (i in menu)
+	{
+		html += '<h2>' + i + '</h2><ul>';
+		var submenu = menu[i];
+		for (var j = 0; j < submenu.length; j ++)
+		{
+			//
+			html += '<li><a href="admincp.php?action='+submenu[j + 1]+'" target="main" onclick="return toggleFrame(this.href, \''+id+'\', '+item+')" id="menu_'+item+'"'+ (item == sn ? ' class="menu_on"' : '' ) +'>' + submenu[j++] + '</a></li>';
+			if (sn == item ++ && !url)
+			{
+				url = 'admincp.php?action=' + submenu[j];
+			}
+		}
+		html += '</ul><br />';
+	}
+	$('#left').html(html);
+	toggleFrame(url, id, sn);
+	return false;
+}
+
+function toggleFrame(url, id, item)
+{
+	$('#left a').each(function(){if (this.id == 'menu_'+item) {$(this).addClass('menu_on')} else {$(this).removeClass();}});
+	$('#nav a').each(function(){if (this.id == 'nav_'+id) {$(this).addClass('nav_on')} else {$(this).removeClass();}});
+	toggleNav(id, item);
+	$('#main').attr('src', url);
+}
+function toggleNav(id, item)
+{
+	var sep = ' &raquo; ';
+	var html = '<a href="javascript:void(0);" onclick="toggleMenu(\''+id+'\')">'+navMenu[id]+'</a>';
+	var start = 1;
+	item = item * 2 - 1;
+	for (i in leftMenu[id])
+	{
+		var submenu = leftMenu[id][i];
+		for (var j = 0; j < submenu.length; j ++)
+		{
+			if (start++ == item)
+			{
+				html += sep + i + sep + submenu[j];
+			}
+		}
+	}
+	$('#position').html(html);
+}
+</script>
+</head>
+
+
+<body>
+<table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0">
+	<tr>
+    	<td height="50">
+			<img src="../templates/admin/images/logo.gif" />
+		</td>
+		<td class="nav" id="nav">
+			<span></span><a href="javascript:void(0);" class="nav_on" onclick="toggleMenu('index')" id="nav_index">首 页</a><span></span>
+			<a href="javascript:void(0);" onclick="toggleMenu('system')" id="nav_system">系 统</a><span></span>
+			<a href="javascript:void(0);" onclick="toggleMenu('cate')" id="nav_cate">分 类</a><span></span>
+			<a href="javascript:void(0);" onclick="toggleMenu('member')" id="nav_member">会 员</a><span></span>
+			<a href="javascript:void(0);" onclick="toggleMenu('content')" id="nav_content">内 容</a><span></span>
+			<a href="javascript:void(0);" onclick="toggleMenu('template')" id="nav_template">界 面</a><span></span>
+			<a href="javascript:void(0);" onclick="toggleMenu('plugin')" id="nav_plugin">扩 展</a><span></span>
+			<a href="javascript:void(0);" onclick="toggleMenu('tools')" id="nav_tools">工 具</a><span></span>
+			<a href="javascript:void(0);" onclick="toggleMenu('log')" id="nav_log">日 志</a><span></span>
+		</td>
+	</tr>
+	<tr class="tt"><td class="tac"><a href="../" target="_blank">站点首页</a> - <a href="admincp.php">后台首页</a></td><td><div class="fl weizi" id="position"></div><div class="fr uesr">欢迎您：{#$customer[username]#} <a href="admincp.php?action=member&job=mod&uid={#$customer[uid]#}" target="main">修改资料</a><a href="admincp.php?action=logout" target="_top">注销身份</a></div></td></tr>
+    <tr>
+        <td class="main-left" valign="top">
+			<div class="left-top"></div>
+			<div class="left" id="left"></div>
+			<div class="left-bottom"></div>
+        </td>
+        <td class="main-right" valign="top">
+        <iframe src="admincp.php?action=main" id="main" name="main" width="100%" height="100%" frameborder="0"scrolling="yes" style="overflow: visible;"></iframe>
+		</td>
+    </tr>
+</table>
+
+</body>
+</html>

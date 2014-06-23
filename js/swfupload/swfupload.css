@@ -1,0 +1,13 @@
+/*#uploaded{width:298px;border:1px #f00 solid;margin-top:10px;background:#cfc;border:1px #00f solid}*/
+.flash{margin: 10px 0px 10px 0px;background: #D9E4FF;}
+.progressWrapper {overflow: hidden;}
+.progressContainer {border: solid 3px #E8E8E8;background:#FFF;overflow: hidden; font-size:12px;height: 50px; }
+.filered{border: solid 3px #B50000;background: #FFEBEB;}
+.filegreen{border: solid 3px #DDF0DD;background: #EBFFEB;}
+.fileblue{border: solid 3px #CEE2F2;background: #F0F5FF;}
+.progressName {font-size: 12px;font-weight: bold;color: #555555;height: 20px; line-height:20px;text-align: left;white-space: nowrap;overflow: hidden;}
+.progressBarInProgress{font-size: 0px;width: 0%;height: 2px;background: blue;margin-top: 2px;}
+.progressBarStatus {margin-top: 2px;font-size: 12px;font-family: Verdana;text-align: left;white-space: nowrap;}
+.attachment_show {float:left;color:#000;text-align:center;width:99px;}
+.attachment_show li {line-height:180%;word-wrap:break-word;word-break:break-all;}
+.attachment_show img {padding:3px;margin-bottom:3px;width:60px;height:60px;background:#fff;border:1px solid #dfdfdf;}

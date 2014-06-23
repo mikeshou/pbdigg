@@ -1,0 +1,90 @@
+{#include header#}
+<script language="javascript" type="text/javascript" src="{#$_PBENV[PB_URL]#}js/simplemodal.js" /></script>
+
+<div class="maincontainer warp">
+
+<div class="mainleft">
+	<div id="nav_guide" style="margin-bottom:10px;">
+		您所在的位置：<a href="index.php">首页</a> >> <a href="index.php?tag={#$tag#}">{#$originaltag#}</a>
+	</div>
+<div class="homelist">
+
+
+
+	<!-- 文章列表 -->
+	{#foreach $article as $k => $item#}
+    <div class="articlelist {#if $k % 2#}boder_1{#else#}boder_2{#/if#}">
+
+
+        <ul class="articleright {#if $k % 2#}bg_1{#else#}bg_2{#/if#}">
+		<div class="pb_box_r" id="digg_{#$item[tid]#}">
+        <span class="pb_box_rt">
+                {#if $pb_ifdigg#}
+
+                <a href="javascript:void(0);" onclick="{#if $pb_ifdigg#}dbaction('digg', {#$item[tid]#}, 0);{#else#}javascript:void(0);{#/if#}" id="digg_{#$item[tid]#}_0"><span>+{#$item[digg]#}</span></a>
+
+            {#/if#}<br />
+
+            {#if $pb_ifbury#}
+
+                    <a href="javascript:void(0);" onclick="{#if $pb_ifbury#}dbaction('bury', {#$item[tid]#}, 0);{#else#}javascript:void(0);{#/if#}" id="bury_{#$item[tid]#}_0"><span>-{#$item[bury]#}</span></a>
+
+            {#/if#}
+
+        </span>
+</div>
+
+        {#$item[topicimg]#}
+                        	<img src="{#$item[avatar]#}" alt="{#$item[author]#}" class="small_user_avatar" />
+        <h3><a href="{#$item[curl]#}">{#$item[cate]#}</a><em style="font-size:14px">丨</em><a href="{#$item[titleurl]#}" title="{#$item[altsubject]#}" target="_blank">{#$item[subject]#}</a></h3>
+        	<li class="summary">
+            	<span class="data">{#$item[postdate]#} , 由 <a href="{#$item[uurl]#}">{#$item[author]#}</a> 发表</span>{#$item[summary]#}
+            </li>
+            <li class="tool">
+            	<span class="pinglun"><a href="{#$item[turl]#}#comment" target="_blank">{#$item[comments]#} 评论</a></span><span class="hits">{#$item[views]#} 人读过</span><span class="share">来源：<a href="{#$item[contentlink]#}" target="_blank">{#$item[linkhost]#}</a></span><span class="tagico">标签 :  {#$item[tags]#}</span>
+            </li>
+
+        </ul>
+    <div class="clear"></div></div>
+    
+
+	{#/foreach#}
+	<!-- 文章列表 -->
+        
+   	{#$multLink#}
+        
+	</div>
+    	</div>
+    <div class="sidebar">    
+	<a href="{#$rssurl#}" class="rssbg">{#$originaltag#}</a>
+	<h2>最新文章<span>Posts</span></h2>
+			<ol class="boder">
+				{#tpl tpl_14204e65#}
+			</ol>
+	<h2>会员评论<span>Comments</span></h2>
+	<dl class="boder">
+		{#tpl tpl_9132e687#}
+	</dl>
+<h2>标签Tag<span><a href="tag.php" target="_blank">More...</a></span></h2>
+	<div class="hottags boder">
+	{#func hottags(30)#}
+	</div>
+
+<h2>一周热门<span>7days top</span></h2>
+
+	<ol class="boder">
+	{#tpl tpl_a58648ee#}
+	</ol>
+
+
+
+    </div>
+
+</div>
+
+<!-- 脚注 -->
+{#include footer#}
+<!-- 脚注 -->
+
+</body>
+</html>

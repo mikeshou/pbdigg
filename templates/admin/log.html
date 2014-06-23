@@ -1,0 +1,81 @@
+{#include header#}
+<body>
+
+<!--提示信息-->
+<table cellpadding="0" cellspacing="0" width="100%" class="boxtable">
+<tr><td class="box-top-left"></td><td class="box-top-cen"></td><td class="box-top-right"></td></tr>
+<tr><td class="box-main-left"></td><td>
+<!--内容部分-->
+ <h3>提示信息</h3>
+<div class="text">
+	<div class="s3" style="margin-left:1em;">
+	<li>为了保证系统的安全，只允许网站创始人删除操作日志。</li>
+	<li>后台将保留最近3天的日志。</li>
+	</div>
+</div>
+<!--内容部分结束-->
+</td><td class="box-main-right"></td></tr>
+<tr><td class="box-bottom-left"></td><td class="box-bottom-cen"></td><td class="box-bottom-right"></td></tr>
+</table>
+<!--提示信息-->
+
+<!--main-->
+<table cellpadding="0" cellspacing="0" width="100%">
+<tr><td class="box-top-left"></td><td class="box-top-cen"></td><td class="box-top-right"></td></tr>
+<tr><td class="box-main-left"></td><td>
+<h3>{#$_leftmenu[$action][item][$job]#}</h3>
+<div class="text">
+<form action="{#$basename#}" method="post" id="mainform" {#$checkSubmit#}>
+	<table cellpadding="0" cellspacing="0" width="100%">
+	<tbody class="aligncenter">
+	{#if $job == 'admin'#}
+	<tr class="tth">
+		<td width="10%">用户名</td>
+		<td width="50%">操作</td>
+		<td width="20%">日期</td>
+		<td width="10%">IP</td>
+		<td width="*">描述</td>
+	</tr>
+	{#foreach $logs as $v#}
+	<tr>
+		<td><a href="admincp.php?action=member&job=list&uid={#$v[uid]#}">{#$v[username]#}</a></td>
+		<td style="text-align:left">{#$v[action]#}</td>
+		<td>{#$v[logdate]#}</td>
+		<td>{#$v[logip]#}</td>
+		<td align="left">{#$v[description]#}</td>
+	</tr>
+	{#/foreach#}
+	{#elseif $job == 'login' || $job == 'common'#}
+	<tr class="tth">
+		<td width="20%">用户名</td>
+		<td width="20%">日期</td>
+		<td width="15%">IP</td>
+		<td width="*">描述</td>
+	</tr>
+	{#foreach $logs as $v#}
+	<tr>
+		<td>{#$v[username]#}</td>
+		<td>{#$v[logdate]#}</td>
+		<td>{#$v[logip]#}</td>
+		<td>{#$v[description]#}</td>
+	</tr>
+	{#/foreach#}
+	{#/if#}
+	</tbody>
+	<tr class="tmult">
+		<td>记录数：{#$recordNum#}</td>
+		<td colspan="4" style="text-align:right;">{#$multLink#}&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="tbutton" colspan="5"><input type="submit" value="删除多余日志" class="btn" name="submit"></td>
+	</tr>
+	</table>
+</form>
+</div>
+</td><td class="box-main-right"></td></tr>
+<tr><td class="box-bottom-left"></td><td class="box-bottom-cen"></td><td class="box-bottom-right"></td></tr>
+</table>
+
+{#include footer#}
+</body>
+</html>

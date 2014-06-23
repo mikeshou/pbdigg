@@ -1,0 +1,150 @@
+{#include header#}
+<body>
+
+<!--提示信息-->
+<table cellpadding="0" cellspacing="0" width="100%" class="boxtable">
+<tr><td class="box-top-left"></td><td class="box-top-cen"></td><td class="box-top-right"></td></tr>
+<tr><td class="box-main-left"></td><td>
+<!--内容部分-->
+ <h3>提示信息</h3>
+<div class="text">
+	<div class="s3" style="margin-left:1em;">
+	{#if $job == 'edit'#}
+	<li>删除分类，需先删除当前分类包含的子分类。</li>
+	<li>关闭父分类，包含的子分类同时被关闭。</li>
+	{#elseif $job == 'merge'#}
+	<li>请慎重使用此功能，操作后无法恢复。</li>
+	<li>源分类必须是终极分类，不能存在子分类。</li>
+	{#/if#}
+	</div>
+</div>
+<!--内容部分结束-->
+</td><td class="box-main-right"></td></tr>
+<tr><td class="box-bottom-left"></td><td class="box-bottom-cen"></td><td class="box-bottom-right"></td></tr>
+</table>
+<!--提示信息-->
+
+<!--main-->
+<table cellpadding="0" cellspacing="0" width="100%">
+<tr><td class="box-top-left"></td><td class="box-top-cen"></td><td class="box-top-right"></td></tr>
+<tr><td class="box-main-left"></td><td>
+<h3>{#$_leftmenu[$action][item][$job]#}</h3>
+<div class="text">
+<form action="{#$basename#}" method="post" name="form" enctype="multipart/form-data">
+	<table cellpadding="0" cellspacing="0" width="100%">
+	{#if $job == 'add' || $job == 'mod'#}
+	<tr>
+		<td><span class="defaultbold">分类名称</span><br />分类名称不能超过25个字符。</td>
+		<td><input class="input" type="text" value="{#$cate[name]#}" name="cate[name]" id="name" size="35" /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">所属分类</span><br />请选择相应的父分类，默认为一级目录，支持无限级目录。</td>
+		<td>
+			{#$option#}
+		</td>
+	</tr>
+	<tr>
+		<td width="50%"><span class="defaultbold">分类排序</span><br />请输入整数数值，序号越小，排列次序越靠前。</td>
+		<td width="50%"><input class="input" type="text" value="{#$cate[displayorder]#}" name="cate[displayorder]" id="order" size="5" /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">分类状态</span><br />关闭：栏目将不在前台显示，也不允许会员投稿。</td>
+		<td><input class="radio" type="radio" value="1" name="cate[status]" id="status_1" {#$cate[status_1]#} />&nbsp;开启&nbsp;&nbsp;<input class="radio" type="radio" value="0" name="cate[status]" id="status_0" {#$cate[status_0]#} />&nbsp;关闭</td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">绑定模型</span><br />分类绑定的主题模型，请至少选择一种。<br />通过<span class="b">绑定单一模型</span>，结合独立的“封面模板”，“列表模板”和“内容模板”<br />可以实现不同分类不同主题、样式的效果。<br />注意：<span class="r">红色</span>表示当前模型处于关闭状态！</td>
+		<td>{#$ttype#}</td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">分类风格</span><br />允许每个分类单独绑定一个风格模板。留空使用默认模板。</td>
+		<td>{#$cateStyle#}</td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">列表风格</span><br />在分类<span class="b">绑定唯一模型</span>的情况下，允许分类使用对应模型独立的列表风格。<br />如果绑定多模型只能采用传统列表风格。</td>
+		<td><input class="radio" type="radio" value="0" name="cate[listtype]" id="listtype_0" {#$cate[listtype_0]#} />&nbsp;传统风格列表&nbsp;&nbsp;<input class="radio" type="radio" value="1" name="cate[listtype]" id="listtype_1" onclick="checkListType()" {#$cate[listtype_1]#} />&nbsp;模型独立风格列表</td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">封面模板</span><br />分类首页可以由绑定的模板独立显示，可以使每个分类拥有单独的首页效果。<br /><span class="b">模板文件请存在当前分类风格目录下</span>，否则将出现分类首页无法显示的错误。<br />模板名称仅允许包含<span class="g">数字、字母、下划线</span>。长度不超过30个字符。<br />留空则不使用封面效果。</td>
+		<td><input class="input" type="text" value="{#$cate[cover]#}" name="cate[cover]" id="cover" size="35" /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">列表模板</span><br />分类列表可以由绑定的模板独立显示，可以使每个分类拥有单独的列表效果。<br /><span class="b">模板文件请存在当前分类风格目录下</span>，否则将出现分类列表无法显示的错误。<br />模板名称仅允许包含<span class="g">数字、字母、下划线</span>。长度不超过30个字符。<br />留空则使用模型默认分类模板。</td>
+		<td><input class="input" type="text" value="{#$cate[template]#}" name="cate[template]" id="template" size="35" /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">分类图标</span><br />图标存放目录：/images/cate，可以作为栏目封面图片调用。<br /><span class="b">变量</span>：&#123;&#35;&#36;_categories[分类ID][icon]&#35;&#125;</td>
+		<td><input class="input" type="text" value="{#$cate[icon]#}" name="cate[icon]" id="icon" size="35" /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">分类伪静态目录</span><br />留空采用系统默认值 {#$pb_chtmldir#}，此参数需要伪静态规则配合。<br />名称仅允许包含<span class="g">数字、字母、下划线</span>。长度不超过30个字符。</td>
+		<td><input class="input" type="text" value="{#$cate[dir]#}" name="cate[dir]" id="dir" size="35" /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">是否支持匿名投稿</span><br />在开启游客发帖的状态下，将允许游客在本分类匿名投稿。</td>
+		<td><input class="radio" type="radio" value="1" name="cate[anonymity]" id="anonymity_1" {#$cate[anonymity_1]#} />&nbsp;支持&nbsp;&nbsp;<input class="radio" type="radio" value="0" name="cate[anonymity]" id="anonymity_0" {#$cate[anonymity_0]#} />&nbsp;不支持</td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">每页显示主题数</span><br />留空采用系统默认值</td>
+		<td><input class="input" type="text" value="{#$cate[listnum]#}" name="cate[listnum]" id="listnum" size="35" /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">分类关键字</span><br />此关键字将显示在分类的 keywords 标签中，用于搜索引擎优化，支持HTML代码。</td>
+		<td><textarea name="cate[keywords]" id="keywords" rows="7" cols="45">{#$cate[keywords]#}</textarea></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">分类简介</span><br />此简介将显示在分类介绍和 Meta 的 description 标签中，用于搜索引擎优化，支持HTML代码。</td>
+		<td><textarea name="cate[description]" id="intro" rows="7" cols="45">{#$cate[description]#}</textarea></td>
+	</tr>
+	<tr>
+		<td class="tbutton" colspan="2"><input type="submit" value="提交" class="btn" name="submit"></td>
+	</tr>
+	{#elseif $job == 'edit'#}
+	<tbody class="aligncenter">
+	<tr class="tth">
+		<td width="10%">分类ID</td>
+		<td width="50%">分类名称</td>
+		<td width="10%">分类状态</td>
+		<td width="10%">分类排序</td>
+		<td width="*">操作</td>
+	</tr>
+	{#$_cateTable#}
+	</tbody>
+	<tr>
+		<td class="tbutton" colspan="5"><input type="submit" value="提交" class="btn" name="submit"></td>
+	</tr>
+	{#elseif $job == 'del'#}
+	<tr>
+		<td>
+		<p class="desc">将删除该分类的所有文章和与该分类相关的所有信息，请确认！</p></td>
+	</tr>
+	<tr>
+		<td class="tbutton"><input type="hidden" value="{#$cid#}" name="cid">&nbsp;<input type="submit" value="确认删除" class="btn" name="submit">&nbsp;<input type="button" onClick="history.go(-1)" value="取 消" class="btn">
+		</td>
+	</tr>
+	{#elseif $job == 'merge'#}
+	<tr>
+		<td><span class="defaultbold">源分类</span></td>
+		<td>
+			{#$source#}
+		</td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">目标分类</span><br /></td>
+		<td>
+			{#$destination#}
+		</td>
+	</tr>
+	<tr>
+		<td class="tbutton" colspan="2"><input type="submit" value="开始合并" class="btn" name="submit"></td>
+	</tr>
+	{#/if#}
+	</table>
+</form>
+</div>
+</td><td class="box-main-right"></td></tr>
+<tr><td class="box-bottom-left"></td><td class="box-bottom-cen"></td><td class="box-bottom-right"></td></tr>
+</table>
+
+{#include footer#}
+</body>
+</html>

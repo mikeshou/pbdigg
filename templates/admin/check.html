@@ -1,0 +1,85 @@
+{#include header#}
+<body>
+
+<!--提示信息-->
+<table cellpadding="0" cellspacing="0" width="100%" class="boxtable">
+<tr><td class="box-top-left"></td><td class="box-top-cen"></td><td class="box-top-right"></td></tr>
+<tr><td class="box-main-left"></td><td>
+<!--内容部分-->
+ <h3>提示信息</h3>
+<div class="text">
+	<div class="s3" style="margin-left:1em;">
+<li>点击标题浏览详情</li>
+	</div>
+</div>
+<!--内容部分结束-->
+</td><td class="box-main-right"></td></tr>
+<tr><td class="box-bottom-left"></td><td class="box-bottom-cen"></td><td class="box-bottom-right"></td></tr>
+</table>
+<!--提示信息-->
+
+<!--main-->
+<table cellpadding="0" cellspacing="0" width="100%">
+<tr><td class="box-top-left"></td><td class="box-top-cen"></td><td class="box-top-right"></td></tr>
+<tr><td class="box-main-left"></td><td>
+<h3>{#$_leftmenu[$action][item][$job]#}</h3>
+<div class="text">
+<form action="{#$basename#}" method="post" name="mainform" enctype="multipart/form-data" {#$checkSubmit#}>
+	<table cellpadding="0" cellspacing="0" width="100%">
+	<tbody class="aligncenter">
+	{#if $job == 'article'#}
+	<tr class="tth">
+		<td width="10%">选择</td>
+		<td width="*">标题</td>
+		<td width="10%">作者</td>
+		<td width="10%">模型</td>
+		<td width="20%">发布日期</td>
+		<td width="10%">操作</td>
+	</tr>
+	{#foreach $article as $k => $v#}
+	<tr>
+		<td><input type="checkbox" name="tids[]" value="{#$v[tid]#}" /></td>
+		<td><a href="../show.php?tid={#$v[tid]#}" target="_blank">{#$v[subject]#}</a></td>
+		<td>{#$v[author]#}</td>
+		<td>{#$v[modulename]#}</td>
+		<td>{#$v[postdate]#}</td>
+		<td><a href="../post.php?action=edit&moduleid={#$v[module]#}&cid={#$v[cid]#}&tid={#$v[tid]#}" target="_blank">[编辑]</a></td>
+	</tr>
+	{#/foreach#}
+	{#elseif $job == 'comment'#}
+	<tr class="tth">
+		<td width="10%">选择</td>
+		<td width="*">内容摘要</td>
+		<td width="10%">作者</td>
+		<td width="20%">发布日期</td>
+	</tr>
+	{#foreach $comment as $k => $v#}
+	<tr>
+		<td><input type="checkbox" name="rids[]" value="{#$v[rid]#}" /></td>
+		<td><a href="../show.php?tid={#$v[tid]#}" target="_blank">{#$v[content]#}</a></td>
+		<td>{#$v[author]#}</td>
+		<td>{#$v[postdate]#}</td>
+	</tr>
+	{#/foreach#}
+	{#/if#}
+	</tbody>
+	<tr class="tmult">
+		<td>记录数：{#$recordNum#}</td>
+		<td colspan="5" style="text-align:right;">{#$multLink#}&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="tbutton" colspan="6"><input type="radio" name="checktype" value="del" />&nbsp;删除&nbsp;&nbsp;<input type="radio" name="checktype" value="pass" checked="checked" />&nbsp;通过</td>
+	</tr>
+	<tr>
+		<td class="tbutton" colspan="6"><input type="button" value="全选" class="btn" name="choseall" onclick="PBchoseAll(this.form)">&nbsp;<input type="submit" value="递交" class="btn" name="submit"></td>
+	</tr>
+	</table>
+</form>
+</div>
+</td><td class="box-main-right"></td></tr>
+<tr><td class="box-bottom-left"></td><td class="box-bottom-cen"></td><td class="box-bottom-right"></td></tr>
+</table>
+
+{#include footer#}
+</body>
+</html>

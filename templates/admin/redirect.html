@@ -1,0 +1,31 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={#$PB_ENV.PB_CHARSET#}">
+<meta http-equiv="refresh" content="{#$delay_time#};url={#$url#}">
+<title>{#$cp_lang.msg_title#}</title>
+<style type="text/css">
+*{margin:0;padding:0px}
+body{background:#fff;color:#333;font:12px Verdana, Tahoma, sans-serif;text-align:center;margin:0 auto;}
+a{text-decoration:none;color:#29458C}
+a:hover{text-decoration:underline;color:#f90}
+#msg{border:1px solid #c5d7ef;text-align:left;margin:10% auto; width:50%}
+#msgtitle{padding:5px 10px;background:#f0f6fb;border-bottom:1px #c5d7ef solid}
+#msgtitle h1{font-size:14px;font-weight:bold;padding-left:10px;border-left:3px solid #acb4be;color:#1f3a87}
+#msgcontent {padding:20px 50px;}
+#msgcontent li{display:block;padding:5px;list-style:none;}
+#msgcontent p{text-align:center;margin-top:10px;padding:0}
+</style>
+</head>
+<body>
+
+<div id="msg">
+	<div id="msgtitle">
+		<h1>{#$cp_lang.msg_title#}</h1>
+	</div>
+	<div id="msgcontent">
+		{#$msg#}
+		<p><a href="{#$url#}">{#$cp_lang.msg_jump#}</a></p>
+	</div>
+</div>
+</body>
+</html>

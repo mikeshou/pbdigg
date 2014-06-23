@@ -1,0 +1,28 @@
+{#include header#}
+
+<div class="maincontainer">
+<div class="tips">
+	<p>您所在的位置：<a href="{#$_PBENV[PB_URL]#}"><span>首页</span></a> &raquo; 查看公告</p>
+</div>
+
+<!-- 公告 -->
+<div id="announcements">
+	{#foreach $_announcements as $k => $v#}
+		<a href="#{#$v[aid]#}"></a>
+		<div class="announc">
+			<div class="announctitle">
+				<span style="float:right;">作者：{#$v[author]#}&nbsp;&nbsp;发布时间：&nbsp;{#$v[postdate]#}&nbsp;&nbsp;</span>{#$v[subject]#}
+			</div>
+			<div class="announcinfo">
+				{#$v[content]#}{#$v[url]#}
+			</div>
+		</div>
+	{#/foreach#}
+</div>
+</div>
+<!-- footer -->
+{#include footer#}
+<!-- footer end -->
+
+</body>
+</html>

@@ -1,0 +1,34 @@
+{#foreach $comments as $k => $item#}
+<div id="comment_head_{#$item[tid]#}_{#$item[rid]#}" class="comment_head">
+	<div class="commentleftt">
+		<div class="userHomeAction">
+			<img src="{#$item[avatar]#}" alt="{#$item[author]#}" class="small_user_avatar" />
+			<a href="{#$item[uurl]#}"  class="pb_box_right_show">{#$item[author]#}</a>
+			<a href="javascript:void(0);" onclick="{#if $pb_ifdigg#}dbaction('digg',{#$article[tid]#},{#$item[rid]#});{#else#}javascript:void(0);{#/if#}" id="digg_{#$article[tid]#}_{#$item[rid]#}"><span>{#$item[digg]#}</span> {#$pb_diggname#}</a>
+			<a href="javascript:void(0);" onclick="{#if $pb_ifbury#}dbaction('bury',{#$article[tid]#},{#$item[rid]#});{#else#}javascript:void(0);{#/if#}" id="bury_{#$article[tid]#}_{#$item[rid]#}"><span>{#$item[bury]#}</span> {#$pb_buryname#}</a>
+			{#if $allowcomment#}
+			<span onclick="recomment('{#$item[rid]#}','{#$item[author]#}')" class="rss" title="引用">{#$k#}F</span>
+			{#/if#}
+		</div>
+	</div>
+	<div class="commententry">
+    	<h2>{#$item[postdate]#} 
+    	<!-- 管理选项 -->
+    	{#if $item['alloweditatc']#}<a href="javascript:void(0);" onclick="ajaxlayer('editcomment', {#$article[tid]#}, {#$item[rid]#})">[编辑]</a>{#/if#}
+		{#if $item['allowdelatc']#}<a href="javascript:void(0);" onclick="ajaxlayer('delcomment', {#$article[tid]#}, {#$item[rid]#})">[删除]</a>{#/if#}
+		{#if $item['allowcheckatc']#}<a href="javascript:void(0);" onclick="ajaxlayer('checkcomment', {#$article[tid]#}, {#$item[rid]#})">{#if $item['ifcheck']#}[取消审核]{#else#}<span class="r">[审核]</span>{#/if#}</a>{#/if#}
+		{#if $item['allowshield']#}<a href="javascript:void(0);" onclick="ajaxlayer('shieldcomment', {#$article[tid]#}, {#$item[rid]#})">{#if $item['ifshield']#}<span class="r">[解除屏蔽]</span>{#else#}[屏蔽]{#/if#}</a>{#/if#}
+		{#if $allowedip#}IP：{#$item[postip]#}{#/if#}
+    	<!-- 管理选项 -->
+    	</h2>
+		<div id="comment_content_{#$item[rid]#}" class="comment_content">{#$item[content]#}</div>
+		{#if $item['signature']#}
+		<div class="signature">
+		<p><img src="{#$pb_sitedir#}images/common/sigline.gif" style="vertical-align:bottom" alt="" /></p>
+		{#$item[signature]#}
+		</div>
+		{#/if#}
+	</div>
+</div>
+{#/foreach#}
+{#$commentMultLink#}

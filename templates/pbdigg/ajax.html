@@ -1,0 +1,76 @@
+<div class="ajax">
+{#if $action == 'editcomment'#}
+<span><textarea rows="10" style="width:340px; " class="plt" id="editcomment_{#$tid#}_{#$rid#}">{#$editcomment[content]#}</textarea></span>
+<span><input type="button" name="submit" value="递交" onclick="editcomment({#$tid#},{#$rid#},finishEditComment)" />
+{#elseif $action == 'delcomment'#}
+<span>确认删除？此操作不可恢复！</span>
+<span><input type="button" name="submit" value="递交" onclick="submitAction('delcomment', {#$tid#}, {#$rid#})" />
+{#elseif $action == 'checkcomment'#}
+<span>确认{#$actionlang#}？</span>
+<span><input type="button" name="submit" value="递交" onclick="submitAction('checkcomment', {#$tid#}, {#$rid#})" />
+{#elseif $action == 'shieldcomment'#}
+<span>确认{#$actionlang#}？</span>
+<span><input type="button" name="submit" value="递交" onclick="submitAction('shieldcomment', {#$tid#}, {#$rid#})" />
+{#elseif $action == 'delarticle'#}
+<span>确认删除？此操作不可恢复！</span>
+<span><input type="button" name="submit" value="递交" onclick="submitAction('delarticle', {#$tid#}, 0)" />
+{#elseif $action == 'copyarticle'#}
+<span>当前分类：{#$currentCateData[name]#}</span>
+<span>目标分类：{#$cateoption#}</span>
+<span><input type="button" name="submit" value="递交" onclick="cmArticle({#$tid#},'copyarticle')" />
+{#elseif $action == 'movearticle'#}
+<span>当前分类：{#$currentCateData[name]#}</span>
+<span>目标分类：{#$cateoption#}</span>
+<span><input type="button" name="submit" value="递交" onclick="cmArticle({#$tid#},'movearticle')" />
+{#elseif $action == 'checkarticle' || $action == 'lockarticle' || $action == 'shieldarticle' || $action == 'toparticle' || $action == 'firstarticle'#}
+<span>确认{#$actionlang#}？</span>
+<span><input type="button" name="submit" value="递交" onclick="submitAction('{#$action#}', {#$tid#}, 0)" />
+{#elseif $action == 'titlestyle'#}
+<div class="btgl">
+{#if $pb_titleubb & 1#}<b>粗体</b><input type="checkbox" class="checkbox_tag" id="title_b" name="title_b" value="1" {#$checkstatus_b#} />{#/if#}
+{#if $pb_titleubb & 2#}<i>斜体</i><input type="checkbox" class="checkbox_tag" id="title_i" name="title_i" value="1" {#$checkstatus_i#} />{#/if#}
+{#if $pb_titleubb & 4#}<u>下划线</u><input type="checkbox" class="checkbox_tag" id="title_u" name="title_u" value="1" {#$checkstatus_u#} />{#/if#}
+{#if $pb_titleubb & 8#}<link rel="stylesheet" href="{#$_PBENV[PB_URL]#}js/colorpicker/colorpicker.css" type="text/css" />
+<div class="ccxz">
+<span title="点击取颜色" class="color_picker" id="color_picker">&nbsp;&nbsp;&nbsp;</span>
+<input type="button" value="取消颜色" onclick="cancelColor()" />
+</div>
+<input type="text" id="color_value" name="color_value" value="#{#$rs[titlecolor]#}" style="display:none;" />{#/if#}
+</div>
+<span><input type="button" name="submit" value="递交" onclick="titlestyle({#$tid#})" />
+{#elseif $action == 'commendarticle'#}
+{#if $rs[commend]#}
+<span>确认解除推荐？</span>
+<span><input type="button" name="submit" value="递交" onclick="submitAction('commendarticle', {#$tid#}, 0)" />
+{#else#}
+<link href="{#$_PBENV[PB_URL]#}js/swfupload/swfupload.css" rel="stylesheet" type="text/css" />
+<span>如需推荐到幻灯片播放，请上传封面图片，建议高宽值与幻灯片播放器设定值相同。</span>
+<!-- swf -->
+<div class="leftup">
+<div id="swfupload">
+	<div class="flash" id="flash">
+		<div class="progressWrapper" id="progressWrapper">
+			<div class="progressContainer" id="progressContainer">
+				<div class="progressName" id="progressName"></div>
+				<div class="progressBarStatus" id="progressBarStatus"></div>
+				<div class="progressBarInProgress" id="progressBarInProgress"></div>
+			</div>
+		</div>
+	</div>
+	<div class="addnew" style="display: inline; border: solid 1px #7FAAFF; background-color: #C5D9FF; padding: 2px;">
+		<span id="buttonPlaceHolder"></span>
+	</div>
+</div>
+</div>
+<div class="rightup">
+<div id="uploadfile"></div>
+</div>
+<div style="clear:both;"></div>
+<!-- swf -->
+<span>高：<input type="text" size="5" id="h" name="h" value="230" />&nbsp;宽：<input type="text" size="5" id="w" name="w" value="290" /></span>
+<span><input type="button" name="submit" value="递交" onclick="commend({#$tid#})" />
+{#/if#}
+{#/if#}
+&nbsp;<input type="button" name="cancel" value="取消" onclick="layer.close();" /></span>
+<p id="{#$action#}_{#$tid#}_{#$rid#}_tip" class="r"></p>
+</div>

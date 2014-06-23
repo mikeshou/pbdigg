@@ -1,0 +1,108 @@
+{#include header#}
+<body>
+
+<!--提示信息-->
+<table cellpadding="0" cellspacing="0" width="100%" class="boxtable">
+<tr><td class="box-top-left"></td><td class="box-top-cen"></td><td class="box-top-right"></td></tr>
+<tr><td class="box-main-left"></td><td>
+<!--内容部分-->
+ <h3>提示信息</h3>
+<div class="text">
+	<div class="s3" style="margin-left:1em;">
+{#if $job == 'edit'#}
+<li>如果您需要临时停止某个插件的工作，请选择“关闭”选项。“卸载”将删除此插件的所有数据库记录，请谨慎使用。</li>
+{#elseif $job == 'add'#}
+<li>本功能仅供插件开发者或高级技术人员使用，不正确的插件设计或安装可能危及到整个网站的正常使用。</li>
+<li>在此添加或删除插件仅仅是对本插件的配置数据而言，通常还需要手工上传(删除)或修改(恢复)相应的程序文件才能完成插件安装或删除的全过程。<br />具体安装请参考插件作者提供的安装说明。</li>
+{#/if#}
+</div>
+</div>
+<!--内容部分结束-->
+</td><td class="box-main-right"></td></tr>
+<tr><td class="box-bottom-left"></td><td class="box-bottom-cen"></td><td class="box-bottom-right"></td></tr>
+</table>
+<!--提示信息-->
+
+<!--main-->
+<table cellpadding="0" cellspacing="0" width="100%">
+<tr><td class="box-top-left"></td><td class="box-top-cen"></td><td class="box-top-right"></td></tr>
+<tr><td class="box-main-left"></td><td>
+<h3>{#$_leftmenu[$action][item][$job]#}</h3>
+<div class="text">
+<form action="{#$basename#}" method="post" id="mainform">
+	<table cellpadding="0" cellspacing="0" width="100%">
+	{#if $job == 'add'#}
+		{#if $step == 'check'#}
+		<tr>
+			<td><span class="defaultbold">插件名称</span><br /></td>
+			<td>{#$pluginInfo[pname]#}</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">插件标识</span><br /></td>
+			<td>{#$pluginInfo[pmark]#}</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">版本号</span><br /></td>
+			<td>{#$pluginInfo[version]#}</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">功能描述</span><br /></td>
+			<td class="ww">{#$pluginInfo[description]#}</td>
+		</tr>
+		<tr>
+			<td><span class="defaultbold">许可协议</span><br /></td>
+			<td><textarea name="" style="width:90%" rows="10">{#$pluginInfo[copyright]#}</textarea></td>
+		</tr>
+		<tr>
+			<td class="tmult" colspan="2" style="text-align:center"><input type="checkbox" id="agree" name="agree" checked="checked" title="是否同意服务条款" onclick="$('#submit').attr('disabled', ($('#agree').attr('checked') == true ? '' : 'disabled'))" />&nbsp;我已看过并同意安装许可协议</td>
+		</tr>
+		<tr>
+			<td class="tbutton" colspan="2"><input type="hidden" value="{#$pluginInfo[pmark]#}" name="pluginDir" /><input type="hidden" value="install" name="step" /><input type="submit" value="开始安装" class="btn" id="submit" /></td>
+		</tr>
+		{#else#}
+		<tr>
+			<td><span class="defaultbold">第一步：填写插件目录</span><br />安装插件前，插件文件夹已经上传至服务器上 plugins 目录下。</td>
+			<td><input class="input" type="text" name="pluginDir" size="25" /></td>
+		</tr>
+		<tr>
+			<td class="tbutton" colspan="2"><input type="hidden" value="check" name="step" /><input type="submit" value="提交" class="btn" name="submit" /></td>
+		</tr>
+		{#/if#}
+	{#elseif $job == 'edit'#}
+	<tbody class="aligncenter">
+	<tr class="tth">
+		<td width="15%">插件名称</td>
+		<td width="15%">版本号</td>
+		<td width="40%">功能</td>
+		<td width="*">操作</td>
+	</tr>
+	{#foreach $plugindata as $v#}
+	<tr>
+		<td>{#$v[pname]#}</td>
+		<td>{#$v[version]#}</td>
+		<td style="text-align:left">{#$v[description]#}</td>
+		<td><a href="admincp.php?action=plugin&job=mod&pmark={#$v[pmark]#}">[管理]</a>&nbsp;<a href="admincp.php?action=plugin&job=status&pid={#$v[pid]#}">[{#$v[status]#}]</a>&nbsp;<a href="admincp.php?action=plugin&job=del&pid={#$v[pid]#}">[卸载]</a></td>
+	</tr>
+	{#/foreach#}
+	</tbody>
+	{#elseif $job == 'del'#}
+	<tr>
+		<td><p class="desc"><span class="b">删除插件将同时删除数据库内的相关记录。此操作不可恢复！</span></p></td>
+	</tr>
+	<tr>
+		<td class="tbutton">
+			<input class="hidden" name="pid" type="hidden" value="{#$pid#}" />
+			<input type="submit" value="确认删除插件" class="btn" name="submit" />
+		</td>
+	</tr>
+	{#/if#}
+	</table>
+</form>
+</div>
+</td><td class="box-main-right"></td></tr>
+<tr><td class="box-bottom-left"></td><td class="box-bottom-cen"></td><td class="box-bottom-right"></td></tr>
+</table>
+
+{#include footer#}
+</body>
+</html>

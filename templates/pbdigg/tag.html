@@ -1,0 +1,23 @@
+{#include header#}
+
+
+<div class="maincontainer">
+<!-- 标签 -->
+<div class="tips">
+	<p>找寻您更感兴趣的标签……</p>
+</div>
+<div id="tags">
+{#foreach $tags as $v#}
+<a href="index.php?tag={#$v[0]#}" target="_blank" style="{#$v[3]#}">{#$v[1]#} <em>({#$v[2]#})</em></a>
+{#/foreach#}
+</div>
+
+{#$multLink#}
+</div>
+
+<!-- footer -->
+{#include footer#}
+<!-- footer -->
+
+</body>
+</html>

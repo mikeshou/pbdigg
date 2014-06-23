@@ -1,0 +1,377 @@
+{#include header#}
+<div class="maincontainer warp">
+<div class="tips">
+	<p><a href="{#$_PBENV[PB_URL]#}"><span>首页</span></a> &raquo; <a href="member.php"><span>控制面板</span></a> &raquo; 您可以管理您的帐号，如修改密码，个性头像，发送短信...</p>
+</div>
+
+<script language="javascript" type="text/javascript" src="{#$_PBENV[PB_URL]#}js/member.js"/></script>
+
+<div class="member">
+<!-- 左侧 -->
+<div class="member-menu">
+	
+<div class="side_list">
+<span><img src="{#$_PBENV[PB_URL]#}templates/{#$pb_style#}/pic/collapse.gif" class="leftmenuicon" alt="Collapse" id="leftmenuitem_icon_1" onclick="show_menu('leftmenuitem_','1');" /></span><h2>个人资料</h2>
+</div>
+<div class="side_list2" id="leftmenuitem_1">
+<ul>
+	<li><a href="member.php?type=profile&action=basic">基本资料</a></li>
+	<li><a href="member.php?type=profile&action=password">修改密码</a></li>
+	<li><a href="member.php?type=profile&action=avatar">头像管理</a></li>
+	</ul>
+</div>
+	<div class="side_list">
+<span><img src="{#$_PBENV[PB_URL]#}templates/{#$pb_style#}/pic/collapse.gif" class="leftmenuicon" alt="Collapse" id="leftmenuitem_icon_2" onclick="show_menu('leftmenuitem_','2');" /></span><h2>短信息</h2>
+</div>
+<div class="side_list2" id="leftmenuitem_2">
+<ul>
+{#if $pb_ucenable && $uc_msg#}
+<li><a href="member.php?type=msg&action=receivebox&amp;filter=newpm">未读短信</a></li>
+<li><a href="member.php?type=msg&action=receivebox&amp;filter=privatepm">私人短信</a></li>
+<li><a href="member.php?type=msg&action=receivebox&amp;filter=systempm">系统消息</a></li>
+<li><a href="member.php?type=msg&action=receivebox&amp;filter=announcepm">公共消息</a></li>
+<li><a href="member.php?type=msg&action=write">写新消息 </a></li>
+{#else#}
+<li><a href="member.php?type=msg&action=receivebox">收件箱</a></li>
+<li><a href="member.php?type=msg&action=sendbox">发件箱</a></li>
+<li><a href="member.php?type=msg&action=write">写新消息 </a></li>
+<li><a href="member.php?type=msg&action=drop">清空短信</a></li>
+{#/if#}
+	</ul>
+</div>
+	<div class="side_list">
+<span><img src="{#$_PBENV[PB_URL]#}templates/{#$pb_style#}/pic/collapse.gif" class="leftmenuicon" alt="Collapse" id="leftmenuitem_icon_3" onclick="show_menu('leftmenuitem_','3');" /></span><h2>我的</h2>
+</div>
+<div class="side_list2" id="leftmenuitem_3">
+<ul>
+	<li><a href="member.php?type=my&action=collection">收藏的文章</a></li>
+	<li><a href="member.php?type=my&action=friend">我的好友</a></li>
+	</ul>
+</div>
+
+	
+</div>
+<!-- end -->
+<!--右侧-->
+<div class="member-main">
+
+<!-- 基本资料 -->
+{#if $type == 'profile'#}
+
+<!-- 资料修改 -->
+{#if $action == 'basic'#}
+<form action="{#$actionurl#}" name="member" id="member" method="post">
+	
+    {#if $pb_passport && $pb_passporttype == 'client'#}
+    <p>
+		<label for="email">电子邮件</label>
+		{#$customer[email]#} <br />站点开启通行证，请到服务器端修改电子邮件信息。
+    </p>
+	{#else#}
+	<p>
+		<label for="email">电子邮件</label>
+		<input type="text" id="email" name="email" value="{#$customer[email]#}"   class="input_out"   onfocus="this.className='input_on';this.onmouseout=''" onblur="this.className='input_off';this.onmouseout=function(){this.className='input_out'};" onmousemove="this.className='input_move'" onmouseout="this.className='input_out'"/>&nbsp;<input type="checkbox" class="checkbox" name="publicemail" id="publicemail" value="{#$customer[publicemail]#}" {#$publicemail#} />&nbsp;公开
+    </p>
+    <p>
+		<label for="emailpassword">密码</label>
+		<input type="password" id="emailpassword" name="emailpassword"   class="input_out"   onfocus="this.className='input_on';this.onmouseout=''" onblur="this.className='input_off';this.onmouseout=function(){this.className='input_out'};" onmousemove="this.className='input_move'" onmouseout="this.className='input_out'"/>如果您需要修改电子邮件请输入密码。
+    </p>
+    {#/if#}
+    <p>
+		<label for="qq">QQ</label>
+		<input type="text" id="qq" name="qq" value="{#$customer[qq]#}"   class="input_out"   onfocus="this.className='input_on';this.onmouseout=''" onblur="this.className='input_off';this.onmouseout=function(){this.className='input_out'};" onmousemove="this.className='input_move'" onmouseout="this.className='input_out'"/>
+    <p>
+		<label for="msn">MSN</label>
+		<input type="text" id="msn" name="msn" value="{#$customer[msn]#}"  class="input_out"   onfocus="this.className='input_on';this.onmouseout=''" onblur="this.className='input_off';this.onmouseout=function(){this.className='input_out'};" onmousemove="this.className='input_move'" onmouseout="this.className='input_out'" />
+    <p>
+		<label for="location">来自</label>
+		<input type="text" id="location" name="location" value="{#$customer[location]#}"  class="input_out"   onfocus="this.className='input_on';this.onmouseout=''" onblur="this.className='input_off';this.onmouseout=function(){this.className='input_out'};" onmousemove="this.className='input_move'" onmouseout="this.className='input_out'" />
+    <p>
+		<label for="site">个人主页</label>
+		<input type="text" id="site" name="site" value="{#$customer[site]#}"  class="input_out"   onfocus="this.className='input_on';this.onmouseout=''" onblur="this.className='input_off';this.onmouseout=function(){this.className='input_out'};" onmousemove="this.className='input_move'" onmouseout="this.className='input_out'" />
+    <p>
+		<label>性别</label>
+		<input type="radio" class="checkbox" value="0" name="gender" id="gender_0" {#$gender_0#} />&nbsp;男&nbsp;<input type="radio" class="checkbox" value="1" name="gender" id="gender_1" {#$gender_1#} />&nbsp;女&nbsp;<input type="radio" class="checkbox" value="3" name="gender" id="gender_3" {#$gender_3#} />&nbsp;保密
+    <p>
+		<label>生日</label>
+		{#$year_option#}年&nbsp;{#$month_option#}月&nbsp;{#$day_option#}日&nbsp;
+    <p>
+		<label for="signature">签名</label>
+		<textarea id="signature" name="signature" rows="7" cols="45">{#$customer[signature]#}</textarea>&nbsp;<input type="checkbox" class="checkbox" name="showsign" id="showsign" value="{#$customer[showsign]#}" {#$showsign#} />&nbsp;公开
+    <p class="member-submit"><input type="submit" value="提交" class="button" name="submit"></p>
+</form>
+
+<!-- 密码修改 -->
+{#elseif $action == 'password'#}
+	{#if $pb_passport && $pb_passporttype == 'client'#}
+	站点开启通行证，请到服务器端修改密码信息。
+	{#else#}
+<form action="{#$actionurl#}" name="member" id="member" method="post">
+	<p>
+		<label for="oldpw">原密码</label>
+		<input type="password" id="oldpw" name="oldpw" value=""   class="input_out"   onfocus="this.className='input_on';this.onmouseout=''" onblur="this.className='input_off';this.onmouseout=function(){this.className='input_out'};" onmousemove="this.className='input_move'" onmouseout="this.className='input_out'"/>
+    </p>
+    <p>
+		<label for="newpw">新密码</label>
+		<input type="password" id="newpw" name="newpw" value=""   class="input_out"   onfocus="this.className='input_on';this.onmouseout=''" onblur="this.className='input_off';this.onmouseout=function(){this.className='input_out'};" onmousemove="this.className='input_move'" onmouseout="this.className='input_out'"/>
+    </p>
+    <p>
+		<label for="rnewpw">确认新密码</label>
+		<input type="password" id="rnewpw" name="rnewpw" value="" class="input_out"   onfocus="this.className='input_on';this.onmouseout=''" onblur="this.className='input_off';this.onmouseout=function(){this.className='input_out'};" onmousemove="this.className='input_move'" onmouseout="this.className='input_out'"/>
+    </p>
+    <p class="member-submit"><input type="submit" value="提交" class="button" name="submit"></p>
+</form>
+	{#/if#}
+
+<!-- 头像修改 -->
+{#elseif $action == 'avatar'#}
+	{#if $pb_ucenable#}
+		{#$uploadHTML#}
+	{#else#}
+	<form action="{#$actionurl#}" method="post" enctype="multipart/form-data">
+	<div class="show_avatar">
+		<div><span>当前头像</span>&nbsp;<img src="{#$customer[avatar]#}" id="currentavatar" class="big_user_avatar" /></div>
+		<div class="list_avatar"><span>默认头像：您可以选择网站内置的图片作为您的头像。</span>
+			<p>
+			{#foreach $defualtAvatars as $k => $v#}
+			<img src="{#$_PBENV[PB_URL]#}images/portrait/{#$v#}" id="avatar_{#$v#}" name="{#$v#}" onclick="changeAvatar('{#$v#}')" />
+			{#/foreach#}
+			</p>
+		</div>
+		{#if $iflinkavatar#}
+		<div class="input_avatar"><span>链接头像：输入图片在其他站点中的地址，必须以http://开头。</span>
+		<p><input type="text" name="linkavatar" value="http://" size="50" class="input_out" onfocus="this.className='input_on';this.onmouseout=''" onblur="this.className='input_off';this.onmouseout=function(){this.className='input_out'};" onmousemove="this.className='input_move'" onmouseout="this.className='input_out'" /></p>
+		{#if $ifuploadavatar#}<span>上传头像：从您的电脑上传本地图片。<br />图片尺寸高度不能超过{#$pb_avathight#}px，宽度不能超过 {#$pb_avatwidth#}px。<br />大小不能超过 {#$uploadavatsize#} KB。</span>
+		<p><input type="file" name="uploadavatar" size="35" class="input_out"   onfocus="this.className='input_on';this.onmouseout=''" onblur="this.className='input_off';this.onmouseout=function(){this.className='input_out'};" onmousemove="this.className='input_move'" onmouseout="this.className='input_out'" /></p>
+		</div>
+		{#/if#}
+		{#/if#}
+		<div class="member-submit">
+			<input type="hidden" value="" name="defaultavatar" id="defaultavatar" /><input type="submit" class="button" value="提交" />
+		</div>
+	</div>
+	</form>
+	{#/if#}
+
+<!-- 控制面板默认首页 -->
+{#else#}
+
+
+<div class="memuser">
+	<img src="{#$customer[avatar]#}" alt="{#$customer[username]#}" class="memuser_user_avatar" />
+	<ul>
+    	<li class="usertitle"><a href="{#$customer[uurl]#}">{#$customer[username]#}</a> 
+</li>
+    	<li class="userurl"><a href="{#$customer[uurl]#}">{#$customer[uurl]#}</a> 
+</li>
+			<li class="userpg"><a href="member.php?type=profile&action=basic">修改资料</a></li>
+        <li class="zl">发表主题：<span>{#$customer[postnum]#} 篇</span>
+	发表评论：<span>{#$customer[commentnum]#} 条</span>
+	顶过主题：<span>{#$customer[diggnum]#} 篇</span>
+	踩过主题：<span>{#$customer[burynum]#} 篇</span><br />
+	{#$pb_customcredit#}：<span>{#$customer[currency]#} 点</span>
+	上传附件：<span>{#$customer[uploadnum]#} 个</span>
+	访问次数：<span>{#$customer[visitnum]#} 次</span></li>
+     <li class="zl">电子邮件：{#$customer[email]#}</li>
+      <li class="zl">上次访问时间：<span>{#$customer[lastvisit]#}</span></li>
+    </ul>
+</div>
+<!-- 基本资料 -->
+
+<!-- 帐户激活提示 -->
+{#if $activeNotice#}
+<div class="member_notice">您的帐户尚未激活，请尽快查收我们发送到您注册邮箱中的激活信！<br />如果您没有收到我们发送的激活邮件，请<a href="member.php?type=reactive">重新发送</a>邮件。</div>
+{#/if#}
+<!-- 帐户激活提示 -->
+
+{#/if#}
+<!-- 短信 -->
+{#elseif $type == 'msg'#}
+{#if !$pb_ucenable || !$uc_msg#}
+<div class="sortTable">【信箱状态：收到短消息<strong>{#$receiveMsgNum#}</strong>条；最多可存消息<strong>{#$msgmax#}</strong>条；使用率<strong>{#$msgper#}%</strong>】</div>
+{#/if#}
+{#if $action == 'receivebox'#}
+	<form name="receive" action="{#$actionurl#}" method="post">
+	<table width="100%" class="msgbox">
+		<tr>
+			<td height="20px" width="5%">&nbsp;</td>
+			<td width="15%" align="center">发件人</td>
+			<td width="*" align="center">短信主题</td>
+			<td width="10%" align="center">状态</td>
+			<td  width="15%" align="center">发送时间</td>
+		</tr>
+		{#foreach $msgdata as $k => $v#}
+		<tr>
+			<td align="center">{#if $enableDel#}<input type="checkbox" class="checkbox" name="mid[]" size="2" value="{#$v[mid]#}" />{#/if#}</td>
+			<td align="center">{#$v[addresser]#}</td>
+			<td><a href="member.php?type=msg&amp;action=read&amp;mid={#$v[mid]#}">{#$v[title]#}</a></td>
+			<td align="center">{#$v[ifread]#}</td>
+			<td>{#$v[postdate]#}</td>
+		</tr>
+		{#/foreach#}
+		<tr>
+			<td colspan="5">{#$multLink#}</td>
+		</tr>
+		<tr>
+			<td colspan="5"><div class="center">
+			<input type="hidden" name="forward" value="receivebox" />
+			<input type="hidden" name="filter" value="{#$filter#}" />
+			{#if $enableDel#}
+			<input type="hidden" name="action" value="del" />
+			<input type="button" class="button" name="chkall" value="全选" onclick="PBchoseAll(this.form)" />
+			<input class="button" type="submit" value="删除" /></div>
+			{#/if#}
+			</td>
+		</tr>
+	</table>
+	</form>
+{#elseif $action == 'sendbox'#}
+	<form name="send" action="{#$actionurl#}" method="post">
+	<table width="100%" class="msgbox">
+		<tr>
+			<td height="20px" width="5%">&nbsp;</td>
+			<td width="15%" align="center">收件人</td>
+			<td width="*" align="center">短信主题</td>
+			<td width="15%" align="center">发送时间</td>
+		</tr>
+		{#foreach $msgdata as $k => $v#}
+		<tr>
+			<td align="center"><input type="checkbox" class="checkbox" name="mid[]" size="2" value="{#$v[mid]#}"/></td>
+			<td align="center">{#$v[addressee]#}</td>
+			<td><a href="member.php?type=msg&amp;action=read&amp;mid={#$v[mid]#}">{#$v[title]#}</a></td>
+			<td align="center">{#$v[postdate]#}</td>
+		</tr>
+		{#/foreach#}
+		<tr>
+			<td colspan="4">{#$multLink#}</td>
+		</tr>
+		<tr>
+			<td colspan="4"><div class="center"><input type="hidden" name="forward" value="sendbox" /><input type="hidden" name="filter" value="{#$filter#}" /><input type="hidden" name="action" value="del" /><input type="button" class="button" name="chkall" value="全选" onclick="PBchoseAll(this.form)" /><input class="button" type="submit" value="删除" /></td>
+		</tr>
+	</table>
+	</form>
+{#elseif $action == 'read'#}
+	<div class="sortTable">
+		发件人：{#$msgdata[addressee]#}<br />
+		主题：{#$msgdata[title]#}<br />
+		发送时间：{#$msgdata[postdate]#}<br />
+	</div>
+	<table width="100%" class="msgbox">
+		<tr>
+			<td>
+				<p>{#$msgdata[content]#}</p>
+			</td>
+		</tr>
+	</table>
+	<div class="sortTable">
+		[<a href="member.php?type=msg&amp;action=write&amp;mid={#$msgdata[mid]#}">回复</a>]&nbsp;
+		[<a href="member.php?type=msg&amp;action=del&amp;mid[]={#$msgdata[mid]#}&verify={#$verifyhash#}">删除</a>]&nbsp;
+		[<a href="javascript:history.back();">返回</a>]
+	</div>
+{#elseif $action == 'write'#}
+	<div class="msgContent">
+	<form name="write" action="{#$actionurl#}" method="post">
+	<table width="100%" class="msgbox">
+		<tr>
+			<td>收件人</td>
+			<td><input type="text" name="addressee" size="35" value="{#$msgdata[addressee]#}"  class="input_out"   onfocus="this.className='input_on';this.onmouseout=''" onblur="this.className='input_off';this.onmouseout=function(){this.className='input_out'};" onmousemove="this.className='input_move'" onmouseout="this.className='input_out'" /></td>
+		</tr>
+		 <tr>
+			<td>标题</td>
+			<td><input name="title" type="text" value="{#$msgdata[title]#}" size="35"  class="input_out"   onfocus="this.className='input_on';this.onmouseout=''" onblur="this.className='input_off';this.onmouseout=function(){this.className='input_out'};" onmousemove="this.className='input_move'" onmouseout="this.className='input_out'" /></td>
+		</tr>
+		<tr>
+			<td valign="top">内容</td>
+			<td><textarea name="content" rows="7" cols="45" />{#$msgdata[content]#}</textarea>&nbsp;
+			保存到发件箱&nbsp;<input class="checkbox" type="checkbox" name="savemsg" value="1" /></td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<div class="msg-submit">
+				<input class="button" type="submit" value="发送短信" />
+				</div>
+			</td>
+		</tr>
+	</table>
+	</form>
+	</div>
+{#elseif $action == 'drop'#}
+	<form name="empty" action="{#$actionurl#}" method="post">
+	<table width="100%" class="msgbox">
+		<tr>
+			<td>确认要清空的信箱？此操作不可撤销！</td>
+		</tr>
+		<tr>
+			<td>收件箱<input class="checkbox" type="checkbox" name="inbox" value="1" />  发件箱<input class="checkbox" type="checkbox" name="outbox" value="1" /></td>
+		</tr>
+		<tr>
+			<td><div class="msg-submit"><input class="button" type="submit" value="提交" /></div></td>
+		</tr>
+	</table>
+	</form>
+{#/if#}
+<!-- 短信 -->
+<!-- 我的 -->
+{#elseif $type == 'my'#}
+{#if $action == 'collection'#}
+<!-- 收藏 -->
+	<div class="sortTable">【收藏夹状态：目前已存<strong>{#$recordNum#}</strong>条；最多可存<strong>{#$favorsmax#}</strong>条；使用率<strong>{#$favorsper#}%</strong>】</div>
+	<form name="del" action="{#$actionurl#}" method="post">
+	<table width="100%" class="msgbox">
+		<tr>
+			<td height="20px" width="5%">&nbsp;</td>
+			<td align="center">标题</td>
+			<td align="center">分类</td>
+		</tr>
+		{#foreach $collections as $k => $v#}
+		<tr>
+			<td align="center"><input type="checkbox" class="checkbox" name="tids[]" size="2" value="{#$v[tid]#}"/></td>
+			<td><a href="{#$v[turl]#}" target="_blank">{#$v[subject]#}</a></td>
+			<td align="center"><a href="{#$v[curl]#}" target="_blank">{#$v[cate]#}</a></td>
+		</tr>
+		{#/foreach#}
+		<tr>
+			<td colspan="3">{#$multLink#}</td>
+		</tr>
+		<tr>
+			<td colspan="3">
+				<div class="center">
+					<input type="hidden" name="job" value="del" />
+					<input class="button" type="button" name="chkall" value="全选" onclick="PBchoseAll(this.form)" />
+					<input class="button" type="submit" name="submit" value="删除" />
+				</div>
+			</td>
+		</tr>
+	</table>
+	</form>
+<!-- 好友 -->
+{#elseif $action == 'friend'#}
+<div class="clear"></div>
+<div class="sortTable">我的好友</div>
+{#foreach $frienddata as $v#}
+<div class="pack_user"><a href="{#$v[fuurl]#}" target="_blank"><img src="{#$v[avatar]#}" alt="" /></a>
+<ul>
+	<li><a href="{#$v[fuurl]#}" target="_blank">{#$v[username]#}</a></li>
+	<li class="master_op"><a href="member.php?type=msg&amp;action=write&amp;tuid={#$v[fuid]#}">发短消息</a> | <a href="{#$v[fuurl]#}" target="_blank">个人资料</a> | <a href="member.php?type=my&amp;action=friend&amp;job=delete&amp;uid={#$v[fuid]#}&verify={#$verifyhash#}">删除</a></li>
+</ul>
+</div>
+{#/foreach#}<div class="clear"></div>
+{#$multLink#}
+{#/if#}
+<!-- 我的 -->
+
+<!-- 其他扩展接口待完善 -->
+
+
+<!-- 其他扩展接口待完善 -->
+{#/if#}
+
+<!--右侧内容-->
+</div>
+</div><div class="clear"></div>
+</div>
+
+{#include footer#}
+
+</body>
+</html>

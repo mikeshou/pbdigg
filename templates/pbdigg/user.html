@@ -1,0 +1,76 @@
+{#include header#}
+<div class="maincontainer warp">
+
+
+
+<div class="member">
+<!-- 左侧 -->
+<div class="member-menu">
+	
+<div class="side_list">
+<h2>热门空间</h2>
+</div>
+<div class="side_list2" id="leftmenuitem_1">
+<ul>
+	{#tpl tpl_2269e712#}
+	</ul>
+</div>
+
+	<div class="side_list"><h2>勤劳的会员</h2>
+</div>
+<div class="side_list2" id="leftmenuitem_3">
+<ul>
+	{#tpl tpl_8fee0168#}
+	</ul>
+</div>
+
+	
+</div>
+<!--右侧-->
+<div class="member-main">
+
+
+<div class="memuser">
+	<img src="{#$userdata[avatar]#}" alt="{#$userdata[username]#}" class="memuser_user_avatar" />
+	<ul>		<li class="usertitle"><a href="{#$userdata[uurl]#}">{#$userdata[username]#}</a> 的个人主页
+		</li>
+		<li class="userurl"><a href="{#$userdata[uurl]#}">{#$userdata[uurl]#}</a> 
+		</li>
+		<li class="userqm">{#$userdata[signature]#}</li>
+        <li class="zl">发表主题：<span>{#$userdata[postnum]#} 篇</span>
+	发表评论：<span>{#$userdata[commentnum]#} 条</span>
+	顶过主题：<span>{#$userdata[diggnum]#} 篇</span>
+	踩过主题：<span>{#$userdata[burynum]#} 篇</span><br />
+	{#$pb_customcredit#}：<span>{#$userdata[currency]#} 点</span>
+	上传附件：<span>{#$userdata[uploadnum]#} 个</span>
+	访问次数：<span>{#$userdata[visitnum]#} 次</span></li>
+    </ul>
+</div>
+
+<div class="memlive">
+
+    <div class="mlright">
+
+<h2>我发布的最新主题</h2>
+<ul>
+{#foreach $article as $k => $v#}
+<li >
+<span class="tt">[<a href="{#$v[curl]#}">{#$v[cate]#}</a>] <a href="{#$v[turl]#}" title="{#$v[altsubject]#}" target="_blank" class="title">{#$v[subject]#}</a><span class="tags">{#$v[tags]#}</span><br />{#$v[postdate]#}</span>
+<br />
+<span class="digg_1">{#$v[digg]#}支持</span><span class="digg_2">{#$v[bury]#}反对</span><span class="digg_3">{#$v[comments]#}评论 </span><span class="digg_4">{#$v[views]#}人读过</span>
+</li>
+{#/foreach#}
+</ul>
+
+    </div>
+</div>
+
+<!--右侧内容-->
+</div>
+</div><div class="clear"></div>
+</div>
+
+{#include footer#}
+
+</body>
+</html>

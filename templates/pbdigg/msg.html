@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={#$db_charset#}" />
+<title>{#$pb_seotitle#} - Powered By PBDigg!</title>
+<!-- PBDigg! 是一个基于PHP + MYSQL的开源Dig社区系统,经过完善设计并适用于各种服务器环境的高效、全新、快速、优秀的网站解决方案。 PBDigg! 融合了社会性标签、主题评论、Rss订阅等多种WEB2.0元素。-->
+<meta name="keywords" content="{#$pb_seokeywords#}" />
+<meta name="description" content="{#$pb_seodescription#}" />
+<meta name="generator" content="PBDigg! {#$_PBENV[VERSION]#}" />
+<meta name="author" content="PBDigg! UI Team" />
+<meta name="copyright" content="2007-2009 PBDigg.Com" />
+<meta name="MSSmartTagsPreventParsing" content="True" />
+<meta http-equiv="MSThemeCompatible" content="Yes" />
+<meta http-equiv="x-ua-compatible" content="ie=7" />
+<script type="text/javascript">
+var pb_url = '{#$_PBENV[PB_URL]#}';
+var pb_template = '{#$pb_style#}';
+var pb_lang = '{#$pb_lang#}';
+var verify = '{#$verifyhash#}';
+</script>
+<script src="{#$_PBENV[PB_URL]#}js/jquery.js" type="text/javascript"></script>
+<script src="{#$_PBENV[PB_URL]#}js/common.js" type="text/javascript"></script>
+{#$ucHeader#}
+
+
+</head>
+
+<body>
+<style type="text/css"> 
+body{ font-size:12px; background:#eee; }
+#pbdigg{ position:absolute; background:url({#$_PBENV[PB_URL]#}templates/{#$pb_style#}/pic/msg_bg.gif) no-repeat; width:880px; height:254px; top:50%; left:50%; margin-top:-127px; margin-left:-420px;}
+
+a{ text-decoration:none;color:#3366cc;}
+a:hover{ text-decoration:underline;}
+ol{list-style-type:decimal;margin-left:24px;color:#888;}
+.mt10{margin-top:10px;}
+.lh3{line-height:3;}
+.tip-page{width:600px;margin:0px auto 30px;}
+.tip-table{margin:0 1px;width:598px;}
+.tip-top{height:30px;font-size:14px; padding:20px 0 0 20px;}
+.tip-bgA,.tip-bgB,.tip-bgC,.tip-bgC {background:#f7f7f7;}
+.tip-bgA,.tip-bgB{height:1px;overflow:hidden;}
+.tip-bgA{margin:0 2px;}
+.tip-bgB{margin:0 1px;}
+.tip-bgC{padding-top:1px;}
+.tip-content{padding:0 0 0 67px;}
+.tip-content tr td{padding:5px 10px 5px 0;line-height:25px;}
+ 
+.show-back{ text-decoration:underline;display:block;padding-right:25px;line-height:22px;overflow:hidden;background:url(images/tips-back.gif) right 0 no-repeat;height:20px;}
+.show-back:hover{ background-position:right -20px;}
+ 
+.btn{border-color:#f7f7f7;margin-right:1em;color:#fff;background:#f7f7f7;}
+.btn,.bt{border-width:1px;cursor:pointer;padding:.1em 1em;*padding:0 1em;font-size:9pt; line-height:130%; overflow:visible;}
+.bt{cursor:pointer;background:#f7f7f7 url({#$_PBENV[PB_URL]#}templates/{#$pb_style#}/pic/btn.png) 0 -52px repeat-x;vertical-align:middle;border-color: #e4e4e4 #cccccc #cccccc #e4e4e4;}
+ 
+/*form*/
+input{font:12px Arial;padding:1px 3px 0 3px;vertical-align:middle;margin-bottom:1px;}
+.input{border: 1px solid; border-color: #c0c0c0 #ededed #ededed #c0c0c0;padding:2px 0px 2px 1px;font-size:1.0em;vertical-align:middle;color:#000;}
+</style>
+</head>
+<body>
+<div id="pbdigg">
+<div class="tip-page">
+<div class="tip-bgA"></div>
+<div class="tip-bgB"></div>
+	<div class="tip-bgC">
+	<div class="tip-top">{#$pb_sitename#} 提示信息</div>
+	<table cellpadding="0" cellspacing="0" class="tip-table">
+		<tr><td height="170">
+		<div class="tip-content">
+ 
+<div class="lh3">
+<span class="f14">{#$msg#}</span>
+
+<br />
+
+ {#if $redirect#}
+<a href="{#$url#}">如果您的浏览器没有自动跳转，请点击这里</a>
+<script type="text/javascript">
+	setTimeout("window.location.href ='{#$url#}';", {#$time#});
+</script>
+{#else#}
+<div class="cc" style="padding:0 20px 20px 0;"><a href="{#if $url#}{#$url#}{#else#}javascript:history.back(){#/if#}">[ 点击这里继续操作 ]</a></div>
+{#/if#}<br />	<div  style="display:none;" id=debug></div>		
+			</td>
+		</tr>
+	</table>
+	</div>
+<div class="tip-bgB"></div>
+</div>
+</div>
+<div id="loadjs" style="display:none"></div>
+</body>
+</html>

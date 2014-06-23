@@ -1,0 +1,79 @@
+/*全局*/
+body{padding:12px 10px;margin:0;font-size:12px;background:#fff;font-family:Verdana;color:#555;}
+img{border:0}
+table{border-collapse:collapse;}
+th{text-align:left;font-size:12px;}
+td{font-size:12px;}
+html{height:100%}
+*{margin:0;padding:0;}
+ul{list-style-type:none;}
+a{color:#067098;text-decoration:none;}
+a:hover{color:#FF6600;}
+.input{border: 1px solid;border-color: #c0c0c0 #ededed #ededed #c0c0c0;padding:2px 0px 1px 1px;font-size:1.0em;vertical-align:middle;color:#000;}
+.btn{background:#d9d9d9;border-width:1px;vertical-align:middle;height:21px;padding-left:0.15em;padding-right:0.15em;border: 1px solid; border-color: #c0c0c0 #555 #555 #c0c0c0;}
+.fr{float:right}
+.fl{float:left}
+.c{clear:both;height:0px;font:0px/0px Arial;}
+.cc{clear:both;margin-right:1em;border-top:1px solid #91c900;height:10px;}
+.input{border: 1px solid;border-color: #c0c0c0 #ededed #ededed #c0c0c0;padding:2px 0px 1px 1px;font-size:12px;vertical-align:middle;color:#000;margin-right:.3em;}
+.btn{background:#d9d9d9;border-width:1px;vertical-align:middle;height:21px;padding-left:0.15em;padding-right:0.15em;border: 1px solid; border-color: #c0c0c0 #555 #555 #c0c0c0;}
+select{border: 1px solid;border-color: #c0c0c0 #ededed #ededed #c0c0c0;}
+textarea{border: 1px solid;border-color: #c0c0c0 #ededed #ededed #c0c0c0;font-size:12px;}
+/*字体颜色*/
+.s1{color:#a0b7d2;} /*介绍专用*/
+.s2{color:#006699;} /*深蓝*/
+.s3{color:#da8030;}
+.gray{color:#999;} /*灰色*/
+/*右边内容*/
+.box{background:url(box-left.gif) left top repeat-y;}
+.box-right{background:url(box-right.gif) right top repeat-y;}
+.box-top{background:url(box-top.gif) left top no-repeat;height:15px;}
+.box-top div{background:url(box-top-2.gif) right top no-repeat;height:15px;}
+.box-bottom{background:url(box-bottom.gif) left top no-repeat;height:13px;margin-bottom:10px;}
+.box-bottom div{background:url(box-bottom-2.gif) right top no-repeat;height:13px;}
+.text{line-height:22px;}
+h3{border-bottom:1px solid #cdcdcd;font-size:12px;padding-bottom:5px;color:#000;margin-bottom:.5em;}
+.text td{padding:.3em .5em;border-bottom:1px dashed #cdcdcd;}
+.hover{background:#e5e5e5;}
+/*3级导航*/
+.nav3{height:36px;}
+.nav3 a:hover{color:#d2e4e6;background:url(nav3.gif) left bottom;}
+.nav3 a{margin:0 10px 0 0;float:left;cursor:hand;display:block;line-height:25px;height:25px;background:url(nav3.gif) left top;color:#555;}
+.nav3 a span{float:left;height:25px;background:url(nav3.gif) right top;padding:0 8px 0 0;margin-left:8px;}
+.nav3 a:hover span{background:url(nav3.gif) right bottom;}
+
+/*table气泡样式*/
+.boxtable{margin-bottom:9px;}
+.box-top-left{background:url(box-top.gif) left top no-repeat;height:15px;width:20px;}
+.box-top-cen{background:url(box-top.gif) -20px top repeat-x;}
+.box-top-right{background:url(box-top-2.gif) right top no-repeat;height:15px;width:20px;}
+.box-main-left{background:url(box-left.gif) left top repeat-y;}
+.box-main-right{background:url(box-right.gif) right top repeat-y;}
+.box-bottom-left{background:url(box-bottom.gif) left top no-repeat;height:15px;}
+.box-bottom-cen{background:url(box-bottom.gif) -20px top repeat-x;}
+.box-bottom-right{background:url(box-bottom-2.gif) right top no-repeat;height:15px;}
+.copyright{width:100%;margin:auto;text-align:center;color:#555;}
+.copyright a{text-decoration:none;color:#555;line-height:25px;}
+
+
+/***************/
+.defaultbold{font-weight:bold;}
+.tth{color:#006699;}
+.tmult{background:#d3dce3}
+.aligncenter, .tbutton{text-align:center}
+.b{color:#00f}
+.g{color:#090}
+.r{color:#f00}
+td{word-break:break-all;word-wrap:break-word;line-height:150%;}
+.onchose{background:#fc9}
+.template{width:100%;height:400px;}
+.water {width:153px;border-left:1px #ccc solid;border-top:1px #ccc solid;}
+.water li {list-style:none;float:left;display:block;width:50px;border-right:1px #ccc solid;border-bottom:1px #ccc solid;}
+.ww{word-break:normal;word-wrap:break-word}
+/*********后台分页***********/
+.pages {margin:0 5px }
+.pages * { vertical-align: middle;}
+.pages a{padding:1px 4px ; background:#f9fcff;  border:1px solid #ADD2E1; margin:0 1px; color: #002F79; text-align: center; text-decoration: none; font:normal 12px Tahoma,Arial; }
+.pages a:hover { border:#37A717 1px solid; background:#EDFFE4; text-decoration:none; color: #002F79}
+.pages strong { padding:2px ;  margin: 0 3px;font:bold  11px/12px Tahoma}
+

@@ -1,0 +1,201 @@
+{#include header#}
+<div class="maincontainer warp">
+    <div class="mainleft">
+	<div class="homelist">
+    
+          <div id="headnews">
+    		<div class="topflash">
+        	<span>
+			{#func powerpoint()#}
+            </span>
+		</div>
+      		<div class="topnews">
+        	<h2>热门话题</h2>
+            <div class="boder_r-b">
+            {#tpl tpl_90fca3cb#}
+            </div>
+		</div>
+      </div>
+    {#tpl tpl_5ee91dde#}
+    
+            <div class="lefttop homelefttop">
+				<h3>
+                	<span class="tool"><strong>发表时间</strong></span>
+					<a href="{#$_PBENV[PB_URL]#}index.php?viewday=365" class="tool">365 天</a>
+                    <a href="{#$_PBENV[PB_URL]#}index.php?viewday=30" class="tool">30 天</a>
+                    <a href="{#$_PBENV[PB_URL]#}index.php?viewday=7" class="tool">7 天</a>
+                    <a href="{#$_PBENV[PB_URL]#}index.php?viewday=1" class="tool">最近24小时</a>
+				</h3>
+        </div>
+    <div class="upcoming">
+    	<ul>
+            <li{#if !$popularon#} class="current"{#/if#}><a href="{#$_PBENV[PB_URL]#}" title="正在流行的"><span>正在流行的</span></a></li>
+			<li{#if $popularon#} class="current"{#/if#}><a href="{#$_PBENV[PB_URL]#}index.php?action=upcoming" title="即将流行的"><span>即将流行的</span></a></li>
+        </ul>
+    </div>
+
+
+	<!-- 文章列表 -->
+	{#foreach $article as $k => $item#}
+    <div class="articlelist {#if $k % 2#}boder_1{#else#}boder_2{#/if#} w1">
+        <ul class="{#if $k % 2#}bg_1{#else#}bg_2{#/if#}">
+        <div class="pb_box_r" id="digg_{#$item[tid]#}">
+		<a class="pb_box_rt" href="{#$item[titleurl]#}" title="{#$item[altsubject]#}">
+	    	{#if $pb_ifdigg#}
+            	<span id="article_digg_do_{#$item[tid]#}" class="pb_box_rbb">+</span><span class="pb_box_rtt" id="article_digg_{#$item[tid]#}">{#$item[digg]#}</span>
+            {#/if#}<br />
+            {#if $pb_ifbury#}
+            	<span id="article_bury_do_{#$item[tid]#}" class="pb_box_rbb">-</span><span class="pb_box_rtt" id="article_bury_{#$item[tid]#}">{#$item[bury]#}</span>
+            {#/if#}
+		</a>
+		</div>
+        {#$item[topicimg]#}
+        <img src="{#$item[avatar]#}" alt="{#$item[author]#}" class="small_user_avatar" />
+        <h3><a href="{#$item[titleurl]#}" title="{#$item[altsubject]#}" target="_blank">{#$item[subject]#}</a></h3>
+        	<li class="summary">
+            	<span class="data">{#$item[postdate]#} , 由 <a href="{#$item[uurl]#}">{#$item[author]#}</a> 发表 到 [ <a href="{#$item[curl]#}" style="font-size:14px;">{#$item[cate]#}</a> ]</span>{#$item[summary]#}
+            </li>
+            <li class="tool">
+            	<span class="pinglun"><a href="{#$item[turl]#}#comment" target="_blank">{#$item[comments]#} 评论</a></span><span class="hits">{#$item[views]#} 人读过</span><span class="share">来源：<a href="{#$item[contentlink]#}" target="_blank">{#$item[linkhost]#}</a></span><span class="tagico">标签 :  {#$item[tags]#}</span>
+            </li>
+
+        </ul>
+    <div class="clear"></div></div>
+	{#/foreach#}
+	<!-- 文章列表 -->
+   	{#$multLink#}   
+	</div>
+    </div>
+    <div class="sidebar">
+
+
+	{#if $logStatus#}
+	<h2 class="top">个人资料<span>My info</span></h2>
+    		<ul class="myinfo boder">
+            <li class="myuserpic"><img src="{#$customer[avatar]#}" alt="{#$customer[username]#}" /></li>
+            <li>发帖：{#$customer[postnum]#} 篇</li>
+	<li>评论：{#$customer[commentnum]#} 次</li>
+	<li>Diggs：{#$customer[diggnum]#} 次</li>
+                <span class="infoname"><a href="{#$customer[uurl]#}" class="name">{#$customer[username]#}</a> , <a href="{#$_PBENV[PB_URL]#}member.php">控制面板</a><br /><a href="{#$_PBENV[PB_URL]#}user.php?uid={#$customer[uid]#}" class="posts">我发布的文章</a><a href="{#$logouturl#}" class="posts2">退出登录</a></span>
+            </ul>
+
+        {#else#}
+	<h2 class="top">登陆帐号<span>Login</span></h2>
+	<form action="{#$_PBENV[PB_URL]#}login.php?action=login&verify={#$verifyhash#}" method="post" onsubmit="javascript:if(this.username.value=='' || this.password.value==''){alert('请填写用户名密码');return false;}return true;">
+		<ul class="login boder">
+        <li class="userpass"><label for="username">用户名</label>
+        <input name="username" type="text" id="username" class="log-inputbox" size="26" maxlength="20" /></li>
+		<li class="userpass"><label for="password">密码</label>
+        <input name="password" type="password" id="password" class="log-inputbox" size="23" maxlength="20" /></li>
+		{#if $pb_gdcheck & 2#}
+		<li class="yzm"><label for="captcha">验证码：</label>
+        <input type="text" name="captcha" id="captcha" size="8" /></span>&nbsp;<img src="checkcode.php?" onclick="refreshCheckcode()" style="cursor:pointer;" align="absmiddle" id="checkcode" alt="看不清楚？点击图片刷新一下。" /></li>
+		{#/if#}
+
+<li class="checkbox">
+<label for="persistent">&nbsp; </label>
+<input type="checkbox" name="persistent" value="1" id="persistent" title="使用公用电脑请勿选择该项" /> 记住我的登录状态  <br /><br />
+<input type="submit" name="submit" id="submit" value="登录" class="button" />
+ <img src="templates/{#$pb_style#}/pic/register.gif" width="11" height="14" align="absmiddle" /> <a href="register.php">快速注册</a>&nbsp;<img src="templates/{#$pb_style#}/pic/forgetpw.gif" width="12" height="15" align="absmiddle" /> <a href="getpw.php" target="_blank">忘记密码</a></li>
+	<input type="hidden" name="verify" id="verify" value="{#$verifyhash#}" />
+    	</ul>
+	</form>
+
+	{#/if#}
+    	<h2>站点信息<span>statstic</span></h2>
+    	<div class="statstic boder">
+ 
+        	<p class="st_ico"><strong>{#$_sitestat[membernum]#}</strong> 会员 </p>
+   <p class="st_ico2"><strong>{#$_sitestat[artnum]#}</strong> 主题 &amp; {#$_sitestat[comnum]#} 评论</p>
+ 
+<p style=" margin-top:5px;">
+<a href="{#$rssurl#}"><img style="float:left;margin-right:6px; margin-top:3px;" src="{#$_PBENV[PB_URL]#}templates/{#$pb_style#}/pic/rssico.png" alt="RSS" /></a>
+<a href="{#$rssurl#}">RSS订阅</a><br />
+<a href="{#$rssurl#}">Category RSS</a>
+
+<a href="http://creativecommons.org/licenses/by-nc-sa/2.5/cn/" style=" position:absolute; top:20px; right:10px;"><img src="templates/{#$pb_style#}/pic/CreativeCommons.jpg" alt="Creative Commons 协议" /></a>
+
+</p>
+
+<div class="anc">
+{#if $announcements#}
+<script type=text/javascript>
+<!--
+var announcementsNum = {#$announcementsNum#};//公告总数
+var currentID = 0;//当前ID
+$(document).ready(function(){
+setTimeout("announcement()", 1);
+})
+function announcement()
+{
+	if (currentID < announcementsNum)
+	{
+		frontID = currentID - 1;
+	}
+	else
+	{
+		currentID = 0;
+		frontID = announcementsNum - 1;
+	}
+	if (document.getElementById('announcement_' + frontID))
+	{
+		document.getElementById('announcement_' + frontID).style.display = 'none';
+	}
+	document.getElementById("announcement_" + currentID).style.display = "block";
+	document.getElementById("pageShow").innerHTML = '[ ' + (currentID + 1) + '/' + announcementsNum + ' ]';
+	currentID++;
+	setTimeout("announcement()", 5000);
+}
+//-->
+</script>
+{#foreach $announcements as $k => $v#}
+<span id="announcement_{#$k#}" style="display: block" class="title"><a href="{#$v[link]#}">{#$v[subject]#}</a></span>
+{#/foreach#}
+<span id="pageShow" style="display: none">[ 1/{#$announcementsNum#} ]</span>
+{#/if#}
+<!-- 公告 -->
+</div>
+        </div>
+	<h2>最新文章<span>Posts</span></h2>
+			<ol class="boder">
+				{#tpl tpl_14204e65#}
+			</ol>
+	<h2>会员评论<span>Comments</span></h2>
+			<dl class="boder">
+				{#tpl tpl_9132e687#}
+			</dl>
+   		<h2>标签Tag<span><a href="tag.php" target="_blank">More...</a></span></h2>
+			<div class="hottags boder">
+			{#func hottags(30)#}
+			</div>
+
+		<h2>一周热门<span>7days top</span></h2>
+
+			<ol class="boder">
+			{#tpl tpl_a58648ee#}
+			</ol>
+
+         <h2>合作伙伴<span>Partners</span></h2>
+         		<ul class="partners boder">
+{#foreach $_pic_link as $item#}
+<li><a href="{#$item[siteurl]#}" title="{#$item[description]#}" target="_blank"><img src="{#$item[logo]#}" alt="{#$item[sitename]#}" style="width:88px;height:31px;border:0" /></a></li>
+{#/foreach#}
+				</ul>
+
+         <h2>友情链接<span>links</span></h2>
+         		<ul class="links boder">
+					{#foreach $_txt_link as $item#}
+                        <li><a href="{#$item[siteurl]#}" title="{#$item[description]#}" target="_blank">{#$item[sitename]#}</a></li>
+					{#/foreach#}
+				</ul>
+
+    </div>
+
+</div>
+
+<!-- 脚注 -->
+{#include footer#}
+<!-- 脚注 -->
+
+</body>
+</html>

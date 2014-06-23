@@ -1,0 +1,120 @@
+{#include header#}
+<body>
+
+<!--提示信息-->
+<table cellpadding="0" cellspacing="0" width="100%" class="boxtable">
+<tr><td class="box-top-left"></td><td class="box-top-cen"></td><td class="box-top-right"></td></tr>
+<tr><td class="box-main-left"></td><td>
+<!--内容部分-->
+ <h3>提示信息</h3>
+<div class="text">
+	<div class="s3" style="margin-left:1em;">
+{#if $job == 'add'#}
+<li>系统标签将作为默认标签显示在发帖标签选择框内。</li>
+{#elseif $job == 'edit'#}
+<li>查看具体标签请使用<a href="admincp.php?action=tag&job=search">标签搜索</a>功能。</li>
+{#elseif $job == 'search'#}
+<li>多个标签名称之间用半角逗号分割，支持"*"通配符。</li>
+{#elseif $job == 'mod'#}
+<li>如果有同名tag图标存在，系统不会做。</li>
+{#elseif $job == 'tidy'#}
+<li>系统将重新统计各个Tag的使用次数并且清理使用次数为<span class="r">0</span>的Tag。此操作不可撤销，过程较久，请耐心等候。</li>
+{#/if#}
+	</div>
+</div>
+<!--内容部分结束-->
+</td><td class="box-main-right"></td></tr>
+<tr><td class="box-bottom-left"></td><td class="box-bottom-cen"></td><td class="box-bottom-right"></td></tr>
+</table>
+<!--提示信息-->
+
+<!--main-->
+<table cellpadding="0" cellspacing="0" width="100%">
+<tr><td class="box-top-left"></td><td class="box-top-cen"></td><td class="box-top-right"></td></tr>
+<tr><td class="box-main-left"></td><td>
+<h3>{#$_leftmenu[$action][item][$job]#}</h3>
+<div class="text">
+<form action="{#$basename#}" method="post" name="mainform" enctype="multipart/form-data" {#$checkSubmit#}>
+	<table cellpadding="0" cellspacing="0"  width="100%">
+	{#if $job == 'add' || $job == 'mod'#}
+	<tr>
+		<td><span class="defaultbold">标签名称</span><br />名称长度不能超过30个字节，一个汉字为2个字节。</td>
+		<td><input class="input" type="text" value="{#$tagname#}" name="name" id="name" size="35" maxlength="30" /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">标签状态</span><br />关闭：标签将不会在前台显示。</td>
+		<td><input class="radio" type="radio" value="1" name="status" id="status_1" {#$tagstatus_1#} />&nbsp;开启&nbsp;&nbsp;<input class="radio" type="radio" value="0" name="status" {#$tagstatus_0#} />&nbsp;关闭</td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">系统标签</span><br />设定为系统标签将在发帖页面显示供网友选择。</td>
+		<td><input class="radio" type="radio" value="1" name="system" {#$tagsystem_1#} />&nbsp;是&nbsp;&nbsp;<input class="radio" type="radio" value="0" name="system" {#$tagsystem_0#} />&nbsp;否</td>
+	</tr>
+	{#if $job == 'mod' && $tagpic#}
+	<tr>
+		<td><span class="defaultbold">当前标签图片</span><br />如无特殊情况请勿选择删除，否则有可能出现部分主题图片无法显示的错误。</td>
+		<td>{#$tagpic#}&nbsp;<input type="checkbox" name="del" value="1" title="删除请打钩" />删</td>
+	</tr>
+	{#/if#}
+	<tr id="tagpic">
+		<td><span class="defaultbold">标签图片</span><br />用户选择了对应的标签且未上传主题图片的情况下会自动采用此图片。<br />图片名称仅限于数字、下划线和英文字母，如果未设定或者重名系统会自动命名。</td>
+		<td>图片名称：<input class="input" type="text" value="{#$tagpicname#}" name="picname" size="15" maxlength="15" />.{#$tagpicext#}<br /><br />选择图片：<input class="input" type="file" name="pic" size="35" /></td>
+	</tr>
+	<tr>
+		<td class="tbutton" colspan="2"><input type="submit" value="提交" class="btn" name="submit"></td>
+	</tr>
+	{#elseif $job == 'edit'#}
+	<tbody class="aligncenter">
+	<tr class="tth">
+		<td width="10%">选择</td>
+		<td width="*">标签名称</td>
+		<td width="10%"><a href="admincp.php?action=tag&job=edit&tagid={#$tagid#}&asc={#$newasc#}&orderby=usenum">使用次数</a></td>
+		<td width="10%"><a href="admincp.php?action=tag&job=edit&tagid={#$tagid#}&asc={#$newasc#}&orderby=ifopen">状态</a></td>
+		<td width="20%">操作</td>
+	</tr>
+	{#foreach $tag as $k => $v#}
+	<tr>
+		<td><input type="checkbox" name="tagid[]" value="{#$v[tagid]#}" /></td>
+		<td>{#$v[tagname]#}</td>
+		<td>{#$v[usenum]#}</td>
+		<td>{#$v[tagstatus]#}</td>
+		<td><a href="admincp.php?action=tag&job=status&status={#$v[ifopen]#}&tagid={#$v[tagid]#}">[{#$v[opptagstatus]#}]</a>&nbsp;&nbsp;<a href="admincp.php?action=tag&job=mod&tagid={#$v[tagid]#}">[编辑]</a></td>
+	</tr>
+	{#/foreach#}
+	</tbody>
+	<tr class="tcell_mult">
+		<td>记录数：{#$recordNum#}</td>
+		<td colspan="4" style="text-align:right;">{#$multLink#}&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="tbutton" colspan="5"><input type="hidden" name="job" value="del" /><input type="button" value="全选" class="btn" name="choseall" onclick="PBchoseAll(this.form)">&nbsp;<input type="submit" value="删除" class="btn" name="submit"></td>
+	</tr>
+	{#elseif $job == 'search'#}
+	<tr>
+		<td><span class="defaultbold">标签名称</span><br />多个标签名称之间用半角逗号分割，支持"*"通配符模糊查找。</td>
+		<td><input class="input" type="text" name="tagname" id="tagname" size="35" /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">是否为系统标签</span></td>
+		<td><input class="radio" type="radio" value="1" name="ifsys" />&nbsp;是&nbsp;&nbsp;<input class="radio" type="radio" value="0" name="ifsys" checked="checked" />&nbsp;否</td>
+	</tr>
+	<tr>
+		<td class="tbutton" colspan="2"><input type="submit" value="搜索" class="btn" name="submit"></td>
+	</tr>
+	{#elseif $job == 'tidy'#}
+	<tr>
+		<td>每次批处理数量：<input class="input" type="text" value="500" name="count" id="count" size="5" maxlength="5" /></td>
+	</tr>
+	<tr>
+		<td class="tbutton"><input type="hidden" name="process" value="on" /><input type="submit" value="开始清理" class="btn" name="submit"></td></td>
+	</tr>
+	{#/if#}
+	</table>
+</form>
+</div>
+</td><td class="box-main-right"></td></tr>
+<tr><td class="box-bottom-left"></td><td class="box-bottom-cen"></td><td class="box-bottom-right"></td></tr>
+</table>
+
+{#include footer#}
+</body>
+</html>

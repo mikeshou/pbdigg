@@ -1,0 +1,3 @@
+{#foreach from=$js item=item#}
+document.writeln("<a href=\"{#$PB_ENV.PB_URL#}show.php?tid={#$item.tid#}\" target=\"_blank\">{#$item.subject#}</a>");
+{#/foreach#}

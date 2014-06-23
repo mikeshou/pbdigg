@@ -1,0 +1,141 @@
+<script type="text/javascript" charset="utf-8" src="{#$_PBENV[PB_URL]#}js/xheditor/xheditor.js"></script>
+<script type="text/javascript">
+$(pageInit);
+var editor;
+function pageInit()
+{
+	var maineditor = $('#content').xheditor(true,{tools:'PBDigg'});
+	$('#summary').xheditor(true,{tools:'Basic'});
+	editor = maineditor[0].xheditor;
+}
+</script>
+<script type="text/javascript" src="{#$_PBENV[PB_URL]#}js/post.js"></script>
+{#if $uploadattachment#}
+<link href="{#$_PBENV[PB_URL]#}js/swfupload/swfupload.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{#$_PBENV[PB_URL]#}js/swfupload/swfupload.js"></script>
+<script type="text/javascript" src="{#$_PBENV[PB_URL]#}js/swfupload/handlers.js"></script>
+<script type="text/javascript" src="{#$_PBENV[PB_URL]#}js/swfupload/initupload.php?verify={#$verifyhash#}&type=attachment"></script>
+{#/if#}
+
+<form action="post.php" method="post" enctype="multipart/form-data" id="post" onsubmit="return postForm();">
+<div class="post-main" id="post-main">
+    <p>
+    	<label for="title">标题(<span class="r">*</span>)</label>
+	    	<input type="text" id="title" name="title" size="35" onblur="checktitle()" value="{#$post[subject]#}" /><span id="cktitle" class="post-cktip">    系统限制标题长度{#$title_min#}到{#$title_max#}字节</span>
+    </p>
+    
+    <p>
+    	<label for="source">来源</label>
+	    	<input type="text" id="source" name="source" size="35" onblur="checksource()" value="{#$post[source]#}" />	<span id="cksource" class="post-cktip"> 来源网站链接格式不正确</span>
+	</p>
+
+    <p>
+    	<label for="tag">标签</label>
+	    	<input type="text" id="tag" name="tag" size="35" value="{#$post[keywords]#}" /><span>多个标签之间请用逗号分隔</span>
+    </p>
+    <p>
+    	<fieldset id="systag" class="systag"><legend>系统标签</legend>
+    	{#func systags(30)#}
+    	<!--模板配合-->
+    	</fieldset>
+	</p>
+	{#if $uploadtopicimg#}
+    <p>
+    	<label for="topicimg">主题图片</label>
+    	<div id="topicimg">
+    	{#if $post['topicimg']#}
+		<img src="{#$post[topicimg]#}" style="height:60px;width:60px;" />[<span onclick="changetopicimg('edit')">编辑</span>][<span onclick="changetopicimg('edit')">删除</span>]
+		{#else#}
+    	<input type="file" name="topicimg" />
+		{#/if#}
+		</div>
+    </p>
+    {#/if#}
+    <p>
+    	<label>内容(<span class="r">*</span>)</label>
+    	<div>{#$post[editor][content]#}</div>
+    </p>
+    <p>
+		<label>内容摘要</label>
+		<div>{#$post[editor][summary]#}</div>
+	</p>
+    <p id="ckcontent" class="post-cktip">系统限制主题内容长度{#$content_min#}到{#$content_max#}字节</p>
+
+    {#if !$logStatus#}
+    <p>
+    	<label for="author">您的大名</label><input type="text" id="author" name="author" size="15" value="{#$post[author]#}" />
+    </p>
+    <p>
+    	<label for="anonsite">您的个人网站</label><input type="text" id="anonsite" name="anonsite" size="35" value="{#$post[anonsite]#}" />
+    </p>
+    <p>感谢您的投稿，系统将在内容页展示您的个人网站。</p>
+    {#/if#}
+
+	{#if $pb_gdcheck & 4#}
+	<p>
+    	<label for="captcha">验证码(<span class="r">*</span>)</label><input type="text" name="captcha" id="captcha" size="10" maxlength="4" />
+    </p>
+    <p><img src="{#$pb_sitedir#}checkcode.php?" onclick="refreshCheckcode()" style="cursor:pointer;" align="absmiddle" id="checkcode" alt="看不清楚？点击图片刷新一下。" />&nbsp;请将图片中的数字填入到文本框中</p>
+	{#/if#}
+	<!-- 自定义发布时间 -->
+	{#if $allowtimestamp#}
+	<script language="javascript" type="text/javascript" src="{#$_PBENV[PB_URL]#}js/date.js" /></script>
+    <p>
+    	<label for="postdate">自定义发布时间</label><input type="text" id="postdate" name="postdate" size="35" value="{#$post[postdate]#}"  onclick="ShowCalendar('postdate',1)" />
+    </p>
+	{#/if#}
+	<!-- 自定义文章初始状态值 -->
+	{#if $allowinitstatus#}    <p>
+    	<label for="views">初始点击数</label><input type="text" id="views" name="views" size="35" value="{#$post[views]#}" /><span>最大值：{#$inithit#}</span>
+    </p>    <p>
+    	<label for="digg">“支持”次数</label><input type="text" id="digg" name="digg" size="35" value="{#$post[digg]#}" /><span>最大值：{#$initdigg#}</span>
+    </p>    <p>
+    	<label for="bury">“反对”次数</label><input type="text" id="bury" name="bury" size="35" value="{#$post[bury]#}" /><span>最大值：{#$initbury#}</span>
+    </p>
+	{#/if#}
+
+</div>
+
+{#if $uploadattachment#}
+<!-- 上传 -->
+<div class="post-side">
+	<h1>上传附件</h1>
+	<div class="jj">每次最多上传 {#$post[attanum]#} 个附件，单个附件尺寸不能大于 {#$post[attasize]#} KB，允许的后缀名：{#$post[attaexts]#}</div>
+<!-- swf -->
+<div id="swfupload">
+	<div class="flash" id="flash">
+		<div class="progressWrapper" id="progressWrapper">
+			<div class="progressContainer" id="progressContainer">
+				<div class="progressName" id="progressName"></div>
+				<div class="progressBarStatus" id="progressBarStatus"></div>
+				<div class="progressBarInProgress" id="progressBarInProgress"></div>
+			</div>
+		</div>
+	</div>
+	<div class="addnew" style="display: inline; border: solid 1px #7FAAFF; background-color: #C5D9FF; padding: 2px;">
+		<span id="buttonPlaceHolder"></span>
+	</div>
+</div>
+<!-- swf -->
+<div id="uploadfile">{#$post[attachments]#}</div>
+</div>
+{#/if#}
+
+<p class="button_post">
+<input type="hidden" name="moduleid" value="{#$moduleid#}" />
+<input type="hidden" name="cid" value="{#$cid#}" />
+<input type="hidden" name="tid" value="{#$tid#}" />
+<input type="hidden" name="verify" value="{#$verifyhash#}" />
+<input type="hidden" name="action" value="{#$action#}" />
+<input type="hidden" name="timesession" id="timesession" value="" />
+<input type="submit" id="submit" name="submit" value="马上发布" class="button" />
+<input type="button" id="cancel" name="cancel" value="取消" class="button" onclick="history.go(-1);" />
+</p>
+</form>
+<script type="text/javascript">
+var title_min = {#$title_min#};
+var title_max = {#$title_max#};
+var content_min = {#$content_min#};
+var content_max = {#$content_max#};
+</script>
+</div>

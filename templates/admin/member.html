@@ -1,0 +1,288 @@
+{#include header#}
+<body>
+
+<!--提示信息-->
+<table cellpadding="0" cellspacing="0" width="100%" class="boxtable">
+<tr><td class="box-top-left"></td><td class="box-top-cen"></td><td class="box-top-right"></td></tr>
+<tr><td class="box-main-left"></td><td>
+<!--内容部分-->
+ <h3>提示信息</h3>
+<div class="text">
+	<div class="s3" style="margin-left:1em;">
+{#if $job == 'add'#}
+<li>此功能可以在<a href="admincp.php?action=setting&job=member">禁止新用户注册</a>时，由管理员添加特定用户。</li>
+<li>网站创始人可以添加网站管理员（普通管理员无此权限）。</li>
+{#elseif $job == 'edit' || $job == 'list'#}
+<li><a href="admincp.php?action=member&job=list&find=all">显示所有用户</a></li>
+<li><a href="admincp.php?action=member&job=list&find=newest">显示3天内新注册用户</a></li>
+<li><a href="admincp.php?action=member&job=list&find=currency">显示积分为负的用户</a></li>
+<li><a href="admincp.php?action=member&job=list&find=article">显示发帖数量为0的用户</a></li>
+{#elseif $job == 'check'#}
+<li>此功能可将未验证会员组的用户编入普通会员组或者删除。</li>
+{#elseif $job == 'search'#}
+<li>多个标签名称之间用半角逗号分割，支持"*"通配符。</li>
+{#elseif $job == 'mod'#}
+<li>此功能可以进行编辑会员资料、用户组、积分等操作。</li>
+{#elseif $job == 'tidy'#}
+<li>将根据数据库记录来重新统计用户的发表的主题、评论、digg信息、bury信息，此操作较消耗系统资源且过程较久，请耐心等候。</li>
+{#/if#}
+	</div>
+</div>
+<!--内容部分结束-->
+</td><td class="box-main-right"></td></tr>
+<tr><td class="box-bottom-left"></td><td class="box-bottom-cen"></td><td class="box-bottom-right"></td></tr>
+</table>
+<!--提示信息-->
+
+<!--main-->
+<table cellpadding="0" cellspacing="0" width="100%">
+<tr><td class="box-top-left"></td><td class="box-top-cen"></td><td class="box-top-right"></td></tr>
+<tr><td class="box-main-left"></td><td>
+<h3>{#$activeJobMenu#}</h3>
+<div class="text">
+<form action="{#$basename#}" method="post" id="mainform" {#$checkSubmit#}>
+	<table cellpadding="0" cellspacing="0" width="100%">
+	{#if $job == 'add'#}
+	<tr>
+		<td><span class="defaultbold">用户名</span><br />用户名包括数字、英文、中文，长度不能超过20个字节（每个汉字为2字节）。</td>
+		<td><input class="input" type="text" value="" name="username" id="username" size="35" /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">密码</span><br />为确保安全，密码长度不能小于6位。</td>
+		<td><input class="input" type="text" value="" name="password" id="password" size="35" /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">电子邮件</span><br />电子邮件是会员身份的重要凭证，会员可以通过注册填写的E-mail取回个人信息。</td>
+		<td><input class="input" type="text" value="" name="email" id="email" size="35" /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">用户组</span><br />用户初始化组别。</td>
+		<td>
+			{#$group_option#}
+		</td>
+	</tr>
+	<tr>
+		<td class="tbutton" colspan="2"><input type="submit" value="提交" class="btn" name="submit"></td>
+	</tr>
+	{#elseif $job == 'edit'#}
+	<tr>
+		<td><span class="defaultbold">用户名</span><br />可使用通配符 "*" 匹配多个用户名</td>
+		<td><input class="input" type="text" value="" name="username" id="username" size="35" /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">电子邮件</span><br />可使用通配符 "*" 匹配多个电子邮件地址</td>
+		<td><input class="input" type="text" value="" name="email" id="email" size="35" /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">用户组</span><br />默认搜索所有会员组</td>
+		<td>
+			{#$group_option#}
+		</td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">注册日期</span><br />时间格式：yyyy-mm-dd，如：2008-08-08。</td>
+		<td><input class="input" type="text" value="" name="later" id="later" size="15" />&nbsp;&#8254;&nbsp;<input class="input" type="text" value="" name="earlier" id="earlier" size="15" /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">最后登录日期</span><br />时间格式：yyyy-mm-dd，如：2008-08-08。</td>
+		<td><input class="input" type="text" value="" name="logdatelater" id="logdatelater" size="15" />&nbsp;&#8254;&nbsp;<input class="input" type="text" value="" name="logdateearlier" id="logdateearlier" size="15" /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">发表主题数量</span><br /></td>
+		<td><input class="input" type="text" value="" name="articlemore" id="articlemore" size="15" />&nbsp;&#8254;&nbsp;<input class="input" type="text" value="" name="articleless" id="articleless" size="15" /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">会员积分</span><br /></td>
+		<td><input class="input" type="text" value="" name="currencymore" id="currencymore" size="15" />&nbsp;&#8254;&nbsp;<input class="input" type="text" value="" name="currencyless" id="currencyless" size="15" /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">显示结果排序依据</span><br /></td>
+		<td>
+		<select name="orderby" id="orderby">
+			<option value="m.username">用户名</option>
+			<option value="m.email">电子邮件</option>
+			<option value="m.regdate">注册日期</option>
+			<option value="md.lastvisit">最后登陆日期</option>
+			<option value="md.postnum">文章数</option>
+			<option value="md.currency">积分</option>
+		</select>
+		&nbsp;&nbsp;
+		<select name="ordertype" id="ordertype">
+			<option value="ASC">正序</option>
+			<option value="DESC">倒序</option>
+		</select>
+		</td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">每页显示会员数量</span><br />留空则默认每页显示30名会员信息。</td>
+		<td><input class="input" type="text" value="30" name="pagesize" id="pagesize" size="3" /></td>
+	</tr>
+	<tr>
+		<td class="tbutton" colspan="2"><input type="hidden" name="ispost" value="on" /><input type="hidden" name="job" value="list" /><input type="submit" value="搜索" class="btn" name="submit"></td>
+	</tr>
+	{#elseif $job == 'list'#}
+	<tbody class="aligncenter">
+	<tr class="tth">
+		<td width="10%">用户ID</td>
+		<td width="15%">用户名</td>
+		<td width="20%">电子邮件</td>
+		<td width="10%">用户组</td>
+		<td width="15%">注册日期</td>
+		<td width="15%">最后登陆日期</td>
+		<td width="*">选择</td>
+	</tr>
+	{#foreach $member as $k => $v#}
+	<tr>
+		<td>{#$v[uid]#}</td>
+		<td align="left"><a href="admincp.php?action=member&job=mod&uid={#$v[uid]#}" class="uit">{#$v[username]#}</a></td>
+		<td align="left">{#$v[email]#}</td>
+		<td>{#$v[group]#}</td>
+		<td>{#$v[regdate]#}</td>
+		<td>{#$v[lastvisit]#}</td>
+		<td><input type="checkbox" name="uids[]" value="{#$v[uid]#}" /></td>
+	</tr>
+	{#/foreach#}
+	</tbody>
+	<tr class="tmult">
+		<td>记录数：{#$recordNum#}</td>
+		<td colspan="6" style="text-align:right;">{#$multLink#}&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="tbutton" colspan="7"><input type="hidden" name="job" value="del" /><input type="button" value="全选" class="btn" name="choseall" onclick="PBchoseAll(this.form)">&nbsp;<input type="submit" value="删除" class="btn" name="submit"></td>
+	</tr>
+	{#elseif $job == 'check'#}
+	<tbody class="aligncenter">
+	<tr class="tth">
+		<td width="10%">用户ID</td>
+		<td width="25%">用户名</td>
+		<td width="35%">电子邮件</td>
+		<td width="20%">注册日期</td>
+		<td width="*">选择</td>
+	</tr>
+	{#foreach $member as $k => $v#}
+	<tr>
+		<td>{#$v[uid]#}</td>
+		<td><a href="admincp.php?action=member&job=mod&uid={#$v[uid]#}" class="uit">{#$v[username]#}</a></td>
+		<td>{#$v[email]#}</td>
+		<td>{#$v[regdate]#}</td>
+		<td><input type="checkbox" name="uids[]" value="{#$v[uid]#}" /></td>
+	</tr>
+	{#/foreach#}
+	</tbody>
+	<tr class="tmult">
+		<td>记录数：{#$recordNum#}</td>
+		<td colspan="4" style="text-align:right;">{#$multLink#}&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="tbutton" colspan="5">
+			<input name="checktype" type="radio" value="del" />删除&nbsp;<input name="checktype" type="radio" value="check" checked="checked" />通过&nbsp;
+	</tr>
+	<tr>
+		<td class="tbutton" colspan="5">
+			<input type="button" value="全选" class="btn" name="choseall" onclick="PBchoseAll(this.form)">&nbsp;<input type="submit" value="提交" class="btn" name="submit">
+		</td>
+	</tr>
+	{#elseif $job == 'mod'#}
+	{#if $pb_passport && $pb_passporttype == 'client'#}
+	<tr>
+		<td><span class="defaultbold">用户名</span><br /></td>
+		<td>{#$member[username]#}</td>
+	</tr>
+	<tr>
+		<td colspan="2" style="text-align:center"><span class="defaultbold">站点开启通行证，请到服务器端修改用户名、密码和电子邮件信息。</span></td>
+	</tr>
+	{#else#}
+	{#if $pb_ucenable#}
+	<tr>
+		<td><span class="defaultbold">用户名</span><br /><span class="b">站点开启UC整合，用户名无法修改。</span></td>
+		<td>{#$member[username]#}</td>
+	</tr>
+	{#else#}
+	<tr>
+		<td><span class="defaultbold">用户名</span><br />用户名包括数字、英文、中文，长度不能超过20个字节（每个汉字为2字节）。</td>
+		<td><input class="input" type="text" value="{#$member[username]#}" name="username" id="username" size="35" /></td>
+	</tr>
+	{#/if#}
+	<tr>
+		<td><span class="defaultbold">电子邮件</span><br />电子邮件是会员身份的重要凭证，会员可以通过注册填写的E-mail取回个人信息。</td>
+		<td><input class="input" type="text" value="{#$member[email]#}" name="email" id="email" size="35" />&nbsp;<input type="checkbox" id="publicemail" name="publicemail" value="{#$member[publicemail]#}" {#$publicemail#} />&nbsp;是否公开</td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">密码</span><br />为确保安全，密码长度不能小于6位。不修改密码请留空。</td>
+		<td><input class="input" type="text" value="" name="password" id="password" size="35" /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">重复密码</span><br />为确保您已经牢记新密码，请重复输入密码确认。</td>
+		<td><input class="input" type="text" value="" name="rpassword" id="rpassword" size="35" /></td>
+	</tr>
+	{#/if#}
+	<tr>
+		<td><span class="defaultbold">用户组</span><br /></td>
+		<td>
+			{#$group_option#}
+		</td>
+	</tr>
+	<tr class="tmult">
+		<td colspan="2">扩展设置</td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">积分</span><br /></td>
+		<td><input class="input" type="text" value="{#$member[currency]#}" name="currency" id="currency" size="35" /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">注册IP地址</span><br /></td>
+		<td><input class="input" type="text" value="{#$member[regip]#}" name="regip" id="regip" size="35" /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">注册时间</span><br />日期格式：yyyy-mm-dd H:i</td>
+		<td><input class="input" type="text" value="{#$member[regdate]#}" name="regdate" id="regdate" size="35" /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">QQ</span><br />腾讯QQ是国产的一款即时通信（IM）软件，有很多人用它。</td>
+		<td><input class="input" type="text" value="{#$member[qq]#}" name="qq" id="qq" size="35" /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">MSN</span><br />MSN是微软开发的一种聊天工具，可以进行国际交友。</td>
+		<td><input class="input" type="text" value="{#$member[msn]#}" name="msn" id="msn" size="35" /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">个人网站</span><br />填写您个人的博客地址或者个人主页地址，让更多的朋友认识你。</td>
+		<td><input class="input" type="text" value="{#$member[site]#}" name="site" id="site" size="35" /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">来自</span><br />例如：“卡利姆多”或者“艾泽拉斯”。</td>
+		<td><input class="input" type="text" value="{#$member[location]#}" name="location" id="location" size="35" /></td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">性别</span><br />男、女、保密</td>
+		<td><input class="radio" type="radio" value="0" name="gender" id="gender_0" {#$gender_0#} />&nbsp;男<input class="radio" type="radio" value="1" name="gender" id="gender_1" {#$gender_1#} />&nbsp;女&nbsp;<input class="radio" type="radio" value="3" name="gender" id="gender_3" {#$gender_3#} />&nbsp;保密</td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">生日</span><br />系统可以根据生日记录发送生日祝福到会员的邮箱。</td>
+		<td>{#$year_option#}年&nbsp;{#$month_option#}月&nbsp;{#$day_option#}日&nbsp;</td>
+	</tr>
+	<tr>
+		<td><span class="defaultbold">个性签名</span><br />个性签名将显示在用户个人信息里，不选择“是否公开”则将对普通会员隐藏个性签名。</td>
+		<td><textarea type="text" name="signature" id="signature" cols="45" rows="7" >{#$member[signature]#}</textarea>&nbsp;<input type="checkbox" id="showsign" name="showsign" value="{#$member[showsign]#}" {#$showsign#} />&nbsp;是否公开</td>
+	</tr>
+	<tr>
+		<td class="tbutton" colspan="2"><input type="hidden" name="uid" value="{#$uid#}" /><input type="submit" value="提交" class="btn" name="submit"></td>
+	</tr>
+	{#elseif $job == 'tidy'#}
+	<tr>
+		<td>每次批处理数量：<input class="input" type="text" value="300" name="count" id="count" size="5" maxlength="5" /></td>
+	</tr>
+	<tr>
+		<td class="tbutton"><input type="hidden" name="process" value="on" /><input type="submit" value="开始统计" class="btn" name="submit"></td></td>
+	</tr>
+	{#/if#}
+	</table>
+</form>
+</div>
+</td><td class="box-main-right"></td></tr>
+<tr><td class="box-bottom-left"></td><td class="box-bottom-cen"></td><td class="box-bottom-right"></td></tr>
+</table>
+
+{#include footer#}
+</body>
+</html>

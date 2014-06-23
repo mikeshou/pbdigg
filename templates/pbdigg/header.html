@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={#$db_charset#}" />
+<title>{#$pb_seotitle#} - Powered By PBDigg!</title>
+<!-- PBDigg! 是一个基于PHP + MYSQL的开源Dig社区系统,经过完善设计并适用于各种服务器环境的高效、全新、快速、优秀的网站解决方案。 PBDigg! 融合了社会性标签、主题评论、Rss订阅等多种WEB2.0元素。-->
+<meta name="keywords" content="{#$pb_seokeywords#}" />
+<meta name="description" content="{#$pb_seodescription#}" />
+<meta name="generator" content="PBDigg! {#$_PBENV[VERSION]#}" />
+<meta name="author" content="PBDigg! UI Team" />
+<meta name="copyright" content="2007-2009 PBDigg.Com" />
+<meta name="MSSmartTagsPreventParsing" content="True" />
+<meta http-equiv="MSThemeCompatible" content="Yes" />
+<meta http-equiv="x-ua-compatible" content="ie=7" />
+{#$pb_seomore#}
+<link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="{#$rssurl#}" />
+<link href="{#$_PBENV[PB_URL]#}templates/{#$pb_style#}/css/reset.css" rel="stylesheet" type="text/css" />
+<link href="{#$_PBENV[PB_URL]#}templates/{#$pb_style#}/css/header.css" rel="stylesheet" type="text/css" />
+<link href="{#$_PBENV[PB_URL]#}templates/{#$pb_style#}/css/style.css" rel="stylesheet" type="text/css" />
+<link href="{#$_PBENV[PB_URL]#}templates/{#$pb_style#}/css/layer.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+var pb_url = '{#$_PBENV[PB_URL]#}';
+var pb_template = '{#$pb_style#}';
+var pb_lang = '{#$pb_lang#}';
+var verify = '{#$verifyhash#}';
+</script>
+<script language="javascript" type="text/javascript" src="{#$_PBENV[PB_URL]#}js/jquery.js"/></script>
+<script language="javascript" type="text/javascript" src="{#$_PBENV[PB_URL]#}js/common.js"/></script>
+</head>
+
+<body>
+<div class="header">
+	<a href="{#$_PBENV[PB_URL]#}" class="logo" title="{#$pb_sitename#}"></a>
+    <ul>
+    	<!--登陆前状态-->
+    	{#if !$logStatus#}
+    	<li class="join"><a href="{#$regurl#}" title="注册"><span>注册</span></a></li>
+    	<li class="login"><a href="{#$loginurl#}" title="登录"><span>登录</span></a></li>
+        
+        {#else#}
+        
+        <li class="homeuser"><a href="{#$customer[uurl]#}"><span>{#$customer[username]#}</span></a></li><li><a href="{#$_PBENV[PB_URL]#}member.php"><span>控制面板</span></a></li><li><a href="{#$logouturl#}"><span>退出登录</span></a></li>
+    	{#/if#}
+            </ul>
+	<div class="search">
+		<form class="search-form" action="{#$_PBENV[PB_URL]#}search.php" method="post">
+			<fieldset>
+
+					<input id="search-input" name="pb_s" value="" type="text">
+					<input type="hidden" name="verify" value="{#$verifyhash#}" />
+					<button type="submit" id="search-submit">Go</button>
+                    <a href="search.php" class="searchmove" title="高级搜索">高级搜索</a>
+			</fieldset>
+		</form>
+	</div>
+</div>
+
+<div class="maintop">
+        <h3 class="post"><a href="{#$_PBENV[PB_URL]#}post.php" title="发表新文章"><strong>发表新文章</strong></a></h3>
+    {#func headerMenu(8)#}
+	<ul class="nav">
+    		<li class="current"><a href="{#$customer[uurl]#}" title="我的空间"><span>我的空间</span></a></li>
+		<li><a href="http://bbs.pbdigg.com/" title="会员论坛"><span>会员论坛</span><em>hot</em></a></li>
+		<li><a href="{#$_PBENV[PB_URL]#}search.php" title="搜索"><span>搜索</span></a></li>
+		<li><a href="{#$_PBENV[PB_URL]#}tag.php" title="标签"><span>标签</span></a></li>
+		<li><a href="{#$_PBENV[PB_URL]#}archive.php" title="文章归档"><span>文章归档</span></a></li>
+	</ul>
+    <ul id="style_nav">
+    <li class="current"><a href="{#$_PBENV[PB_URL]#}index.php?styleid=pbdigg" title="默认风格" style="background: #1E4B7E;">默认风格</a></li>
+    <li><a href="{#$_PBENV[PB_URL]#}index.php?styleid=pbdigg_cms" title="CMS风格" style="background: #1E4B7E;">CMS风格</a></li>
+    </ul>
+</div>

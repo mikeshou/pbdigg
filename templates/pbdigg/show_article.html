@@ -1,0 +1,190 @@
+{#include header#}
+
+<script language="javascript" type="text/javascript" src="{#$_PBENV[PB_URL]#}js/fancybox/easing.js" /></script>
+<script language="javascript" type="text/javascript" src="{#$_PBENV[PB_URL]#}js/fancybox/fancybox.js" /></script>
+<link href="{#$_PBENV[PB_URL]#}js/fancybox/fancybox.css" rel="stylesheet" type="text/css" />
+<script language="javascript" type="text/javascript" src="{#$_PBENV[PB_URL]#}js/simplemodal.js" /></script>
+<script language="javascript" type="text/javascript" src="{#$_PBENV[PB_URL]#}js/show.js" /></script>
+{#if $allowcommend#}
+<script type="text/javascript" src="{#$_PBENV[PB_URL]#}js/swfupload/swfupload.js"></script>
+<script type="text/javascript" src="{#$_PBENV[PB_URL]#}js/swfupload/handlers.js"></script>
+{#/if#}
+<div class="maincontainer">
+	<div class="showleft">
+		<div class="showleftsort">
+			<div class="showuser">
+				<div class="userHomeAction">
+            		<img src="{#$article[avatar]#}" alt="{#$article[author]#}" class="small_user_avatar" />
+					<a href="{#$article[uurl]#}"  class="pb_box_right_show">{#$article[author]#}</a>
+					<a href="{#$_PBENV[PB_URL]#}member.php?type=my&amp;action=friend&amp;uid={#$article[uid]#}&amp;job=add" class="addfs" target="_blank">加为好友</a>
+                    <a href="{#$_PBENV[PB_URL]#}member.php?type=msg&amp;action=write&amp;tuid={#$article[uid]#}" title="发送短信" class="pme">丢小纸条</a>
+                    <a href="{#$_PBENV[PB_URL]#}rss.php?action=user&amp;uid={#$article[uid]#}" class="rss" target="_blank">订阅会员</a>
+                    <a href="{#$pb_sitedir#}member.php?type=my&amp;action=collection&amp;job=add&amp;tid={#$article[tid]#}&verify={#$verifyhash#}" target="_blank" class="scj">收起来看</a>
+				</div>
+					<ul class="aboutme">
+					<li><strong>性别</strong> {#$article[gender_name]#}</li>
+					<li><strong>来自</strong> {#$article[location]#}</li>
+					<li><strong>生日</strong> {#$article[birthday]#}</li>
+					<li><strong>等级</strong> {#$article[grouptitle]#}</li>                    
+					<li><strong>发表主题</strong> {#$article[postnum]#}</li>
+					<li><strong>发表评论</strong> {#$article[diggnum]#}</li>
+					<li><strong>顶过主题</strong> {#$article[diggnum]#}</li>
+					<li><strong>踩过主题</strong> {#$article[burynum]#}</li>
+					<li><strong>{#$pb_customcredit#}</strong> {#$article[currency]#} 点</li>
+					<li><strong>上传附件</strong> {#$article[uploadnum]#} 个</li>
+					</ul>
+    		</div>
+            <div class="show_dig">
+            	<div class="show_dig_left">
+                	<a href="javascript:void(0);" onclick="{#if $pb_ifdigg#}dbaction('digg', {#$tid#}, 0);{#else#}javascript:void(0);{#/if#}" id="digg_{#$tid#}_0"><span>{#$article[digg]#}</span>
+                	顶起</a>
+                </div>
+            	<div class="show_dig_right">
+                	<a href="javascript:void(0);" onclick="{#if $pb_ifbury#}dbaction('bury', {#$tid#}, 0);{#else#}javascript:void(0);{#/if#}" id="bury_{#$tid#}_0"><span>{#$article[bury]#}</span>
+                   埋掉</a>
+                </div>
+            </div>
+        </div>		
+    	<div class="entry">
+			<h1><a href="{#$article[contentlink]#}" target="_blank">{#$article[subject]#}</a></h1>
+            
+
+<!-- 管理选项 -->
+		{#if $superM || $commonM#}
+		<div class="maction"><input value="管理选项" type="button" onclick="openlayer('maction', $('#tabcontent').html(), 350, 180 ,true)" /></div>
+<div id="tabcontent" style="display:none;">
+        <div id="maction">
+			{#if $allowdelatc#}<a href="javascript:void(0);" onclick="ajaxlayer('delarticle', {#$tid#}, 0)">[删除]</a>{#/if#}
+			{#if $alloweditatc#}<a href="{#$pb_sitedir#}post.php?action=edit&amp;moduleid={#$article[module]#}&amp;cid={#$article[cid]#}&amp;tid={#$tid#}">[编辑]</a>{#/if#}
+			{#if $allowcopyatc#}<a href="javascript:void(0);" onclick="ajaxlayer('copyarticle', {#$tid#}, 0)">[复制]</a>{#/if#}
+			{#if $allowmoveatc#}<a href="javascript:void(0);" onclick="ajaxlayer('movearticle', {#$tid#}, 0)">[移动]</a>{#/if#}
+			<!--锁定主题将不允许回复-->
+			{#if $allowcheckatc#}<a href="javascript:void(0);" onclick="ajaxlayer('checkarticle', {#$tid#}, 0)">{#if $article['ifcheck']#}[取消审核]{#else#}<span class="r">[审核]</span>{#/if#}</a>{#/if#}
+			{#if $allowlockatc#}<a href="javascript:void(0);" onclick="ajaxlayer('lockarticle', {#$tid#}, 0)">{#if $article['iflock']#}[取消锁定]{#else#}[锁定]{#/if#}</a>{#/if#}
+			{#if $allowshield#}<a href="javascript:void(0);" onclick="ajaxlayer('shieldarticle', {#$tid#}, 0)">{#if $article['ifshield']#}[取消屏蔽]{#else#}[屏蔽]{#/if#}</a>{#/if#}
+			{#if $allowtopatc#}<a href="javascript:void(0);" onclick="ajaxlayer('toparticle', {#$tid#}, 0)">{#if $article['topped']#}[解除置顶]{#else#}[置顶]{#/if#}</a>{#/if#}
+			{#if $allowcommend#}
+			<a href="javascript:void(0);" onclick="ajaxlayer('commendarticle', {#$tid#}, 0)">{#if $article['commend']#}[解除推荐]{#else#}[推荐]{#/if#}</a>
+			<a href="javascript:void(0);" onclick="ajaxlayer('firstarticle', {#$tid#}, 0)">{#if $article['first']#}[取消头条]{#else#}[头条]{#/if#}</a>
+			{#/if#}
+			{#if $allowtitlestyle#}<a href="javascript:void(0);" onclick="ajaxlayer('titlestyle', {#$tid#}, 0)">[标题设定]</a>{#/if#}
+		</div>
+</div>
+		{#/if#}
+<!-- 管理选项 -->
+            <p class="meta">{#$article[postdate]#}</p>
+        	<p class="star">来源: <a href="{#$article[contentlink]#}" target="_blank">{#$article[linkhost]#}</a></p>
+            <p class="tags">本文同时发布到：{#$article[tags]#} <a href="{#$article[curl]#}">{#$article[cate]#}</a></p>
+
+    		{#if $article['anonsite']#}<div class="anonymity">特别感谢 {#$article[anonsite]#} 的友情投稿</div>{#/if#}
+			<div id="content" class="contents artc">{#$article[content]#}</div>
+			{#if $article['attach_image']#}<div class="attach_image">图片附件</div>
+			<p>
+			{#foreach $article['attach_image'] as $k => $v#}
+			<a href="{#$v[url]#}" title="{#$v[filename]#}" rel="group" class="thickbox attachimg"><img src="{#$v[thumburl]#}" alt="{#$v[filename]#}" class="previewimg" {#$v[onload]#}/></a>
+			{#/foreach#}
+			</p>
+			{#/if#}
+			{#if $article['attach_other']#}<div class="attach_other">其他附件</div>
+			{#foreach $article['attach_other'] as $k => $v#}
+			<a href="{#$v[url]#}">{#$v[icon]#}{#$v[filename]#}</a>
+			{#/foreach#}
+			{#/if#}
+        <div class="related">
+        <h2>喜欢这篇文章的人还喜欢……</h2>
+        <ul>
+			{#func linkarticle()#}
+		</ul>
+        </div>
+        <div class="prevnext">
+        {#func prevnext()#}
+        </div>
+        {#if $article['signature']#}
+		<div class="signature">
+		<p><img src="{#$pb_sitedir#}images/common/sigline.gif" style="vertical-align:bottom" alt="" /></p>
+		{#$article[signature]#}
+		</div>
+		{#/if#}
+    	</div>
+    	<!-- 评论 -->
+        <div class="clear"></div>
+    	<div class="comment" id="coment_reply">
+
+        {#include comment#}
+        </div>
+<!-- 添加评论 -->
+{#if !$article['iflock']#}
+<div id="comments">
+{#if $allowcomment#}
+<textarea name="comment" id="comment_reply_body" onkeydown="keysubmit(event)" onselect="storeCaret(this);" onclick="storeCaret(this);" onkeyup="storeCaret(this);" onfocus="initInsertions();" tabindex="1"></textarea>
+{#if $pb_gdcheck & 8#}
+<div id="captcha_area">
+<input type="text" name="captcha" id="captcha" title="请将图片中的数字填入到文本框中" size="10" maxlength="4" tabindex="2" />
+<img src="{#$pb_sitedir#}checkcode.php?" onclick="refreshCheckcode()" style="cursor:pointer;" align="absmiddle" id="checkcode" alt="看不清楚？点击图片刷新一下。" />
+</div>
+{#/if#}
+<div><input type="button" name="send_content" id="send_content" onclick="comment('{#$tid#}')" value="发表评论" /></div>
+{#else#}
+<div class="comdeny">对不起，您所在的分组没有发表评论的权限！</div>
+{#/if#}
+</div>
+{#/if#}
+<!-- 添加评论结束 -->
+        
+	</div>
+	<div class="showright">
+    	<div class="ggad" style="width:200px;height:200px;">
+        	{#tpl tpl_6e5ffa7a#}
+        </div>
+        <h2><span></span>订阅到阅读器</h2>
+			<ul>
+
+<li><a href="http://www.zhuaxia.com/add_channel.php?url=http://feed.feedsky.com/pbdigg" target="_blank">订阅到抓虾（zhuaxia）</a></li>
+
+
+
+<li><a href="http://www.pageflakes.com/subscribe.aspx?url=http://feed.feedsky.com/pbdigg" target="_blank">订阅到飞鸽（pageflakes）</a></li>
+<li><a href="http://www.rojo.com/add-subscription?resource=http://feed.feedsky.com/pbdigg" target="_blank">订阅到ROJO</a></li>
+<li><a href="http://fusion.google.com/add?feedurl=http://feed.feedsky.com/pbdigg" target="_blank" >订阅到Google</a></li>
+
+<li><a href="http://add.my.yahoo.com/rss?url=http://feed.feedsky.com/pbdigg" target="_blank">订阅到Yahoo!</a></li>
+
+
+<li><a href="http://www.xianguo.com/subscribe.php?url=http://feed.feedsky.com/pbdigg" target="_blank">订阅到鲜果（xianguo）</a></li>
+
+<li><a href="http://reader.yodao.com/#url=http://feed.feedsky.com/pbdigg" target="_blank">订阅到有道（yodao）</a></li>
+
+<li><a href="javascript:location.href='http://127.0.0.1:18087/subitem?title={$title}&amp;url='+ encodeURI('http://feed.feedsky.com/pbdigg')" target="_blank">新闻蚂蚁（newsants）</a></li>
+
+<li><a href="javascript:location.href='http://www.potu.com/sub/'+ encodeURI('http://feed.feedsky.com/pbdigg')">周博通（potu）</a></li>
+
+<li><a href="http://inezha.com/add?url=http://feed.feedsky.com/pbdigg">MSN Skype Gtalk</a></li>
+
+			</ul>
+         <div class="digger">
+                <h3>热门关注用户……</h3>
+        {#func digger(30)#}
+        </div>
+	</div>
+</div>
+
+
+<script type="text/javascript">
+<!--
+$(document).ready(function() {
+	$("a.thickbox").fancybox();
+	{#$article[preview_image]#}
+});
+var tid = {#$tid#};
+var comment_minc = {#$pb_commentlenmin#};
+var comment_maxc = {#$pb_commentlenmax#};
+var comment_length_error = '系统限制评论内容长度{#$pb_commentlenmin#}到{#$pb_commentlenmax#}字节';
+//-->
+</script>
+
+<!-- 脚注 -->
+{#include footer#}
+<!-- 脚注 -->
+
+</body>
+</html>
